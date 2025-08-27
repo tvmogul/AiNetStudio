@@ -65,37 +65,40 @@ using Microsoft.ML.Data;
 
 public sealed class GraviflyerReading
 {
-    // Actuation / drive parameters
+    // --- Actuation / drive parameters ---
     public float VoltageKV { get; set; }          // DC drive voltage (kV)
     public float FrequencyKHz { get; set; }       // Drive frequency (kHz)
-    public float PhaseDeg { get; set; }           // Relative phase (degrees)
+    public float PhaseDeg { get; set; }           // Phase (degrees)
     public float RotationRPM { get; set; }        // Rotor speed (RPM)
     public float UltrasoundKHz { get; set; }      // Ultrasound carrier (kHz)
 
-    // Electrical measurements (>= 3 as requested)
-    public float DCInputCurrentmA { get; set; }   // DC current draw (mA)
-    public float ACInputCurrentmA { get; set; }   // AC/RF current draw (mA RMS)
-    public float InputPowerW { get; set; }        // Input power (W), measured or computed (V*I*PF)
+    // --- Electrical measurements (>=3) ---
+    public float DCInputCurrentmA { get; set; }   // DC current (mA)
+    public float ACInputCurrentmA { get; set; }   // AC/RF current (mA RMS)
+    public float InputPowerW { get; set; }        // Power (W) — measured or V*I*PF
+    public float PowerFactor { get; set; }        // Optional: 0..1
+    public float BusVoltageV { get; set; }        // Optional: bus voltage (V)
 
-    // Environment / telemetry
+    // --- Environment / telemetry ---
     public float TempC { get; set; }
     public float Humidity { get; set; }
     public float Vibration { get; set; }
 
-    // Magnetic field measurement
-    public float MagFieldMilliTesla { get; set; } // Local B-field at device (mT)
+    // --- Magnetic field ---
+    public float MagFieldMilliTesla { get; set; } // Local B-field (mT)
 
-    // Mass/weight context
-    public float DeviceWeightGrams { get; set; }  // Tare weight of the device/fixture (g)
-    public float ScaleReadingGrams { get; set; }  // Instantaneous scale reading during run (g)
+    // --- Mass / weight context ---
+    public float DeviceWeightGrams { get; set; }  // Tare weight (g)
+    public float ScaleReadingGrams { get; set; }  // Live scale reading (g)
 
-    // Target label
+    // --- Target label ---
     [ColumnName("Label")]
-    public float LiftGrams { get; set; }          // Positive = apparent lift (g); e.g., DeviceWeightGrams - ScaleReadingGrams
+    public float LiftGrams { get; set; }          // e.g., DeviceWeightGrams - ScaleReadingGrams
 }
 
 public sealed class GraviflyerPrediction
 {
     public float Score { get; set; } // predicted LiftGrams
 }
+
 
