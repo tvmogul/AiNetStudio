@@ -64,9 +64,7 @@ Use **ML.NET** to model lift from parameters and suggest the next settings to ex
 using Microsoft.ML.Data;
 
 public sealed class GraviflyerReading 
-
 {
-
     // --- Actuation / drive parameters ---
     public float VoltageKV { get; set; }          // DC drive voltage (kV)
 
