@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        :root {
+            --vpad: 0px;
+        }
+        /* top/bottom padding inside the tab */
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            background: #111;
+        }
+
+        /* Fill the WebView2 area; add vertical padding */
+        .wrap {
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            padding-block: var(--vpad);
+            overflow: hidden; /* no scrollbars */
+        }
+
+        .stage {
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Fill both height & width of the padded area; may crop left/right as needed */
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: fill; /* EXACTLY fills both axes (stretches as needed) */
+            display: block;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="stage">
+            <!--<canvas id="netcanvas" width="800" height="70" style="z-index: 999999;display: block; width: 100%; height: 70px; border: none transparent;"></canvas>-->
+            <img src="img/welcome.png" alt="Welcome" style="z-index: 99;display: block;" />
+        </div>
+    </div>
+    <script src="/js/neural_noise.js"></script>
+</body>
+</html>

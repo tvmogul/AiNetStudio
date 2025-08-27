@@ -83,30 +83,102 @@ public sealed class GraviflyerPrediction
     public float Score { get; set; } // predicted LiftGrams
 }
 
-var features = new[]
 
-{
 
-    nameof(GraviflyerReading.VoltageKV),
-    nameof(GraviflyerReading.FrequencyKHz),
-    nameof(GraviflyerReading.PhaseDeg),
-    nameof(GraviflyerReading.RotationRPM),
-    nameof(GraviflyerReading.UltrasoundKHz),
 
-    nameof(GraviflyerReading.DCInputCurrentmA),
-    nameof(GraviflyerReading.ACInputCurrentmA),
-    nameof(GraviflyerReading.InputPowerW),
-    nameof(GraviflyerReading.PowerFactor),
-    nameof(GraviflyerReading.BusVoltageV),
 
-    nameof(GraviflyerReading.TempC),
-    nameof(GraviflyerReading.Humidity),
-    nameof(GraviflyerReading.Vibration),
 
-    nameof(GraviflyerReading.MagFieldMilliTesla),
 
-    nameof(GraviflyerReading.DeviceWeightGrams),
-    nameof(GraviflyerReading.ScaleReadingGrams),
-};
 
+## Winform Application .NET 9 CORE 9
+
+## Explanation of CORE Naming
+In November 2020, Microsoft released .NET 5.0, dropping the "Core” branding so all 
+versions of .NET after 5.0 are "Core" apps. Commonly you will see .NET 9 applications 
+refrred to as a "Core 9" applications because .NET 9 is a Core application.
+
+- Microsoft.Data.SqlClient (Version="6.1.1")
+- Microsoft.Data.Sqlite (Version="9.0.8")
+- Microsoft.Data.Sqlite.Core (Version="9.0.8")
+
+- Microsoft.Extensions.Configuration (Version="9.0.8")
+- Microsoft.Extensions.Configuration.FileExtensions (Version="9.0.8")
+- Microsoft.Extensions.Configuration.Json (Version="9.0.8")
+- Microsoft.Extensions.DependencyModel (Version="9.0.8")
+
+- Microsoft.ML (Version="4.0.2")
+- Microsoft.ML.AutoML (Version="0.22.2")
+- Microsoft.ML.LightGbm (Version="4.0.2")
+
+- Newtonsoft.Json (Version="13.0.3")
+
+- SQLitePCLRaw.bundle_e_sqlite3 (Version="3.0.1")
+- SQLitePCLRaw.core (Version="3.0.1")
+- SQLitePCLRaw.provider.dynamic_cdecl (Version="3.0.1")
+- System.Data.SQLite.Linq (Version="1.0.119")
+
+- ### Install Serilog
+- xSerilog.AspNetCore (version 9.0.0) only for web apps
+- Serilog.Settings.Configuration (version 9.0.0)
+- Serilog.Sinks.File (version 7.0.0)
+
+- Set app to x64 ONLY!
+
+- Install-Package Microsoft.Web.WebView2
+
+
+Here are the titles extracted from that menu:
+
+PAIS Effect
+DNP Dynamic Nuclear Polarization
+Energy Generation
+Electrogravitics, Graviflyer & PAIS Effect Testing
+Graviflyer
+Gravitational Waves
+Inertial Propulsion
+Hutchison Effect
+Searl Effect
+Superconductors
+Warp Drives
+Zero Point Energy
+
+Electrogravitics, Graviflyer & PAIS Effect Testing
+Zero Point Energy, Hutchison Effect & Warp Drives
+
+//🔍 Search
+//🔎 Zoom
+//← → ⟳ 🏠 AI🔍 ＋ ✕ ▲▼
+
+🔹 Navigation
+🏠 Home
+⬅️ Back
+➡️ Forward
+🔄 Refresh / Reload
+🔹 Search / Find
+🔍 Search
+🔎 Zoom
+🔹 Pages & Tabs
+📄 Page / Document
+📑 Tabs / Bookmarks
+⭐ Favorite / Starred
+📂 Open Folder / Downloads
+🔹 Tools & Settings
+
+⚙️ Settings
+
+🛠️ Tools
+
+🧩 Extensions / Add-ons
+
+❌ Close
+
+🔹 Status & Misc
+
+🔔 Notifications
+
+🔒 Secure / Lock
+
+📶 Connection / Signal
+
+⏳ Loading / Wait
 

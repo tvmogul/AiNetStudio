@@ -1,0 +1,379 @@
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.grad_gray {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,e5e5e5+100;White+3D */
+    color: black !important;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+}
+
+.style1 {
+    color: #CC0000;
+}
+
+footer {
+    color: black !important;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+    position: fixed !important;
+    height: 40px !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    padding: 4px 20px 4px 30px !important;
+    z-index: 999999999 !important;
+}
+
+/* ============
+Navbar
+=============*/
+.navbar, .container-fluid {
+    color: black !important;
+    height: 60px !important;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: red !important;
+    font-weight: bold !important;
+}
+
+.nav-link {
+    color: black !important;
+    font-weight: bold !important;
+}
+
+.logo-name {
+    font-family: Arial, Helvetica, sans-serif;
+/*    font-size: 2.4em !important;*/
+    color: black !important;
+}
+
+.logo-sos {
+    font-family: 'Franklin Gothic', 'Arial Black', sans-serif, Helvetica, sans-serif;
+    font-weight: bold !important;
+/*    font-size: 2.4em !important;*/
+    color: red !important;
+}
+
+.logo-tm {
+    font-family: Arial, Helvetica, sans-serif;
+ /*   font-size: 1.8em !important;*/
+    color: black !important;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 45px;
+    bottom: 45px;
+    z-index: 999999999 !important;
+}
+
+.mygrad {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,e5e5e5+100;White+3D */
+    color: black !important;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+}
+
+.carousel, #template-mo-zay-hero-carousel {
+    background-color: white !important;
+}
+
+.fa-color {
+    color: blue !important;
+}
+
+.shadow .bottom_shadow_full {
+    float: left;
+    position: relative;
+    height: 36px !important; /** 64px **/
+    bottom: 0;
+    margin-bottom: -80px;
+    top: 4px !important;
+}
+
+.bottom_shadow_full {
+    width: 100%;
+    height: 63px;
+    background: url(~/../img/2slidershadow.png) bottom no-repeat transparent;
+    position: absolute;
+    left: 0;
+}
+
+.contact-info {
+    text-align: center !important;
+    font-weight: bold !important;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif !important;
+}
+
+/* Adjusted to apply 100% width for disclaimer-container on smaller screens */
+@media (max-width: 768px) {
+    .disclaimer-container {
+        width: 100%;
+    }
+
+    .disclaimer-text {
+        width: 100%; /* Updated to 100% to match the container's width on mobile */
+    }
+}
+
+#subscribe .input-group {
+    display: flex; /* Enables flexbox layout */
+    align-items: center; /* Aligns items vertically in the center */
+}
+
+#subscribe .input-group input[type="email"] {
+    flex-grow: 1; /* Allows the input field to grow and fill available space */
+    margin-right: 8px; /* Adds some space between the input field and the button */
+}
+
+#subscribe .input-group button {
+    white-space: nowrap; /* Prevents the button text from wrapping */
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+
+/* 
+=======================================================
+BLUE SCROLLBAR class="flexcroll flex flex-col h-screen"
+=======================================================
+*/
+::-webkit-scrollbar {
+    width: 22px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00aaff;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0088cc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version for modern browsers */
+    background-color: #EEF2F4;
+}
+
+/* Optional: Add padding for better spacing */
+table.dataTable thead th {
+    padding: 10px;
+}
+
+/* BEGIN FIXED HEADER GRID SETTINGS */
+.dt-scroll-body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.dt-scroll-body::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+.dt-scroll-body::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 10px;
+}
+/* END FIXED HEADER GRID SETTINGS */
+
+table.dataTable thead th {
+    padding: 10px;
+}
+
+table.dataTable thead tr {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border: none;
+}
+
+form {
+    width: 100%;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    text-align: left;
+    padding: 2px;
+    border: 0px none !important;
+}
+
+th {
+    font-weight: bold;
+}
+
+td {
+    width: 50% !important;
+    padding-right: 6px !important;
+}
+
+/* Form-related styles */
+.form-container {
+/* font-size: 9pt;*/
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.form-row {
+    margin-bottom: 0 !important;
+}
+
+.form-label {
+/* font-size: 9pt;*/
+    margin-bottom: 0 !important;
+}
+
+.form-input {
+    padding: 1px;
+/* font-size: 10px;*/
+    box-sizing: border-box;
+}
+
+.no-padding {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.submit-btn {
+/* font-size: 10px;*/
+    padding: 2px 4px;
+}
+
+input, textarea, select {
+/* font-size: 9pt;*/
+    padding: 1px;
+    box-sizing: border-box;
+}
+
+input[type="number"], input[type="date"], input[type="url"] {
+    font-size: 9pt;
+}
+
+/* Company-specific styles */
+#company {
+    border: transparent !important;
+    border-image-width: 0px !important;
+}
+
+#company tr > td {
+    padding-right: 6px !important;
+}
+
+/* Responsive table for small screens */
+@media screen and (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    table, tr, td {
+        width: 100%;
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 50%;
+        position: relative;
+        margin-bottom: 1px;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: bold;
+    }
+
+    tr {
+        margin-bottom: 10px;
+    }
+
+    input {
+        width: 100%;
+    }
+}
+
+.grad_white {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,f6f6f6+47,ededed+100;White+3D+%231 */
+    background: linear-gradient(to bottom, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    padding: 0px 0px 2px 0px !important;
+}
+
+.grad_blue {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f2f5f6+0,e3eaed+37,c8d7dc+100;Grey+3D+%234 */
+    background: linear-gradient(to bottom, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    padding: 0px 0px 2px 0px !important;
+}
+
+#companies tbody tr {
+    cursor: pointer;
+}
+
+.companies_wrapper {
+    text-align: left !important;
+}
+
+
+

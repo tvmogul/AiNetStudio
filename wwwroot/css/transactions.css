@@ -1,0 +1,416 @@
+#businessType {
+    width: auto; /* Set width automatically based on content */
+    max-width: 150px; /* You can adjust this value to control the width after selection */
+    transition: width 0.3s ease-in-out;
+}
+
+#businessType:focus {
+    width: 400px; /* Adjust the width for the dropdown mode */
+}
+
+.table-block {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: transparent;
+    color: black;
+    z-index: 999;
+    margin: 0, auto !important;
+}
+
+#myTable {
+    font-size: .8em !important;
+}
+
+/* Apply vertical gray gradient background to DataTables headers */
+#transtable table.dataTable thead th {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    color: white; /* White text for contrast */
+    text-align: center;
+    padding: 10px;
+    border: none; /* Remove borders */
+}
+
+#splitRowsTable table.dataTable thead th {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.7));
+    color: black;
+    text-align: center;
+    padding: 10px;
+    border: none; /* Remove borders */
+}
+
+/* Optional: Add padding for better spacing */
+#splitRowsTable table.dataTable thead th {
+    padding: 1px;
+}
+
+
+/* Optional: Add padding for better spacing */
+#transtable table.dataTable thead th {
+    padding: 10px;
+}
+
+/* BEGIN FIXED HEADER GRID SETTINGS */
+.dt-scroll-body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.dt-scroll-body::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+.dt-scroll-body::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 10px;
+}
+/* END FIXED HEADER GRID SETTINGS */
+
+table.dataTable td {
+    font-size: .7em; /* Adjust the size as needed */
+}
+
+.btn-sm-menu {
+    padding: 5px 5px;
+    font-size: 12px; /* Set the font size */
+    border-radius: 6px;
+    border: 1px solid #474747;
+}
+
+table.dataTable th {
+    font-size: .6em !important;
+    font-family: Arial, sans-serif;
+}
+
+table.dataTable tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+table.dataTable tr:nth-child(odd) {
+    background-color: #EFF1F1;
+}
+
+/* Change color of paging button text */
+.dataTables_wrapper .dataTables_paginate .page-link {
+    color: black !important;
+}
+
+/* Change the active button text and background color */
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+    color: white !important;
+    background-color: black !important;
+}
+
+/* aligns buttons on same line as search */
+div.dt-buttons {
+    float: left !important;
+}
+
+.popup-header, .modal-header {
+    border: none !important;
+    box-shadow: 0px 10px 26px -14px rgba(0, 0, 0, 1);
+    -webkit-box-shadow: 0px 10px 26px -14px rgba(0, 0, 0, 1);
+    background: rgb(206,220,231);
+    background: -moz-linear-gradient(top, rgba(206,220,231,1) 0%, rgba(89,106,114,1) 100%);
+    background: -webkit-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%);
+    background: linear-gradient(to bottom, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 );
+    color: white !important;
+}
+
+.popup-button {
+    border: none !important;
+    box-shadow: 0px 10px 26px -14px rgba(0, 0, 0, 1);
+    -webkit-box-shadow: 0px 10px 26px -14px rgba(0, 0, 0, 1);
+    background: rgb(206,220,231);
+    background: -moz-linear-gradient(top, rgba(206,220,231,1) 0%, rgba(89,106,114,1) 100%);
+    background: -webkit-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%);
+    background: linear-gradient(to bottom, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 );
+    color: white !important;
+    width: 6em !important;
+}
+
+.modal-backdrop {
+    background-color: darkgray;
+}
+
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#fileList, #pdfList {
+    list-style-type: none; /* Optional: Removes default list bullets */
+    margin: 0;
+    padding: 0;
+    max-height: calc(4 * 1.5em); /* Adjust based on row height (e.g., 1.5em per row) */
+    overflow-y: scroll;
+    border: 1px solid #ccc; /* Optional: Adds a border to define the scrollable area */
+}
+
+/* Center alignment for the entire #trans_table div */
+#trans_table {
+    text-align: center !important;
+}
+
+/* Ensure proper table alignment and width */
+#transTable {
+    width: 100% !important;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures alignment between headers and columns */
+    margin: 0 auto; /* Centers the table within its container */
+}
+
+    /* Style for table headers */
+    #transTable thead th {
+        text-align: center; /* Center header text */
+        padding: 8px; /* Consistent padding */
+        border-bottom: 2px solid #ddd; /* Bottom border for headers */
+        background-color: #f4f4f4; /* Light gray background */
+    }
+
+    /* Style for table body cells */
+    #transTable tbody td {
+        text-align: center; /* Center text in all cells */
+        padding: 8px; /* Consistent padding */
+        border-bottom: 1px solid #ddd; /* Bottom border for data rows */
+    }
+
+    /* Optional: Highlight rows on hover */
+    #transTable tbody tr:hover {
+        background-color: #f9f9f9; /* Light background on hover */
+    }
+
+/* Fixed header styling */
+.th-fixed {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Ensure correct column alignment for dynamically generated rows */
+#transTable tbody tr {
+    vertical-align: middle; /* Ensure content is vertically aligned */
+}
+
+#transTable {
+    width: 100%;
+    table-layout: fixed;
+}
+
+    #transTable thead th,
+    #transTable tbody td {
+        width: 12.5%; /* Each column takes 12.5% of the table width */
+        text-align: center; /* Center-align text */
+        padding: 8px;
+    }
+
+.btn-md-menu {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+
+/* Style the selected row */
+.selected {
+    background-color: #0d6bfd !important;
+    color: white;
+}
+
+#transTable tbody tr {
+    font-size: 1.2em !important;
+}
+
+table.dataTable tbody tr {
+    font-size: 1.2em !important;
+}
+
+.dropdown-item span {
+    display: inline-block;
+    width: 50%;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-item span:first-child {
+    display: inline-block;
+    width: 65%; /* wider left column */
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-item span:last-child {
+    display: inline-block;
+    width: 35%;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+textArea {
+    min-height: .5em !important;
+}
+
+.panel_gray {
+    padding: 0px 4px 0px 4px !important;
+    color: white !important;
+    background: #000000; /* fallback for older browsers */
+    background: -moz-linear-gradient(top, #000000 0%, #333333 100%); /* Firefox 3.6-15 */
+    background: -webkit-linear-gradient(top, #000000 0%, #333333 100%); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #000000 0%, #333333 100%); /* Standard */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#333333', GradientType=0); /* IE6-9 */
+}
+
+#companyDropdownMenu::-webkit-scrollbar-thumb,
+#accountDropdownButton::-webkit-scrollbar-thumb,
+#subTypeDropdownButton::-webkit-scrollbar-thumb {
+    background-color: forestgreen !important;
+    border-radius: 4px;
+}
+
+/* Thin gray scrollbar (WebKit browsers) */
+#companyDropdownMenu::-webkit-scrollbar, #accountDropdownButton::-webkit-scrollbar, #subTypeDropdownButton::-webkit-scrollbar {
+    width: 12px !important;
+}
+
+/* #companyDropdownMenu::-webkit-scrollbar-track {
+    background-color: white !important;
+    } */
+
+/* Firefox */
+/* #companyDropdownMenu {
+    scrollbar-width: thin;
+    scrollbar-color: #999 transparent;
+    } */
+
+.LegendLightGreen {
+    background-color: LightGreen;
+}
+
+.LegendLightSalmon {
+    background-color: LightSalmon;
+}
+
+.LegendLightRed {
+    background-color: Red !important;
+}
+
+#transtable thead select.LegendLightGreen {
+    background-color: LightGreen !important;
+}
+
+#transtable thead select.LegendLightSalmon {
+    background-color: LightSalmon !important;
+}
+
+#transtable thead select.LegendLightRed {
+    background-color: Red !important;
+}
+
+#split-categories > .dropdown-menu {
+    max-height: 46px !important;
+    overflow: scroll !important;
+    overflow-x: hidden;
+    margin-top: 0px;
+}
+
+.amount-input {
+    width: 100px !important;
+    text-align: right !important;
+}
+
+input.form-control,
+textarea.form-control {
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Slight rounding */
+}
+
+    input.form-control:focus,
+    textarea.form-control:focus {
+        border-color: #8bc34a; /* Light green when focused */
+        outline: none;
+        box-shadow: 0 0 4px rgba(139, 195, 74, 0.4); /* Soft green glow */
+    }
+
+.dropdown-menu-scroll {
+    max-height: 200px; /* Adjust height as needed */
+    overflow-y: auto;
+}
+
+.dropdown-menu-scroll {
+    max-height: 200px; /* Adjust height as needed */
+    overflow-y: auto;
+}
+
+/* Chrome, Edge, Safari */
+.dropdown-menu-scroll::-webkit-scrollbar {
+    width: 8px; /* Slim scrollbar */
+}
+
+.dropdown-menu-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light gray track */
+    border-radius: 4px;
+}
+
+.dropdown-menu-scroll::-webkit-scrollbar-thumb {
+    background-color: forestgreen; /* Scrollbar color */
+    border-radius: 4px;
+}
+
+    .dropdown-menu-scroll::-webkit-scrollbar-thumb:hover {
+        background-color: #228B22; /* Darker green on hover */
+    }
+
+/* Firefox */
+.dropdown-menu-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: forestgreen #f1f1f1;
+}
+
+/* Target the dropdown menu specifically */
+#categoryDropdownMenu {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #28a745 #f1f1f1; /* thumb color, track color */
+}
+
+/* For WebKit browsers (Chrome, Edge, Safari) */
+#categoryDropdownMenu::-webkit-scrollbar {
+    width: 8px; /* Thickness */
+}
+
+#categoryDropdownMenu::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track color */
+}
+
+#categoryDropdownMenu::-webkit-scrollbar-thumb {
+    background-color: #28a745; /* Scrollbar color (green like Bootstrap success) */
+    border-radius: 4px;
+    border: 2px solid #f1f1f1; /* Adds space around thumb */
+}
+
+#categoryDropdownMenu::-webkit-scrollbar-thumb:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+
