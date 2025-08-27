@@ -67,33 +67,14 @@ public sealed class GraviflyerReading
 {
     // --- Actuation / drive parameters ---
     public float VoltageKV { get; set; }          // DC drive voltage (kV)
+
     public float FrequencyKHz { get; set; }       // Drive frequency (kHz)
+
     public float PhaseDeg { get; set; }           // Phase (degrees)
+
     public float RotationRPM { get; set; }        // Rotor speed (RPM)
+
     public float UltrasoundKHz { get; set; }      // Ultrasound carrier (kHz)
-
-    // --- Electrical measurements (>=3) ---
-    public float DCInputCurrentmA { get; set; }   // DC current (mA)
-    public float ACInputCurrentmA { get; set; }   // AC/RF current (mA RMS)
-    public float InputPowerW { get; set; }        // Power (W) — measured or V*I*PF
-    public float PowerFactor { get; set; }        // Optional: 0..1
-    public float BusVoltageV { get; set; }        // Optional: bus voltage (V)
-
-    // --- Environment / telemetry ---
-    public float TempC { get; set; }
-    public float Humidity { get; set; }
-    public float Vibration { get; set; }
-
-    // --- Magnetic field ---
-    public float MagFieldMilliTesla { get; set; } // Local B-field (mT)
-
-    // --- Mass / weight context ---
-    public float DeviceWeightGrams { get; set; }  // Tare weight (g)
-    public float ScaleReadingGrams { get; set; }  // Live scale reading (g)
-
-    // --- Target label ---
-    [ColumnName("Label")]
-    public float LiftGrams { get; set; }          // e.g., DeviceWeightGrams - ScaleReadingGrams
 }
 
 public sealed class GraviflyerPrediction
