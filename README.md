@@ -84,7 +84,9 @@ public sealed class GraviflyerPrediction
 }
 
 var features = new[]
+
 {
+
     nameof(GraviflyerReading.VoltageKV),
     nameof(GraviflyerReading.FrequencyKHz),
     nameof(GraviflyerReading.PhaseDeg),
