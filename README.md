@@ -83,4 +83,28 @@ public sealed class GraviflyerPrediction
     public float Score { get; set; } // predicted LiftGrams
 }
 
+var features = new[]
+{
+    nameof(GraviflyerReading.VoltageKV),
+    nameof(GraviflyerReading.FrequencyKHz),
+    nameof(GraviflyerReading.PhaseDeg),
+    nameof(GraviflyerReading.RotationRPM),
+    nameof(GraviflyerReading.UltrasoundKHz),
+
+    nameof(GraviflyerReading.DCInputCurrentmA),
+    nameof(GraviflyerReading.ACInputCurrentmA),
+    nameof(GraviflyerReading.InputPowerW),
+    nameof(GraviflyerReading.PowerFactor),
+    nameof(GraviflyerReading.BusVoltageV),
+
+    nameof(GraviflyerReading.TempC),
+    nameof(GraviflyerReading.Humidity),
+    nameof(GraviflyerReading.Vibration),
+
+    nameof(GraviflyerReading.MagFieldMilliTesla),
+
+    nameof(GraviflyerReading.DeviceWeightGrams),
+    nameof(GraviflyerReading.ScaleReadingGrams),
+};
+
 
