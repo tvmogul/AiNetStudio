@@ -60,29 +60,42 @@ Use **ML.NET** to model lift from parameters and suggest the next settings to ex
 
 ---
 
-## 1) Data Model
-
-```csharp
 // Models/GraviflyerReading.cs
 using Microsoft.ML.Data;
 
 public sealed class GraviflyerReading
 {
-    public float VoltageKV { get; set; }
-    public float FrequencyKHz { get; set; }
-    public float PhaseDeg { get; set; }
-    public float RotationRPM { get; set; }
-    public float UltrasoundKHz { get; set; }
+    // Actuation / drive parameters
+    public float VoltageKV { get; set; }          // DC drive voltage (kV)
+    public float FrequencyKHz { get; set; }       // Drive frequency (kHz)
+    public float PhaseDeg { get; set; }           // Relative phase (degrees)
+    public float RotationRPM { get; set; }        // Rotor speed (RPM)
+    public float UltrasoundKHz { get; set; }      // Ultrasound carrier (kHz)
 
-    public float CurrentmA { get; set; }
+    // Electrical measurements (>= 3 as requested)
+    public float DCInputCurrentmA { get; set; }   // DC current draw (mA)
+    public float ACInputCurrentmA { get; set; }   // AC/RF current draw (mA RMS)
+    public float InputPowerW { get; set; }        // Input power (W), measured or computed (V*I*PF)
+
+    // Environment / telemetry
     public float TempC { get; set; }
     public float Humidity { get; set; }
     public float Vibration { get; set; }
 
-    [ColumnName("Label")] public float LiftGrams { get; set; }
+    // Magnetic field measurement
+    public float MagFieldMilliTesla { get; set; } // Local B-field at device (mT)
+
+    // Mass/weight context
+    public float DeviceWeightGrams { get; set; }  // Tare weight of the device/fixture (g)
+    public float ScaleReadingGrams { get; set; }  // Instantaneous scale reading during run (g)
+
+    // Target label
+    [ColumnName("Label")]
+    public float LiftGrams { get; set; }          // Positive = apparent lift (g); e.g., DeviceWeightGrams - ScaleReadingGrams
 }
 
 public sealed class GraviflyerPrediction
 {
     public float Score { get; set; } // predicted LiftGrams
 }
+
