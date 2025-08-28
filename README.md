@@ -1,6 +1,6 @@
 # AiNetStudio®
 ![AiNetStudio](https://aiantigravity.com/img/zainetstudio.png)
-AiNetStudio® is a C# .NET 9 CORE 9 WinForm App software that bridges experimental hardware and AI neural networks to explore antigravity propulsion and manned drone technology. By linking real-time sensor data with adaptive machine learning, the project aims to fine-tune resonance and accelerate breakthroughs in next-generation aerospace research.
+AiNetStudio® is a C# .NET 9 CORE 9 WinForm App using ML.NET that bridges experimental hardware and AI neural networks to explore antigravity propulsion and manned drone technology. By linking real-time sensor data with adaptive machine learning, the project aims to fine-tune resonance and accelerate breakthroughs in next-generation aerospace research.
 
 # AiAntiGravity
 
@@ -24,6 +24,8 @@ I created this to help people do accounting and make profit.
 [**Click Here**](https://ainetprofit.com)
 
 ---
+## Why C# WinForm App?
+AiNetStudio® had to be built as a C# .NET 9 Core 9 WinForm app with ML.NET because this combination provides the stability, performance, and flexibility necessary for a project operating at the intersection of experimental hardware and advanced machine learning. WinForms allows for fast development of a responsive and customizable desktop interface, which is critical for monitoring and controlling sensitive real-time experiments in antigravity and propulsion research. The .NET 9 Core framework ensures cross-platform reliability, modern language features, and access to the latest runtime optimizations, while maintaining compatibility with existing scientific libraries. ML.NET was essential because it brings powerful, production-ready machine learning directly into the C# environment without requiring external languages or frameworks, enabling tight integration between sensor inputs, predictive models, and adaptive control systems. This cohesive architecture ensures AiNetStudio® can process high-frequency data streams, adapt in real time, and provide researchers with the precise analytical and control capabilities needed to accelerate aerospace breakthroughs.
 
 ## Speculative Concepts
 
