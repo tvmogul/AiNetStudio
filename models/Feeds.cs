@@ -2277,48 +2277,54 @@ namespace AiNetStudio.Models
         public string? Duration { get; set; }
         public string? Tags { get; set; }
 
-        //public ZFeedItem(
-        //    string? feedId,
-        //    string? category,
-        //    string? subcategory,
-        //    string? catSub,
-        //    string? groupCategory,
-        //    string? movieCategory,
-        //    int rank,
-        //    string? title,
-        //    string? author,
-        //    string? link,
-        //    string? linkType,
-        //    string? linkValue,
-        //    string? shortDescription,
-        //    string? description,
-        //    string? bodyLinks,
-        //    string? image,
-        //    string? publishedDateIso,
-        //    string? duration,
-        //    string? tags)
-        //{
-        //    FeedId = feedId;
-        //    Category = category;
-        //    Subcategory = subcategory;
-        //    CatSub = catSub;
-        //    GroupCategory = groupCategory;
-        //    MovieCategory = movieCategory;
-        //    Rank = rank;
-        //    Title = title;
-        //    Author = author;
-        //    Link = link;
-        //    LinkType = linkType;
-        //    LinkValue = linkValue;
-        //    ShortDescription = shortDescription;
-        //    Description = description;
-        //    BodyLinks = bodyLinks;
-        //    Image = image;
-        //    PublishedDateIso = publishedDateIso;
-        //    Duration = duration;
-        //    Tags = tags;
-        //}
+        // ✅ Parameterless constructor so you can do "new ZFeedItem()"
+        public ZFeedItem() { }
+
+        // ✅ Full constructor for named parameter use in SQL reader
+        public ZFeedItem(
+            string? FeedId,
+            string? Category,
+            string? SubCategory,
+            string? CatSub,
+            string? GroupCategory,
+            string? MovieCategory,
+            int Rank,
+            string? Title,
+            string? Author,
+            string? Link,
+            string? LinkType,
+            string? LinkValue,
+            string? ShortDescription,
+            string? Description,
+            string? BodyLinks,
+            string? Image,
+            string? PublishedDate,
+            string? Duration,
+            string? Tags)
+        {
+            this.FeedId = FeedId;
+            this.Category = Category;
+            this.SubCategory = SubCategory;
+            this.CatSub = CatSub;
+            this.GroupCategory = GroupCategory;
+            this.MovieCategory = MovieCategory;
+            this.Rank = Rank;
+            this.Title = Title;
+            this.Author = Author;
+            this.Link = Link;
+            this.LinkType = LinkType;
+            this.LinkValue = LinkValue;
+            this.ShortDescription = ShortDescription;
+            this.Description = Description;
+            this.BodyLinks = BodyLinks;
+            this.Image = Image;
+            this.PublishedDate = PublishedDate;
+            this.Duration = Duration;
+            this.Tags = Tags;
+        }
     }
+
+
 
 
 

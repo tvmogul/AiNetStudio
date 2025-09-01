@@ -11,12 +11,15 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using YouTubeScrapper;
 using static NumSharp.np;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using static TorchSharp.torch.distributions.constraints;
 
 namespace AiNetStudio.WinGui.ControlScreens
 {
@@ -78,6 +81,34 @@ namespace AiNetStudio.WinGui.ControlScreens
             set => _toggleOnSplitterDoubleClick = value;
         }
         // ===== End designer-tweakable properties =====
+
+
+        #region =================== BEGIN PANEL #2 ========================
+
+        //private VideoDataDialog videoDataDialog;
+
+        //private ProgressDialog progressDialog;
+        //private int progressCount = 0;
+
+        //private MainViewModel _viewModel;
+
+        //private IXDListener listener;
+        //private IXDBroadcast broadcast;
+
+        //private static readonly string connRSSFeeds = ConfigurationManager.ConnectionStrings["RSSFeeds"].ConnectionString;
+        private int _start = 0;
+        private int _max = 3000;
+        public List<RSSFeed> lstDisplay = new List<RSSFeed>();
+
+        const int SPI_SETNONCLIENTMETRICS = 0x002A;
+        const int SPIF_UPDATEINIFILE = 0x01;
+        const int SPIF_SENDCHANGE = 0x02;
+
+        [DllImport("user32.dll")]
+        public static extern int SystemParametersInfo(int uAction, int uParam, ref int lpvParam, int fuWinIni);
+
+        #endregion ================ END PANEL #2 ==========================
+
 
         public SplitEditor() : this(null!) { }
 
@@ -200,16 +231,33 @@ namespace AiNetStudio.WinGui.ControlScreens
             //InitializeMode(XDTransportMode.WindowsMessaging);
             //broadcast.SendToChannel("Status", string.Format("Handle: {0} connected!", this.Handle));
 
-            //this.btnPrev2.Click += new System.EventHandler(this.btnPrev_Click);
-            //this.btnNext2.Click += new System.EventHandler(this.btnNext_Click);
-            //this.ddCategories.SelectedIndexChanged += new System.EventHandler(this.ddCategories_SelectedIndexChanged);
-            //this.ddSubCategories.SelectedIndexChanged += new System.EventHandler(this.ddSubCategories_SelectedIndexChanged);
-            //this.btnFeeds2.Click += new System.EventHandler(this.btnFeeds_Click);
+            this.btnPrev2.Click += btnPrev2_Click;
+            this.btnNext2.Click += btnNext2_Click;
+            this.ddCategories2.SelectedIndexChanged += ddCategories2_SelectedIndexChanged;
+            this.ddSubCategories2.SelectedIndexChanged += ddSubCategories2_SelectedIndexChanged;
+            this.ddMCategories2.SelectedIndexChanged += ddMCategories2_SelectedIndexChanged;
+
+
+            this.ddSCategories.SelectedIndexChanged += ddSCategories_SelectedIndexChanged;
+            this.ddSSubCategories.SelectedIndexChanged += ddSSubCategories_SelectedIndexChanged;
+            this.ddSGroupCategories.SelectedIndexChanged += ddSGroupCategories_SelectedIndexChanged;
+            this.ddSMovieCategories.SelectedIndexChanged += ddSMovieCategories_SelectedIndexChanged;
+            this.ddSLinkTypes.SelectedIndexChanged += ddSLinkTypes_SelectedIndexChanged;
+
+
+            //this.btnFeeds2.Click += btnFeeds2_Click;
             //this.btnSearchVideoTitles2.Click += new System.EventHandler(this.btnSearchVideoTitles_Click);
             ////this.btnJSON.Click += new System.EventHandler(this.btnJSON_Click);
             ////this.btnLink.Click += new System.EventHandler(this.btnLink_Click);
             ////this.btnLinkValue.Click += new System.EventHandler(this.btnLinkValue_Click);
             //this.btnGetDescription.Click += new System.EventHandler(this.btnGetDescription_Click);
+
+
+            //this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            //this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            //this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            //this.ddSFolders.SelectedIndexChanged += new System.EventHandler(this.ddSFolders_SelectedIndexChanged);
+            //this.ddSImages.SelectedIndexChanged += new System.EventHandler(this.ddSImages_SelectedIndexChanged);
 
             ddSearch2.Items.Clear();
             ddSearch2.Items.Add("title");
@@ -272,20 +320,14 @@ namespace AiNetStudio.WinGui.ControlScreens
             ////updateGroupCategories();
 
             this.dgvFeeds.AllowUserToAddRows = false;  // Disable adding the new row
-            //this.dgvFeeds.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvFeeds_CellFormatting);
+            this.dgvFeeds.CellFormatting += dgvFeeds_CellFormatting;
             //this.dgvFeeds.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFeeds_CellClick);
             //this.dgvFeeds.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvFeeds_CellPainting);
 
             //this.dgvFeeds.Columns[0].DefaultCellStyle.Padding = new Padding(4, 0, 0, 0);
 
-            //this.ddSCategories.SelectedIndexChanged += new System.EventHandler(this.ddSCategories_SelectedIndexChanged);
-            //this.ddSMovieCategories.SelectedIndexChanged += new System.EventHandler(this.ddSMovieCategories_SelectedIndexChanged);
-            //this.ddSLinkTypes.SelectedIndexChanged += new System.EventHandler(this.ddSLinkTypes_SelectedIndexChanged);
-            //this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            //this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-            //this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            //this.ddSFolders.SelectedIndexChanged += new System.EventHandler(this.ddSFolders_SelectedIndexChanged);
-            //this.ddSImages.SelectedIndexChanged += new System.EventHandler(this.ddSImages_SelectedIndexChanged);
+
+
 
             //dd_anticoagulant.SelectedIndex = 0;
             //dd_carcinogen.SelectedIndex = 0;
@@ -300,6 +342,9 @@ namespace AiNetStudio.WinGui.ControlScreens
 
             #endregion ============= BEGIN PANEL @2 =====================================
         }
+
+
+
 
 
         #region ============== BEGIN SPLITTER =============================
@@ -613,7 +658,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             //    return;
             //}
 
-            List<ZFeedItem> list = new List<ZFeedItem>();
+            List<FeedItem> list = new List<FeedItem>();
 
             foreach (DataGridViewRow row in dgvVideos.Rows)
             {
@@ -622,7 +667,7 @@ namespace AiNetStudio.WinGui.ControlScreens
                 bool isChecked = (row.Cells["X"].Value as bool?) == true; // use named checkbox column
                 if (isChecked)
                 {
-                    var f = new ZFeedItem();
+                    var f = new FeedItem();
                     f.FeedId = string.Empty;    // row.Cells[2].Value.ToString();   //2 FeedId Guid id = Guid.NewGuid();
                     f.Category = _category;
                     f.SubCategory = _subcategory;
@@ -778,9 +823,9 @@ namespace AiNetStudio.WinGui.ControlScreens
 
         // "POCO" stands for plain old CLR object.A POCO is a.NET type that doesn't depend 
         // on any framework-specific types, for example, through inheritance or attributes.
-        public void UpdateServer(List<ZFeedItem> videos, DataGridView dgv, Label labelx)
+        public void UpdateServer(List<FeedItem> videos, DataGridView dgv, Label labelx)
         {
-            foreach (ZFeedItem video in videos)
+            foreach (FeedItem video in videos)
             {
                 //PostData(video, dgv, labelx);
                 Tubes.UpdateFeeds(video, dgv, labelx);
@@ -981,7 +1026,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             dgvVideos.AllowUserToAddRows = false;
             dgvVideos.AllowUserToDeleteRows = false;
             dgvVideos.AllowUserToOrderColumns = true;
-            dgvVideos.ReadOnly = true;
+            dgvVideos.ReadOnly = false;
             dgvVideos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvVideos.MultiSelect = false;
             dgvVideos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -1022,6 +1067,20 @@ namespace AiNetStudio.WinGui.ControlScreens
 
             // (Optional) also apply to column headers if you want them smaller
             dgvVideos.ColumnHeadersDefaultCellStyle.Font = dgvVideos.Font;
+
+
+
+            dgvVideos.EditMode = DataGridViewEditMode.EditOnEnter;
+            dgvVideos.CurrentCellDirtyStateChanged += (s, e) =>
+            {
+                if (dgvVideos.IsCurrentCellDirty &&
+                    dgvVideos.CurrentCell is DataGridViewCheckBoxCell)
+                {
+                    dgvVideos.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                    dgvVideos.EndEdit();
+                }
+            };
+
 
 
             // --- Wrap text in specific columns (ShortDescription, Description)
@@ -1558,6 +1617,162 @@ namespace AiNetStudio.WinGui.ControlScreens
 
         #region ============== BEGIN BOTTOM PANEL ===========================
 
+        private void btnPrev2_Click(object? sender, EventArgs e)
+        {
+            //_start = _start - _max - 1;
+            if (_start < _max + 1)
+            {
+                _start = 0;
+            }
+            else
+            {
+                _start = _start - _max - 1;
+            }
+            lblCounts2.Text = "Page: " + _start.ToString() + " Count: " + dgvFeeds.Rows.Count.ToString();
+            string _cat = ddCategories.Text.ToString();
+            string _subcat = ddSubCategories.Text.ToString();
+
+            //lstDisplay.Clear();
+            lstDisplay = new List<RSSFeed>();
+            //lstDisplay = DataHelper.GetFeeds(_cat, _subcat, _start, _max);
+            //if (lstDisplay == null || lstDisplay.Count < 1)
+            //{
+            //    MessageBox.Show("No Results!?");
+            //    return;
+            //}
+            //dgvFeeds.Rows.Clear();
+            //LoadDataGrid(lstDisplay, dgvFeeds, broadcast);
+        }
+
+        private void btnNext2_Click(object? sender, EventArgs e)
+        {
+            _start = _start + _max + 1;
+            lblCounts2.Text = "Page: " + _start.ToString() + " Count: " + dgvFeeds.Rows.Count.ToString();
+            string _cat = ddCategories.Text.ToString();
+            string _subcat = ddSubCategories.Text.ToString();
+
+            //lstDisplay.Clear();
+            lstDisplay = new List<RSSFeed>();
+
+            //lstDisplay = DataHelper.GetFeeds(_cat, _subcat, _start, _max);
+            //if (lstDisplay == null || lstDisplay.Count < 1)
+            //{
+            //    MessageBox.Show("No Results!?");
+            //    return;
+            //}
+            //dgvFeeds.Rows.Clear();
+            //LoadDataGrid(lstDisplay, dgvFeeds, broadcast);
+        }
+
+        private void ddCategories2_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_category.Text = ddSCategories.SelectedItem!.ToString()!.Trim();
+        }
+
+        private void ddSubCategories2_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_subcategory.Text = ddSubCategories.SelectedItem!.ToString()!.Trim();
+        }
+
+        private void ddMCategories2_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_moviecategory.Text = ddMCategories2.SelectedItem!.ToString()!.Trim();
+        }
+
+
+        private void ddSLinkTypes_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_linktype.Text = ddSLinkTypes.SelectedItem!.ToString()!.Trim();
+        }
+
+        private void ddSMovieCategories_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_moviecategory.Text = ddSMovieCategories.SelectedItem!.ToString()!.Trim();
+        }
+
+        private void ddSGroupCategories_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_groupcategory.Text = ddSGroupCategories.SelectedItem!.ToString()!.Trim();
+        }
+
+        private void ddSSubCategories_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_subcategory.Text = ddSSubCategories.SelectedItem!.ToString()!.Trim();
+        }
+
+        private void ddSCategories_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            s_category.Text = ddSCategories.SelectedItem!.ToString()!.Trim();
+        }
+
+        private void BtnFeeds2_Click(object? sender, EventArgs e)
+        {
+            _start = 0;
+
+            string _cat = string.Empty;
+            string _subcat = string.Empty;
+            string _groupcat = "none";
+
+            if (ddCategories.Items.Count > 0 && ddCategories.SelectedItem != null)
+            {
+                _cat = ddCategories.SelectedItem.ToString()!;
+            }
+            if (ddSubCategories.Items.Count > 0 && ddSubCategories.SelectedItem != null)
+            {
+                _subcat = ddSubCategories.SelectedItem.ToString()!;
+            }
+            if (ddGroupCategories.Items.Count > 0 && ddGroupCategories.SelectedItem != null)
+            {
+                _groupcat = ddGroupCategories.SelectedItem.ToString()!;
+            }
+
+            //string _moviecat = string.Empty;
+            //if (_cat == "movies" || _cat == "All Movies")
+            //{
+            //    if (ddMCategories.SelectedItem != null)
+            //    {
+            //        _moviecat = ddMCategories.SelectedItem.ToString();
+            //    }
+            //}
+
+
+            //lstDisplay.Clear();
+
+            //if (_moviecat.ToUpper() == "ALL")
+            //{
+            //    _moviecat = string.Empty;
+            //}
+
+            _max = Convert.ToInt32(upDownRecords2.Value);
+            int skip = 0;
+
+            List<FeedItem> lstDisplay = Tubes.GetFeedsByCategory(_cat, _subcat, 500, skip);
+
+
+            if (cbGroup2.Checked)
+            {
+                var distinctGroupCategoryCount = lstDisplay != null ? lstDisplay.Select(feed => feed.GroupCategory).Distinct().Count() : 0;
+                lblGroups2.Text = "Groups: " + distinctGroupCategoryCount.ToString();
+                //lstDisplay = (List<RSSFeed>)FilterLstDisplay(_groupcat);
+            }
+
+            if (lstDisplay != null)
+            {
+                dgvFeeds.Rows.Clear();
+                //LoadDataGrid(lstDisplay, dgvFeeds, broadcast);
+            }
+            else
+            {
+                MessageBox.Show("No Results!?");
+                return;
+            }
+        }
+
+
+        private void dgvFeeds_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
 
         #endregion =========== END BOTTOM PANEL =============================
 

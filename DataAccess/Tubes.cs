@@ -37,7 +37,7 @@ namespace AiNetStudio.DataAccess
                 try
                 {
                     // Uses PathManager (separate class) to resolve folder.
-                    var dbPath = GetDbPath(); 
+                    var dbPath = GetDbPath();
                     var dir = Path.GetDirectoryName(dbPath)!;
                     if (!Directory.Exists(dir))
                         Directory.CreateDirectory(dir);
@@ -389,7 +389,7 @@ namespace AiNetStudio.DataAccess
                     items.Add(new FeedItem(
                         FeedId: rdr.GetString(0),
                         Category: rdr.IsDBNull(1) ? null : rdr.GetString(1),
-                        Subcategory: rdr.IsDBNull(2) ? null : rdr.GetString(2),
+                        SubCategory: rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         CatSub: rdr.IsDBNull(3) ? null : rdr.GetString(3),
                         GroupCategory: rdr.IsDBNull(4) ? null : rdr.GetString(4),
                         MovieCategory: rdr.IsDBNull(5) ? null : rdr.GetString(5),
@@ -483,7 +483,7 @@ namespace AiNetStudio.DataAccess
                     <div class="item" style="max-width: 480px !important;"
                          data-feedid="{Safe(f.FeedId)}"
                          data-category="{Safe(f.Category)}"
-                         data-subcategory="{Safe(f.Subcategory)}"
+                         data-subcategory="{Safe(f.SubCategory)}"
                          data-catsub="{Safe(f.CatSub)}"
                          data-groupcategory="{Safe(f.GroupCategory)}"
                          data-moviecategory="{Safe(f.MovieCategory)}"
@@ -918,7 +918,7 @@ namespace AiNetStudio.DataAccess
             catch (Exception ex) { ReportError("EnumerateCsvRecords", ex); throw; }
         }
 
-        public static void UpdateFeeds(ZFeedItem f, System.Windows.Forms.DataGridView dgv, Label labelx)
+        public static void UpdateFeeds(FeedItem f, System.Windows.Forms.DataGridView dgv, Label labelx)
         {
             try
             {
@@ -994,49 +994,141 @@ namespace AiNetStudio.DataAccess
 
     // DTOs / Models -----------------------------------------------------------
 
-    public sealed record FeedItem(
-        string FeedId,
-        string? Category,
-        string? Subcategory,
-        string? CatSub,
-        string? GroupCategory,
-        string? MovieCategory,
-        int Rank,
-        string? Title,
-        string? Author,
-        string? Link,
-        string? LinkType,
-        string? LinkValue,
-        string? ShortDescription,
-        string? Description,
-        string? BodyLinks,
-        string? Image,
-        string? PublishedDate,
-        string? Duration,
-        string? Tags
-    );
+    public class FeedItem
+    {
+        public string FeedId { get; set; } = string.Empty;
+        public string? Category { get; set; }
+        public string? SubCategory { get; set; }   // NOTE: matches prior usage (not SubCategory)
+        public string? CatSub { get; set; }
+        public string? GroupCategory { get; set; }
+        public string? MovieCategory { get; set; }
+        public int Rank { get; set; }
+        public string? Title { get; set; }
+        public string? Author { get; set; }
+        public string? Link { get; set; }
+        public string? LinkType { get; set; }
+        public string? LinkValue { get; set; }
+        public string? ShortDescription { get; set; }
+        public string? Description { get; set; }
+        public string? BodyLinks { get; set; }
+        public string? Image { get; set; }
+        public string? PublishedDate { get; set; }
+        public string? Duration { get; set; }
+        public string? Tags { get; set; }
 
-    public sealed record FeedUpsert(
-        string FeedId,
-        string Category,
-        string MovieCategory,
-        int Rank,
-        string? Title = null,
-        string? Author = null,
-        string? Link = null,
-        string? LinkType = null,
-        string? LinkValue = null,
-        string? ShortDescription = null,
-        string? Description = null,
-        string? BodyLinks = null,
-        string? Image = null,
-        string? PublishedDate = null,
-        string? Duration = null,
-        string? Tags = null,
-        string? Subcategory = null,
-        string? CatSub = null,
-        string? GroupCategory = null
-    );
+        // Parameterless constructor for object initializer usage
+        public FeedItem() { }
+
+        // Full constructor to support named-argument construction
+        public FeedItem(
+            string FeedId,
+            string? Category,
+            string? SubCategory,
+            string? CatSub,
+            string? GroupCategory,
+            string? MovieCategory,
+            int Rank,
+            string? Title,
+            string? Author,
+            string? Link,
+            string? LinkType,
+            string? LinkValue,
+            string? ShortDescription,
+            string? Description,
+            string? BodyLinks,
+            string? Image,
+            string? PublishedDate,
+            string? Duration,
+            string? Tags)
+        {
+            this.FeedId = FeedId;
+            this.Category = Category;
+            this.SubCategory = SubCategory;
+            this.CatSub = CatSub;
+            this.GroupCategory = GroupCategory;
+            this.MovieCategory = MovieCategory;
+            this.Rank = Rank;
+            this.Title = Title;
+            this.Author = Author;
+            this.Link = Link;
+            this.LinkType = LinkType;
+            this.LinkValue = LinkValue;
+            this.ShortDescription = ShortDescription;
+            this.Description = Description;
+            this.BodyLinks = BodyLinks;
+            this.Image = Image;
+            this.PublishedDate = PublishedDate;
+            this.Duration = Duration;
+            this.Tags = Tags;
+        }
+    }
+
+    public class FeedUpsert
+    {
+        public string FeedId { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public string MovieCategory { get; set; } = string.Empty;
+        public int Rank { get; set; }
+        public string? Title { get; set; } = null;
+        public string? Author { get; set; } = null;
+        public string? Link { get; set; } = null;
+        public string? LinkType { get; set; } = null;
+        public string? LinkValue { get; set; } = null;
+        public string? ShortDescription { get; set; } = null;
+        public string? Description { get; set; } = null;
+        public string? BodyLinks { get; set; } = null;
+        public string? Image { get; set; } = null;
+        public string? PublishedDate { get; set; } = null;
+        public string? Duration { get; set; } = null;
+        public string? Tags { get; set; } = null;
+        public string? SubCategory { get; set; } = null;
+        public string? CatSub { get; set; } = null;
+        public string? GroupCategory { get; set; } = null;
+
+        public FeedUpsert() { }
+
+        public FeedUpsert(
+            string FeedId,
+            string Category,
+            string MovieCategory,
+            int Rank,
+            string? Title = null,
+            string? Author = null,
+            string? Link = null,
+            string? LinkType = null,
+            string? LinkValue = null,
+            string? ShortDescription = null,
+            string? Description = null,
+            string? BodyLinks = null,
+            string? Image = null,
+            string? PublishedDate = null,
+            string? Duration = null,
+            string? Tags = null,
+            string? SubCategory = null,
+            string? CatSub = null,
+            string? GroupCategory = null)
+        {
+            this.FeedId = FeedId;
+            this.Category = Category;
+            this.MovieCategory = MovieCategory;
+            this.Rank = Rank;
+            this.Title = Title;
+            this.Author = Author;
+            this.Link = Link;
+            this.LinkType = LinkType;
+            this.LinkValue = LinkValue;
+            this.ShortDescription = ShortDescription;
+            this.Description = Description;
+            this.BodyLinks = BodyLinks;
+            this.Image = Image;
+            this.PublishedDate = PublishedDate;
+            this.Duration = Duration;
+            this.Tags = Tags;
+            this.SubCategory = SubCategory;
+            this.CatSub = CatSub;
+            this.GroupCategory = GroupCategory;
+        }
+    }
 }
 
 
@@ -1164,4 +1256,3 @@ namespace AiNetStudio.DataAccess
 //              font-weight:bold;">
 //        Test Event Button
 //    </a>
-

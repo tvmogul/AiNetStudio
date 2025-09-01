@@ -310,7 +310,7 @@ namespace AiNetStudio.WinGui.ControlScreens
                 if (subcategory != null && subcategory.Trim().Length == 0) subcategory = null;
 
                 var feeds = Tubes.GetFeedsByCategory(category, subcategory, take: 1000, skip: 0);
-                var html = Tubes.BuildFeedsHtml(category, subcategory, feeds);
+                var html = Tubes.BuildFeedsHtml(category, subcategory, (IEnumerable<FeedItem>)feeds);
 
                 // Write HTML to a local file and navigate MultiTabBrowser to it (no async/await)
                 try
