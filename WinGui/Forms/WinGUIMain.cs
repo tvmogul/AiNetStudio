@@ -217,6 +217,30 @@ namespace AiNetStudio.WinGui.Forms
         //    }
         //}
 
+
+        public void HandleEventFromBrowser(string payload /* format: "action:value" */)
+        {
+            var action = payload;
+            var value = string.Empty;
+            int i = payload.IndexOf(':');
+            if (i >= 0)
+            {
+                action = payload.Substring(0, i);
+                value = payload.Substring(i + 1);
+            }
+
+            // Show a message box with action and value
+            MessageBox.Show(
+                $"Action: {action}\nValue: {value}",
+                "Browser Event",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+
+            System.Diagnostics.Debug.WriteLine($"BrowserEvent => action={action}, value={value}");
+        }
+
+
         private void WinGUIMain_FormClosing(object? sender, FormClosingEventArgs e)
         {
             if (!IsAuthorized)
@@ -283,13 +307,20 @@ namespace AiNetStudio.WinGui.Forms
 
         private void tabControlEx1_SelectedIndexChanged(object? sender, EventArgs e)
         {
+            // Fire a generic "tab activated" hook if the tab's main control implements ITabAware
+            //var host = tabControlEx1.SelectedTab?.Controls.Count > 0 ? tabControlEx1.SelectedTab.Controls[0] : null;
+            //if (host is ITabAware aware)
+            //{
+            //    aware.OnTabActivated();
+            //}
+
             //WS
             TabPage selectedTab = tabControlEx1.SelectedTab!;
 
             tp1.Text = "Welcome";
             tp2.Text = "Browser";
             tp3.Text = "Device Hub";
-            //tp4.Text = "Import";
+            tp4.Text = "SplitEditor";
             //tp5.Text = "Transactions";
             //tp6.Text = "Reports";
             //tp7.Text = "Categories";
@@ -308,7 +339,7 @@ namespace AiNetStudio.WinGui.Forms
             {
                 if (tp2.Controls[0] is MultiTabBrowser browserCtrl)
                 {
-                    //browserCtrl.UpdateCompany();
+                    browserCtrl.OnTabActivated();
                 }
             }
             else if (selectedTab == tp3)  // "DeviceHub"
@@ -319,13 +350,13 @@ namespace AiNetStudio.WinGui.Forms
                    // bankCtrl.UpdateCompany();
                 }
             }
-            //else if (selectedTab == tp4)  // "Import"
-            //{
-            //    if (tp4.Controls[0] is ImportControl importCtrl)
-            //    {
-            //        importCtrl.UpdateCompany();
-            //    }
-            //}
+            else if (selectedTab == tp4)  // "SplitEditor"
+            {
+                if (tp4.Controls[0] is SplitEditor importCtrl)
+                {
+                    //importCtrl.UpdateCompany();
+                }
+            }
             //else if (selectedTab == tp5) // "Transactions"
             //{
             //    if (tp5.Controls[0] is TransactionControl transCtrl)
@@ -472,12 +503,12 @@ namespace AiNetStudio.WinGui.Forms
             deviceHybControl.Dock = DockStyle.Fill;
             tp3.Controls.Add(deviceHybControl);
 
-            //tp4.Text = "Import";
-            //tabControlEx1.TabPages.Add(tp4);
-            //ImportControl importControl = new ImportControl(this);
-            //importControl.MainFormReference = this;
-            //importControl.Dock = DockStyle.Fill;
-            //tp4.Controls.Add(importControl);
+            tp4.Text = "Split Editor";
+            tabControlEx1.TabPages.Add(tp4);
+            SplitEditor splitEditor = new SplitEditor(this);
+            splitEditor.MainFormReference = this;
+            splitEditor.Dock = DockStyle.Fill;
+            tp4.Controls.Add(splitEditor);
 
             //tp5.Text = "Transactions";
             //tabControlEx1.TabPages.Add(tp5);
@@ -1505,14 +1536,4 @@ namespace AiNetStudio.WinGui.Forms
 
 
 
-
-
-
-//pnlAccounts
-//pnlBanks
-//pnlAccounts
-//pnlImport
-//pnlReport
-//pnlSettings
-//pnlTransaction
 

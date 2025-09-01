@@ -16,7 +16,22 @@
     <None Remove="Resources\antigravity_formula_energy_density.png" />
     <None Remove="Resources\antigravity_formula_monopole.png" />
     <None Remove="Resources\app.ico" />
+    <None Remove="Resources\bcheck.png" />
+    <None Remove="Resources\bg.png" />
+    <None Remove="Resources\blank.png" />
+    <None Remove="Resources\blue.png" />
+    <None Remove="Resources\blue2.png" />
+    <None Remove="Resources\buncheck.png" />
+    <None Remove="Resources\divider_down3.png" />
+    <None Remove="Resources\divider_middle.png" />
+    <None Remove="Resources\ExampleButtonA.png" />
+    <None Remove="Resources\ExampleButtonDownA.png" />
+    <None Remove="Resources\ExampleButtonHoverA.png" />
+    <None Remove="Resources\find.ico" />
     <None Remove="Resources\go.png" />
+    <None Remove="Resources\gray.png" />
+    <None Remove="Resources\home.png" />
+    <None Remove="Resources\png-transparent-computer-icons-house-house-angle-text-orange.png" />
     <None Remove="Resources\png-transparent-search-find-view-ecommerce-icon-icon.png" />
     <None Remove="Resources\tbx_ai.png" />
     <None Remove="Resources\tbx_back.png" />
@@ -29,6 +44,8 @@
     <None Remove="Resources\tbx_removetab.png" />
     <None Remove="Resources\tbx_up.png" />
     <None Remove="Resources\tb_addtab_black.png" />
+    <None Remove="Resources\tb_addtab_orange.png" />
+    <None Remove="Resources\tb_ai.png" />
     <None Remove="Resources\tb_aisearch.png" />
     <None Remove="Resources\tb_ai_black.png" />
     <None Remove="Resources\tb_ai_orange.png" />
@@ -40,6 +57,7 @@
     <None Remove="Resources\tb_close_black.png" />
     <None Remove="Resources\tb_close_orange.png" />
     <None Remove="Resources\tb_dn.png" />
+    <None Remove="Resources\tb_down2_black.png" />
     <None Remove="Resources\tb_down_black.png" />
     <None Remove="Resources\tb_down_orange.png" />
     <None Remove="Resources\tb_forward_black.png" />
@@ -67,17 +85,27 @@
     <None Remove="Resources\tb_triangle_right.png" />
     <None Remove="Resources\tb_triangle_up.png" />
     <None Remove="Resources\tb_up.png" />
+    <None Remove="Resources\tb_up2_black.png" />
     <None Remove="Resources\tb_up_black.png" />
     <None Remove="Resources\tb_up_orange.png" />
     <None Remove="Resources\tb_zoom.png" />
+    <None Remove="Resources\tv.gif" />
     <None Remove="Resources\Untitled-1.psd" />
     <None Remove="Resources\welcome.png" />
     <None Remove="Resources\welcome.psd" />
+    <None Remove="Resources\youtube-logo-11609383902z56yosfap9.png" />
     <None Remove="Resources\youtube.png" />
     <None Remove="Resources\zainetprofit.ico" />
     <None Remove="Resources\zainetprofit.png" />
+    <None Remove="Resources\zainetstudio.png" />
     <None Remove="Resources\zback.png" />
     <None Remove="Resources\zcool.png" />
+    <None Remove="Resources\zscreen_crap.png" />
+    <None Remove="Resources\zscreen_cuurent.png" />
+    <None Remove="Resources\zscreen_good.png" />
+    <None Remove="Resources\z_1092610.jpg" />
+    <None Remove="Resources\z_6409.jpg" />
+    <None Remove="Resources\z_gradient-thumbnail.jpg" />
     <None Remove="wwwroot\img\16.ico" />
     <None Remove="wwwroot\img\16.png" />
     <None Remove="wwwroot\img\32.ico" />
@@ -133,6 +161,90 @@
 
   <ItemGroup>
     <Content Include="html\welcome.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\bcheck.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\bg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\blank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\blue2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\buncheck.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\divider_down3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\divider_middle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ExampleButtonA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ExampleButtonDownA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ExampleButtonHoverA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\find.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\home.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\png-transparent-computer-icons-house-house-angle-text-orange.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tb_addtab_orange.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tb_ai.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tb_down2_black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tb_up2_black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tv.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\youtube-logo-11609383902z56yosfap9.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zainetstudio.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zscreen_crap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zscreen_cuurent.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zscreen_good.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\z_1092610.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\z_6409.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\z_gradient-thumbnail.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\img\16.ico">
@@ -297,6 +409,9 @@
     <Folder Include="html\css\" />
     <Folder Include="WinGui\Controls\DataGridView\" />
     <Folder Include="WinGui\Dialogs\" />
+    <Folder Include="youtubescrapper\packages\Newtonsoft.Json.12.0.3\" />
+    <Folder Include="youtubescrapper\packages\taglib-sharp-netstandard2.0.2.1.0\" />
+    <Folder Include="youtubescrapper\packages\TagLibSharp.2.2.0\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -325,102 +440,107 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\ainetstudio.psd">
+    <Content Include="Resources\ainetstudio.psd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\antigravity_formula_energy_density.png">
+    </Content>
+    <Content Include="Resources\antigravity_formula_energy_density.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\antigravity_formula_monopole.png">
+    </Content>
+    <Content Include="Resources\antigravity_formula_monopole.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\app.ico">
+    </Content>
+    <Content Include="Resources\app.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_addtab_black.png">
+    </Content>
+    <Content Include="Resources\tb_addtab_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_ai_black.png">
+    </Content>
+    <Content Include="Resources\tb_ai_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_ai_orange.png">
+    </Content>
+    <Content Include="Resources\tb_ai_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_back_black.png">
+    </Content>
+    <Content Include="Resources\tb_back_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_back_orange.png">
+    </Content>
+    <Content Include="Resources\tb_back_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_close_black.png">
+    </Content>
+    <Content Include="Resources\tb_close_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_close_orange.png">
+    </Content>
+    <Content Include="Resources\tb_close_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_down_black.png">
+    </Content>
+    <Content Include="Resources\tb_down_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_down_orange.png">
+    </Content>
+    <Content Include="Resources\tb_down_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_forward_black.png">
+    </Content>
+    <Content Include="Resources\tb_forward_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_forward_orange.png">
+    </Content>
+    <Content Include="Resources\tb_forward_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_go_black.png">
+    </Content>
+    <Content Include="Resources\tb_go_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_go_orange.png">
+    </Content>
+    <Content Include="Resources\tb_go_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_home_black.png">
+    </Content>
+    <Content Include="Resources\tb_home_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_home_orange.png">
+    </Content>
+    <Content Include="Resources\tb_home_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_reload_black.png">
+    </Content>
+    <Content Include="Resources\tb_reload_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_reload_orange.png">
+    </Content>
+    <Content Include="Resources\tb_reload_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_removetab2_black.png">
+    </Content>
+    <Content Include="Resources\tb_removetab2_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_up_black.png">
+    </Content>
+    <Content Include="Resources\tb_up_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\tb_up_orange.png">
+    </Content>
+    <Content Include="Resources\tb_up_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\welcome.png">
+    </Content>
+    <Content Include="Resources\welcome.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\welcome.psd">
+    </Content>
+    <Content Include="Resources\welcome.psd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\youtube.png">
+    </Content>
+    <Content Include="Resources\youtube.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\zainetprofit.ico">
+    </Content>
+    <Content Include="Resources\zainetprofit.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\zainetprofit.png">
+    </Content>
+    <Content Include="Resources\zainetprofit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\zback.png">
+    </Content>
+    <Content Include="Resources\zback.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\zcool.png">
+    </Content>
+    <Content Include="Resources\zcool.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="mysettings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>mysettings.settings</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -450,10 +570,26 @@
     <None Update="html\js\neural_noise.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Libs\feeds_export.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Libs\feeds_subset.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Libs\rssfeeds.aidb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="mysettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>mysettings.Designer.cs</LastGenOutput>
+    </None>
     <None Update="Resources\app.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\icon_master.psd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\youtube_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\zainetstudio.ico">

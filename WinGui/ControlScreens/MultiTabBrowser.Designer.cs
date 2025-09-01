@@ -42,14 +42,15 @@
             imgListBlack.Images.SetKeyName(0, "add");
             imgListBlack.Images.SetKeyName(1, "back");
             imgListBlack.Images.SetKeyName(2, "close");
-            imgListBlack.Images.SetKeyName(3, "down");
-            imgListBlack.Images.SetKeyName(4, "forward");
-            imgListBlack.Images.SetKeyName(5, "reload");
-            imgListBlack.Images.SetKeyName(6, "minus");
-            imgListBlack.Images.SetKeyName(7, "up");
-            imgListBlack.Images.SetKeyName(8, "home");
+            imgListBlack.Images.SetKeyName(3, "forward");
+            imgListBlack.Images.SetKeyName(4, "reload");
+            imgListBlack.Images.SetKeyName(5, "minus");
+            imgListBlack.Images.SetKeyName(6, "home");
+            imgListBlack.Images.SetKeyName(7, "down");
+            imgListBlack.Images.SetKeyName(8, "up");
             imgListBlack.Images.SetKeyName(9, "go");
             imgListBlack.Images.SetKeyName(10, "ai");
+            imgListBlack.Images.SetKeyName(11, "tv");
             // 
             // imgListOrange
             // 
@@ -66,6 +67,7 @@
             imgListOrange.Images.SetKeyName(7, "up");
             imgListOrange.Images.SetKeyName(8, "add");
             imgListOrange.Images.SetKeyName(9, "home");
+            imgListOrange.Images.SetKeyName(10, "tv");
             // 
             // MultiTabBrowser
             // 

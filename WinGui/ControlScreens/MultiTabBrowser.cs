@@ -1,4 +1,5 @@
 ﻿// WinGui/ControlScreens/MultiTabBrowser.cs
+using AiNetStudio.DataAccess;
 using AiNetStudio.WinGui.Controls;
 using AiNetStudio.WinGui.Forms;
 using CustomControls;
@@ -11,6 +12,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,6 +22,9 @@ namespace AiNetStudio.WinGui.ControlScreens
     {
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public WinGUIMain? MainFormReference { get; set; }
+
+        // 👇 ADD THIS LINE AT THE TOP OF YOUR CLASS
+        public event EventHandler<string>? ToggleStateChanged;
 
         private readonly ToolStrip _toolbar;
         private readonly ToolStripButton _btnBack;
@@ -31,6 +36,9 @@ namespace AiNetStudio.WinGui.ControlScreens
         private readonly ToolStripButton _btnGo;
         //private readonly ToolStripButton _btnAI;
         private readonly ToolStripDropDownButton _btnAI;
+        private readonly ToolStripButton _btnLoad;
+        private readonly ChromeToolStripComboBox _category;
+        private readonly ChromeToolStripComboBox _subCategory;
 
         private readonly ToolStripSeparator _sep2;
         private readonly ToolStripButton _btnNewTab;
@@ -94,7 +102,7 @@ namespace AiNetStudio.WinGui.ControlScreens
                 Stretch = true
             };
 
-            _toolbar.ImageList = imgListOrange;
+            _toolbar.ImageList = imgListBlack;
 
             _toolbar.Font = new Font("Segoe UI Emoji", 16, FontStyle.Regular);
 
@@ -144,7 +152,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             _addressBox = new ChromeToolStripComboBox
             {
                 AutoSize = false,
-                Width = 360,
+                Width = 240,
                 ToolTipText = "Enter or choose URL",
                 DropDownStyle = ComboBoxStyle.DropDown,
                 AutoCompleteMode = AutoCompleteMode.SuggestAppend,
@@ -239,6 +247,121 @@ namespace AiNetStudio.WinGui.ControlScreens
                 Margin = new Padding(2, 0, 2, 0)
             };
 
+
+            //private readonly ToolStripButton _btnLoad;
+            //_btnLoad = new ToolStripButton
+            //{
+            //    ToolTipText = "Load",
+            //    //Image = Properties.Resources.tbx_removetab,
+            //    ImageKey = "tv",
+            //    DisplayStyle = ToolStripItemDisplayStyle.Image,
+            //    Margin = new Padding(2, 0, 2, 0)
+            //};
+
+            //private readonly ChromeToolStripComboBox _category;
+            _category = new ChromeToolStripComboBox
+            {
+                AutoSize = false,
+                Width = 140,
+                ToolTipText = "Category",
+                DropDownStyle = ComboBoxStyle.DropDownList,  // <-- makes it read-only
+                FlatStyle = FlatStyle.Flat,
+                Margin = new Padding(2, 0, 2, 0)
+            };
+
+            // Prevent text highlighting with mouse
+            _category.ComboBox.MouseDown += (s, e) =>
+            {
+                ((ComboBox)s!).SelectionLength = 0;
+            };
+
+            Tubes.EnsureDatabase(seedIfEmpty: true);
+            var cats = Tubes.GetCategories();
+            _category.Items.Clear();
+            foreach (var c in cats) _category.Items.Add(c);
+            if (_category.Items.Count > 0) _category.SelectedIndex = 0;
+
+            //private readonly ChromeToolStripComboBox _subCategory;
+            _subCategory = new ChromeToolStripComboBox
+            {
+                AutoSize = false,
+                Width = 140,
+                ToolTipText = "SubCategory",
+                DropDownStyle = ComboBoxStyle.DropDownList,  // <-- makes it read-only
+                FlatStyle = FlatStyle.Flat,
+                Margin = new Padding(2, 0, 2, 0)
+            };
+
+            // Prevent text highlighting with mouse
+            _subCategory.ComboBox.MouseDown += (s, e) =>
+            {
+                ((ComboBox)s!).SelectionLength = 0;
+            };
+
+            // Prevent selecting text with keyboard
+            _subCategory.ComboBox.KeyDown += (s, e) =>
+            {
+                e.SuppressKeyPress = true;
+            };
+            _subCategory.SelectedIndexChanged += async (_, __) =>
+            {
+                var category = _category.SelectedItem?.ToString() ?? "";
+                var subcategory = _subCategory.SelectedItem?.ToString();
+                if (subcategory != null && subcategory.Trim().Length == 0) subcategory = null;
+
+                var feeds = Tubes.GetFeedsByCategory(category, subcategory, take: 1000, skip: 0);
+                var html = Tubes.BuildFeedsHtml(category, subcategory, feeds);
+
+                // Write HTML to a local file and navigate MultiTabBrowser to it (no async/await)
+                try
+                {
+                    var pm = new PathManager();
+                    var folder = pm.GetWritableFolder("RSSFeeds");
+                    var htmlPath = Path.Combine(folder, "feeds_list.html");
+                    File.WriteAllText(htmlPath, html, Encoding.UTF8);
+
+                    // Navigate synchronously by blocking on the Task (still no async/await keywords used)
+                    var fileUrl = new Uri(htmlPath).AbsoluteUri;
+                    //var navTask = mtb.NavigateAsync(fileUrl);
+                    await NavigateAsync(fileUrl);
+                    //navTask.GetAwaiter().GetResult();
+                }
+                catch
+                {
+                    // swallow navigation/file errors to avoid crashing UI
+                }
+            };
+
+            // Prevent selecting text with keyboard
+            _category.ComboBox.KeyDown += (s, e) =>
+            {
+                e.SuppressKeyPress = true;
+                //if (e.KeyCode == Keys.Enter)
+                //{
+                //    e.Handled = true;
+                //    e.SuppressKeyPress = true;
+                //    await NavigateAsync(_addressBox.Text);
+                //}
+            };
+            _category.SelectedIndexChanged += async (_, __) =>
+            {
+                var cat = _category.SelectedItem?.ToString() ?? "";
+                var subs = Tubes.GetSubcategories(cat);
+
+                _subCategory!.Items.Clear();
+                _subCategory.Items.Add(""); // allow 'no subcategory' option
+                foreach (var s in subs) _subCategory.Items.Add(s);
+                _subCategory.SelectedIndex = 0;
+            };
+
+
+
+
+
+
+
+
+
             _btnToggle = new ToolStripButton
             {
                 ToolTipText = "▲",
@@ -300,6 +423,8 @@ namespace AiNetStudio.WinGui.ControlScreens
                 _sep2,
                 _btnNewTab,
                 _btnCloseTab,
+                _category,
+                _subCategory,
                 _btnToggle });
 
             //_toolbar.Items.Add(_btnRight);
@@ -357,6 +482,8 @@ namespace AiNetStudio.WinGui.ControlScreens
                     //_btnToggle.Image = Properties.Resources.tbx_up;
                     _btnToggle.ImageKey = "up";
                 }
+                // Raise event after updating tooltip
+                ToggleStateChanged?.Invoke(this, _btnToggle.ToolTipText);
             };
 
             _addressBox.KeyDown += async (_, e) =>
@@ -400,6 +527,39 @@ namespace AiNetStudio.WinGui.ControlScreens
             }
         }
 
+        public void OnTabActivated()
+        {
+            Tubes.EnsureDatabase(seedIfEmpty: true);
+            var cats = Tubes.GetCategories();
+            _category.Items.Clear();
+            foreach (var c in cats) _category.Items.Add(c);
+            //if (_category.Items.Count > 0) _category.SelectedIndex = 0;
+        }
+
+        // ADD: handles event:action:value URLs
+        private void HandleEventUrl(string url)
+        {
+            // url format: event:action:value
+            // strip "event:"
+            var payload = url.Length >= 6 ? url.Substring(6) : string.Empty;
+
+            // split once on ':'
+            string action, value;
+            int idx = payload.IndexOf(':');
+            if (idx >= 0)
+            {
+                action = payload.Substring(0, idx);
+                value = payload.Substring(idx + 1);
+            }
+            else
+            {
+                action = payload;
+                value = string.Empty;
+            }
+
+            // Call into your app (pass "action:value" as requested)
+            try { MainFormReference?.HandleEventFromBrowser($"{action}:{value}"); } catch { }
+        }
 
         public static void OpenUrlInChromeOrDefault(string url)
         {
@@ -496,6 +656,14 @@ namespace AiNetStudio.WinGui.ControlScreens
             if (string.IsNullOrWhiteSpace(rawUrl)) return;
 
             var url = rawUrl.Trim();
+
+            // ADD: catch event:action:value typed into the address box
+            if (url.StartsWith("event:", StringComparison.OrdinalIgnoreCase))
+            {
+                HandleEventUrl(url);
+                return;
+            }
+
             if (!url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
                 !url.StartsWith("https://", StringComparison.OrdinalIgnoreCase) &&
                 !url.StartsWith("file://", StringComparison.OrdinalIgnoreCase))
@@ -546,23 +714,43 @@ namespace AiNetStudio.WinGui.ControlScreens
 
             web.CoreWebView2.NewWindowRequested += (s, e) =>
             {
+                var targetUrl = e.Uri ?? string.Empty;
+
+                // Handle target="_blank" for event: URLs
+                if (targetUrl.StartsWith("event:", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.Handled = true;
+                    HandleEventUrl(targetUrl);
+                    return;
+                }
+
                 e.Handled = true;
-                var targetUrl = e.Uri;
                 _ = CreateNewTab(targetUrl);
             };
 
             // EQUIBALENT FOR OnBeforeNavigate!!!
             web.CoreWebView2.NavigationStarting += (s, e) =>
             {
-                _addressBox.Text = e.Uri ?? string.Empty;
+                var uri = e.Uri ?? string.Empty;
 
-                if (!string.IsNullOrEmpty(e.Uri) && e.Uri.Contains("zebra_", StringComparison.OrdinalIgnoreCase))
+                // ADD: catch event:action:value clicked from page content
+                if (uri.StartsWith("event:", StringComparison.OrdinalIgnoreCase))
                 {
                     e.Cancel = true;
-                    MessageBox.Show("Blocked URL: " + e.Uri, "Navigation Blocked",
+                    HandleEventUrl(uri);
+                    return;
+                }
+
+                _addressBox.Text = uri;
+
+                if (!string.IsNullOrEmpty(uri) && uri.Contains("zebra_", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("Blocked URL: " + uri, "Navigation Blocked",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             };
+
 
             web.CoreWebView2.SourceChanged += (s, e) =>
             {
@@ -772,4 +960,5 @@ namespace AiNetStudio.WinGui.ControlScreens
     }
 
 }
+
 
