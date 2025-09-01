@@ -202,4 +202,3 @@ C:\
                 |-- _ainetstudio.nsi
 
 
-sqlcmd -S 162.214.202.56 -d WebApp -U rssfeeds -P "Besom137$" -W -h -1 -i "C:\temp\feeds_export.sql" -o "C:\temp\feeds_subset.csv"
