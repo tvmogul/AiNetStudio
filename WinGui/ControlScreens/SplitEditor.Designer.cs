@@ -33,6 +33,7 @@
             splitContainer1 = new SplitContainer();
             dgvVideos = new DataGridView();
             gradientPanel1 = new CustomControls.GradientPanel();
+            lblCount = new Label();
             txtURLRumble = new TextBox();
             btnGetRumble = new Button();
             btnRefreshGroups = new Button();
@@ -45,7 +46,7 @@
             label5 = new Label();
             btnSearch = new Button();
             labelEx2 = new CustomControls.LabelEx();
-            labelEx1 = new CustomControls.LabelEx();
+            labelx = new CustomControls.LabelEx();
             lblSub = new Label();
             ddSubCategories = new ComboBox();
             lblCat = new Label();
@@ -62,51 +63,64 @@
             splitContainer2 = new SplitContainer();
             dgvFeeds = new DataGridView();
             label20 = new Label();
-            textBox12 = new TextBox();
+            s_description = new TextBox();
             label21 = new Label();
-            textBox13 = new TextBox();
+            s_shortdescription = new TextBox();
             label19 = new Label();
-            textBox11 = new TextBox();
+            s_title = new TextBox();
             label18 = new Label();
-            textBox10 = new TextBox();
+            s_FeedId = new TextBox();
             label17 = new Label();
-            textBox9 = new TextBox();
+            s_rank = new TextBox();
             label16 = new Label();
-            textBox8 = new TextBox();
+            s_author = new TextBox();
             label15 = new Label();
-            textBox7 = new TextBox();
-            textBox6 = new TextBox();
-            button5 = new Button();
-            textBox5 = new TextBox();
-            button4 = new Button();
-            comboBox4 = new ComboBox();
-            comboBox3 = new ComboBox();
-            comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
+            s_duration = new TextBox();
+            s_link = new TextBox();
+            btnLink2 = new Button();
+            s_linkvalue = new TextBox();
+            btnLinkValue2 = new Button();
+            ddSLinkTypes = new ComboBox();
+            ddSMovieCategories = new ComboBox();
+            ddSGroupCategories = new ComboBox();
+            ddSSubCategories = new ComboBox();
             ddSCategories = new ComboBox();
             label10 = new Label();
-            textBox4 = new TextBox();
+            s_linktype = new TextBox();
             label9 = new Label();
-            textBox3 = new TextBox();
+            s_moviecategory = new TextBox();
             label8 = new Label();
-            textBox2 = new TextBox();
+            s_groupcategory = new TextBox();
             label7 = new Label();
-            textBox1 = new TextBox();
+            s_subcategory = new TextBox();
             label6 = new Label();
             s_category = new TextBox();
             gradientPanel2 = new CustomControls.GradientPanel();
-            comboBox8 = new ComboBox();
+            btnDelete2 = new Button();
+            btnNew2 = new Button();
+            btnSave2 = new Button();
+            cbGroup2 = new CheckBox();
+            upDownRecords2 = new NumericUpDown();
+            lblGroups2 = new Label();
+            lblCounts2 = new Label();
+            ddMCategories2 = new ComboBox();
             label13 = new Label();
             label14 = new Label();
             label12 = new Label();
             label11 = new Label();
-            comboBox5 = new ComboBox();
-            comboBox6 = new ComboBox();
-            comboBox7 = new ComboBox();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            ddGroupCategories2 = new ComboBox();
+            ddSubCategories2 = new ComboBox();
+            ddCategories2 = new ComboBox();
+            btnNext2 = new Button();
+            btnPrev2 = new Button();
+            btnFeeds2 = new Button();
             imgListBlack = new ImageList(components);
+            btnClean2 = new Button();
+            btnJSON2 = new Button();
+            btnGetDescription2 = new Button();
+            btnSearchVideoTitles2 = new Button();
+            ddSearch2 = new ComboBox();
+            txtSearch2 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -120,6 +134,7 @@
             splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvFeeds).BeginInit();
             gradientPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)upDownRecords2).BeginInit();
             SuspendLayout();
             // 
             // splitContainer1
@@ -137,7 +152,7 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(splitContainer2);
-            splitContainer1.Size = new Size(1153, 900);
+            splitContainer1.Size = new Size(1215, 900);
             splitContainer1.SplitterDistance = 422;
             splitContainer1.SplitterWidth = 20;
             splitContainer1.TabIndex = 0;
@@ -149,7 +164,7 @@
             dgvVideos.Location = new Point(22, 157);
             dgvVideos.Name = "dgvVideos";
             dgvVideos.RowHeadersWidth = 51;
-            dgvVideos.Size = new Size(1112, 245);
+            dgvVideos.Size = new Size(1174, 245);
             dgvVideos.TabIndex = 2;
             // 
             // gradientPanel1
@@ -157,6 +172,7 @@
             gradientPanel1.BackColor = Color.IndianRed;
             gradientPanel1.BackgroundImage = (Image)resources.GetObject("gradientPanel1.BackgroundImage");
             gradientPanel1.BackgroundImageLayout = ImageLayout.Stretch;
+            gradientPanel1.Controls.Add(lblCount);
             gradientPanel1.Controls.Add(txtURLRumble);
             gradientPanel1.Controls.Add(btnGetRumble);
             gradientPanel1.Controls.Add(btnRefreshGroups);
@@ -169,7 +185,7 @@
             gradientPanel1.Controls.Add(label5);
             gradientPanel1.Controls.Add(btnSearch);
             gradientPanel1.Controls.Add(labelEx2);
-            gradientPanel1.Controls.Add(labelEx1);
+            gradientPanel1.Controls.Add(labelx);
             gradientPanel1.Controls.Add(lblSub);
             gradientPanel1.Controls.Add(ddSubCategories);
             gradientPanel1.Controls.Add(lblCat);
@@ -188,8 +204,19 @@
             gradientPanel1.GradientTop = Color.Transparent;
             gradientPanel1.Location = new Point(0, 0);
             gradientPanel1.Name = "gradientPanel1";
-            gradientPanel1.Size = new Size(1153, 147);
+            gradientPanel1.Size = new Size(1215, 147);
             gradientPanel1.TabIndex = 1;
+            // 
+            // lblCount
+            // 
+            lblCount.BackColor = Color.Transparent;
+            lblCount.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblCount.ForeColor = Color.White;
+            lblCount.Location = new Point(22, 103);
+            lblCount.Name = "lblCount";
+            lblCount.Size = new Size(155, 23);
+            lblCount.TabIndex = 33;
+            lblCount.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // txtURLRumble
             // 
@@ -216,6 +243,7 @@
             // 
             btnRefreshGroups.BackgroundImage = (Image)resources.GetObject("btnRefreshGroups.BackgroundImage");
             btnRefreshGroups.BackgroundImageLayout = ImageLayout.Stretch;
+            btnRefreshGroups.Cursor = Cursors.Hand;
             btnRefreshGroups.FlatStyle = FlatStyle.Popup;
             btnRefreshGroups.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnRefreshGroups.ForeColor = Color.White;
@@ -230,6 +258,7 @@
             // 
             btnCreateJsonFile.BackgroundImage = (Image)resources.GetObject("btnCreateJsonFile.BackgroundImage");
             btnCreateJsonFile.BackgroundImageLayout = ImageLayout.Stretch;
+            btnCreateJsonFile.Cursor = Cursors.Hand;
             btnCreateJsonFile.FlatStyle = FlatStyle.Popup;
             btnCreateJsonFile.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnCreateJsonFile.ForeColor = Color.White;
@@ -244,6 +273,7 @@
             // 
             btnAddChecked.BackgroundImage = (Image)resources.GetObject("btnAddChecked.BackgroundImage");
             btnAddChecked.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAddChecked.Cursor = Cursors.Hand;
             btnAddChecked.FlatStyle = FlatStyle.Popup;
             btnAddChecked.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnAddChecked.ForeColor = Color.White;
@@ -267,7 +297,11 @@
             btnGetDescription.BackColor = Color.Transparent;
             btnGetDescription.BackgroundImage = (Image)resources.GetObject("btnGetDescription.BackgroundImage");
             btnGetDescription.BackgroundImageLayout = ImageLayout.Stretch;
-            btnGetDescription.FlatStyle = FlatStyle.Popup;
+            btnGetDescription.Cursor = Cursors.Hand;
+            btnGetDescription.FlatAppearance.BorderSize = 0;
+            btnGetDescription.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btnGetDescription.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnGetDescription.FlatStyle = FlatStyle.Flat;
             btnGetDescription.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnGetDescription.ForeColor = Color.White;
             btnGetDescription.Location = new Point(286, 92);
@@ -281,7 +315,11 @@
             btnUnCheckAll.BackColor = Color.Transparent;
             btnUnCheckAll.BackgroundImage = (Image)resources.GetObject("btnUnCheckAll.BackgroundImage");
             btnUnCheckAll.BackgroundImageLayout = ImageLayout.Stretch;
-            btnUnCheckAll.FlatStyle = FlatStyle.Popup;
+            btnUnCheckAll.Cursor = Cursors.Hand;
+            btnUnCheckAll.FlatAppearance.BorderSize = 0;
+            btnUnCheckAll.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btnUnCheckAll.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnUnCheckAll.FlatStyle = FlatStyle.Flat;
             btnUnCheckAll.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnUnCheckAll.ForeColor = Color.White;
             btnUnCheckAll.Location = new Point(237, 92);
@@ -295,7 +333,11 @@
             btnCheckAll.BackColor = Color.Transparent;
             btnCheckAll.BackgroundImage = (Image)resources.GetObject("btnCheckAll.BackgroundImage");
             btnCheckAll.BackgroundImageLayout = ImageLayout.Stretch;
-            btnCheckAll.FlatStyle = FlatStyle.Popup;
+            btnCheckAll.Cursor = Cursors.Hand;
+            btnCheckAll.FlatAppearance.BorderSize = 0;
+            btnCheckAll.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            btnCheckAll.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            btnCheckAll.FlatStyle = FlatStyle.Flat;
             btnCheckAll.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnCheckAll.ForeColor = Color.White;
             btnCheckAll.Location = new Point(187, 92);
@@ -321,6 +363,7 @@
             // 
             btnSearch.BackgroundImage = (Image)resources.GetObject("btnSearch.BackgroundImage");
             btnSearch.BackgroundImageLayout = ImageLayout.Stretch;
+            btnSearch.Cursor = Cursors.Hand;
             btnSearch.FlatStyle = FlatStyle.Popup;
             btnSearch.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnSearch.ForeColor = Color.White;
@@ -336,7 +379,7 @@
             labelEx2.BackColor = Color.Transparent;
             labelEx2.Font = new Font("Arial", 14F, FontStyle.Bold);
             labelEx2.ForeColor = Color.White;
-            labelEx2.Location = new Point(415, 3);
+            labelEx2.Location = new Point(452, 3);
             labelEx2.Name = "labelEx2";
             labelEx2.ShadowColor = Color.Black;
             labelEx2.Size = new Size(270, 26);
@@ -344,18 +387,17 @@
             labelEx2.Text = "Search for Videos";
             labelEx2.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // labelEx1
+            // labelx
             // 
-            labelEx1.BackColor = Color.Transparent;
-            labelEx1.Font = new Font("Comic Sans MS", 10F, FontStyle.Bold);
-            labelEx1.ForeColor = Color.White;
-            labelEx1.Location = new Point(22, 95);
-            labelEx1.Name = "labelEx1";
-            labelEx1.ShadowColor = Color.Black;
-            labelEx1.Size = new Size(154, 34);
-            labelEx1.TabIndex = 17;
-            labelEx1.Text = "labelEx1";
-            labelEx1.TextAlign = ContentAlignment.MiddleCenter;
+            labelx.BackColor = Color.Transparent;
+            labelx.Font = new Font("Comic Sans MS", 10F, FontStyle.Bold);
+            labelx.ForeColor = Color.White;
+            labelx.Location = new Point(826, 96);
+            labelx.Name = "labelx";
+            labelx.ShadowColor = Color.Black;
+            labelx.Size = new Size(158, 27);
+            labelx.TabIndex = 17;
+            labelx.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblSub
             // 
@@ -492,7 +534,7 @@
             // cbSearchTypes
             // 
             cbSearchTypes.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbSearchTypes.DropDownWidth = 160;
+            cbSearchTypes.DropDownWidth = 200;
             cbSearchTypes.FormattingEnabled = true;
             cbSearchTypes.Items.AddRange(new object[] { "YouTube: Search General", "YouTube: Search Channel", "YouTube: Search Playlist", "Rumble: Search" });
             cbSearchTypes.Location = new Point(22, 59);
@@ -513,41 +555,41 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(label20);
-            splitContainer2.Panel2.Controls.Add(textBox12);
+            splitContainer2.Panel2.Controls.Add(s_description);
             splitContainer2.Panel2.Controls.Add(label21);
-            splitContainer2.Panel2.Controls.Add(textBox13);
+            splitContainer2.Panel2.Controls.Add(s_shortdescription);
             splitContainer2.Panel2.Controls.Add(label19);
-            splitContainer2.Panel2.Controls.Add(textBox11);
+            splitContainer2.Panel2.Controls.Add(s_title);
             splitContainer2.Panel2.Controls.Add(label18);
-            splitContainer2.Panel2.Controls.Add(textBox10);
+            splitContainer2.Panel2.Controls.Add(s_FeedId);
             splitContainer2.Panel2.Controls.Add(label17);
-            splitContainer2.Panel2.Controls.Add(textBox9);
+            splitContainer2.Panel2.Controls.Add(s_rank);
             splitContainer2.Panel2.Controls.Add(label16);
-            splitContainer2.Panel2.Controls.Add(textBox8);
+            splitContainer2.Panel2.Controls.Add(s_author);
             splitContainer2.Panel2.Controls.Add(label15);
-            splitContainer2.Panel2.Controls.Add(textBox7);
-            splitContainer2.Panel2.Controls.Add(textBox6);
-            splitContainer2.Panel2.Controls.Add(button5);
-            splitContainer2.Panel2.Controls.Add(textBox5);
-            splitContainer2.Panel2.Controls.Add(button4);
-            splitContainer2.Panel2.Controls.Add(comboBox4);
-            splitContainer2.Panel2.Controls.Add(comboBox3);
-            splitContainer2.Panel2.Controls.Add(comboBox2);
-            splitContainer2.Panel2.Controls.Add(comboBox1);
+            splitContainer2.Panel2.Controls.Add(s_duration);
+            splitContainer2.Panel2.Controls.Add(s_link);
+            splitContainer2.Panel2.Controls.Add(btnLink2);
+            splitContainer2.Panel2.Controls.Add(s_linkvalue);
+            splitContainer2.Panel2.Controls.Add(btnLinkValue2);
+            splitContainer2.Panel2.Controls.Add(ddSLinkTypes);
+            splitContainer2.Panel2.Controls.Add(ddSMovieCategories);
+            splitContainer2.Panel2.Controls.Add(ddSGroupCategories);
+            splitContainer2.Panel2.Controls.Add(ddSSubCategories);
             splitContainer2.Panel2.Controls.Add(ddSCategories);
             splitContainer2.Panel2.Controls.Add(label10);
-            splitContainer2.Panel2.Controls.Add(textBox4);
+            splitContainer2.Panel2.Controls.Add(s_linktype);
             splitContainer2.Panel2.Controls.Add(label9);
-            splitContainer2.Panel2.Controls.Add(textBox3);
+            splitContainer2.Panel2.Controls.Add(s_moviecategory);
             splitContainer2.Panel2.Controls.Add(label8);
-            splitContainer2.Panel2.Controls.Add(textBox2);
+            splitContainer2.Panel2.Controls.Add(s_groupcategory);
             splitContainer2.Panel2.Controls.Add(label7);
-            splitContainer2.Panel2.Controls.Add(textBox1);
+            splitContainer2.Panel2.Controls.Add(s_subcategory);
             splitContainer2.Panel2.Controls.Add(label6);
             splitContainer2.Panel2.Controls.Add(s_category);
             splitContainer2.Panel2.Controls.Add(gradientPanel2);
-            splitContainer2.Size = new Size(1153, 458);
-            splitContainer2.SplitterDistance = 312;
+            splitContainer2.Size = new Size(1215, 458);
+            splitContainer2.SplitterDistance = 297;
             splitContainer2.TabIndex = 0;
             // 
             // dgvFeeds
@@ -557,7 +599,7 @@
             dgvFeeds.Location = new Point(0, 0);
             dgvFeeds.Name = "dgvFeeds";
             dgvFeeds.RowHeadersWidth = 51;
-            dgvFeeds.Size = new Size(312, 458);
+            dgvFeeds.Size = new Size(297, 458);
             dgvFeeds.TabIndex = 3;
             // 
             // label20
@@ -569,13 +611,13 @@
             label20.Text = "Description";
             label20.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // textBox12
+            // s_description
             // 
-            textBox12.Location = new Point(402, 362);
-            textBox12.Multiline = true;
-            textBox12.Name = "textBox12";
-            textBox12.Size = new Size(363, 91);
-            textBox12.TabIndex = 65;
+            s_description.Location = new Point(402, 362);
+            s_description.Multiline = true;
+            s_description.Name = "s_description";
+            s_description.Size = new Size(363, 91);
+            s_description.TabIndex = 65;
             // 
             // label21
             // 
@@ -586,13 +628,13 @@
             label21.Text = "Short Description";
             label21.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // textBox13
+            // s_shortdescription
             // 
-            textBox13.Location = new Point(402, 261);
-            textBox13.Multiline = true;
-            textBox13.Name = "textBox13";
-            textBox13.Size = new Size(363, 64);
-            textBox13.TabIndex = 63;
+            s_shortdescription.Location = new Point(402, 261);
+            s_shortdescription.Multiline = true;
+            s_shortdescription.Name = "s_shortdescription";
+            s_shortdescription.Size = new Size(363, 64);
+            s_shortdescription.TabIndex = 63;
             // 
             // label19
             // 
@@ -603,12 +645,12 @@
             label19.Text = "Video Title";
             label19.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // textBox11
+            // s_title
             // 
-            textBox11.Location = new Point(402, 196);
-            textBox11.Name = "textBox11";
-            textBox11.Size = new Size(363, 27);
-            textBox11.TabIndex = 61;
+            s_title.Location = new Point(402, 196);
+            s_title.Name = "s_title";
+            s_title.Size = new Size(363, 27);
+            s_title.TabIndex = 61;
             // 
             // label18
             // 
@@ -619,12 +661,12 @@
             label18.Text = "Feed ID";
             label18.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox10
+            // s_FeedId
             // 
-            textBox10.Location = new Point(470, 130);
-            textBox10.Name = "textBox10";
-            textBox10.Size = new Size(295, 27);
-            textBox10.TabIndex = 59;
+            s_FeedId.Location = new Point(470, 130);
+            s_FeedId.Name = "s_FeedId";
+            s_FeedId.Size = new Size(295, 27);
+            s_FeedId.TabIndex = 59;
             // 
             // label17
             // 
@@ -635,12 +677,12 @@
             label17.Text = "Rank/Views";
             label17.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox9
+            // s_rank
             // 
-            textBox9.Location = new Point(131, 428);
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(235, 27);
-            textBox9.TabIndex = 57;
+            s_rank.Location = new Point(131, 428);
+            s_rank.Name = "s_rank";
+            s_rank.Size = new Size(235, 27);
+            s_rank.TabIndex = 57;
             // 
             // label16
             // 
@@ -651,12 +693,12 @@
             label16.Text = "Author";
             label16.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox8
+            // s_author
             // 
-            textBox8.Location = new Point(131, 395);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(235, 27);
-            textBox8.TabIndex = 55;
+            s_author.Location = new Point(131, 395);
+            s_author.Name = "s_author";
+            s_author.Size = new Size(235, 27);
+            s_author.TabIndex = 55;
             // 
             // label15
             // 
@@ -667,98 +709,98 @@
             label15.Text = "Duration";
             label15.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox7
+            // s_duration
             // 
-            textBox7.Location = new Point(131, 362);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(235, 27);
-            textBox7.TabIndex = 53;
+            s_duration.Location = new Point(131, 362);
+            s_duration.Name = "s_duration";
+            s_duration.Size = new Size(235, 27);
+            s_duration.TabIndex = 53;
             // 
-            // textBox6
+            // s_link
             // 
-            textBox6.Location = new Point(131, 329);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(235, 27);
-            textBox6.TabIndex = 52;
+            s_link.Location = new Point(131, 329);
+            s_link.Name = "s_link";
+            s_link.Size = new Size(235, 27);
+            s_link.TabIndex = 52;
             // 
-            // button5
+            // btnLink2
             // 
-            button5.BackgroundImage = (Image)resources.GetObject("button5.BackgroundImage");
-            button5.BackgroundImageLayout = ImageLayout.Stretch;
-            button5.FlatStyle = FlatStyle.Popup;
-            button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button5.ForeColor = Color.White;
-            button5.Location = new Point(18, 330);
-            button5.Name = "button5";
-            button5.Size = new Size(107, 28);
-            button5.TabIndex = 51;
-            button5.Text = "Link";
-            button5.UseVisualStyleBackColor = true;
+            btnLink2.BackgroundImage = (Image)resources.GetObject("btnLink2.BackgroundImage");
+            btnLink2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnLink2.FlatStyle = FlatStyle.Popup;
+            btnLink2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnLink2.ForeColor = Color.White;
+            btnLink2.Location = new Point(18, 330);
+            btnLink2.Name = "btnLink2";
+            btnLink2.Size = new Size(107, 28);
+            btnLink2.TabIndex = 51;
+            btnLink2.Text = "Link";
+            btnLink2.UseVisualStyleBackColor = true;
             // 
-            // textBox5
+            // s_linkvalue
             // 
-            textBox5.Location = new Point(132, 296);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(235, 27);
-            textBox5.TabIndex = 50;
+            s_linkvalue.Location = new Point(132, 296);
+            s_linkvalue.Name = "s_linkvalue";
+            s_linkvalue.Size = new Size(235, 27);
+            s_linkvalue.TabIndex = 50;
             // 
-            // button4
+            // btnLinkValue2
             // 
-            button4.BackgroundImage = (Image)resources.GetObject("button4.BackgroundImage");
-            button4.BackgroundImageLayout = ImageLayout.Stretch;
-            button4.FlatStyle = FlatStyle.Popup;
-            button4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button4.ForeColor = Color.White;
-            button4.Location = new Point(19, 297);
-            button4.Name = "button4";
-            button4.Size = new Size(107, 28);
-            button4.TabIndex = 49;
-            button4.Text = "LinkValue";
-            button4.UseVisualStyleBackColor = true;
+            btnLinkValue2.BackgroundImage = (Image)resources.GetObject("btnLinkValue2.BackgroundImage");
+            btnLinkValue2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnLinkValue2.FlatStyle = FlatStyle.Popup;
+            btnLinkValue2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnLinkValue2.ForeColor = Color.White;
+            btnLinkValue2.Location = new Point(19, 297);
+            btnLinkValue2.Name = "btnLinkValue2";
+            btnLinkValue2.Size = new Size(107, 28);
+            btnLinkValue2.TabIndex = 49;
+            btnLinkValue2.Text = "LinkValue";
+            btnLinkValue2.UseVisualStyleBackColor = true;
             // 
-            // comboBox4
+            // ddSLinkTypes
             // 
-            comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox4.DropDownWidth = 180;
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
-            comboBox4.Location = new Point(347, 261);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(20, 28);
-            comboBox4.TabIndex = 48;
+            ddSLinkTypes.DropDownStyle = ComboBoxStyle.DropDownList;
+            ddSLinkTypes.DropDownWidth = 180;
+            ddSLinkTypes.FormattingEnabled = true;
+            ddSLinkTypes.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
+            ddSLinkTypes.Location = new Point(347, 261);
+            ddSLinkTypes.Name = "ddSLinkTypes";
+            ddSLinkTypes.Size = new Size(20, 28);
+            ddSLinkTypes.TabIndex = 48;
             // 
-            // comboBox3
+            // ddSMovieCategories
             // 
-            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox3.DropDownWidth = 180;
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
-            comboBox3.Location = new Point(347, 228);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(20, 28);
-            comboBox3.TabIndex = 47;
+            ddSMovieCategories.DropDownStyle = ComboBoxStyle.DropDownList;
+            ddSMovieCategories.DropDownWidth = 180;
+            ddSMovieCategories.FormattingEnabled = true;
+            ddSMovieCategories.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
+            ddSMovieCategories.Location = new Point(347, 228);
+            ddSMovieCategories.Name = "ddSMovieCategories";
+            ddSMovieCategories.Size = new Size(20, 28);
+            ddSMovieCategories.TabIndex = 47;
             // 
-            // comboBox2
+            // ddSGroupCategories
             // 
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.DropDownWidth = 180;
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
-            comboBox2.Location = new Point(347, 194);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(20, 28);
-            comboBox2.TabIndex = 46;
+            ddSGroupCategories.DropDownStyle = ComboBoxStyle.DropDownList;
+            ddSGroupCategories.DropDownWidth = 180;
+            ddSGroupCategories.FormattingEnabled = true;
+            ddSGroupCategories.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
+            ddSGroupCategories.Location = new Point(347, 194);
+            ddSGroupCategories.Name = "ddSGroupCategories";
+            ddSGroupCategories.Size = new Size(20, 28);
+            ddSGroupCategories.TabIndex = 46;
             // 
-            // comboBox1
+            // ddSSubCategories
             // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.DropDownWidth = 180;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
-            comboBox1.Location = new Point(347, 161);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(20, 28);
-            comboBox1.TabIndex = 45;
+            ddSSubCategories.DropDownStyle = ComboBoxStyle.DropDownList;
+            ddSSubCategories.DropDownWidth = 180;
+            ddSSubCategories.FormattingEnabled = true;
+            ddSSubCategories.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
+            ddSSubCategories.Location = new Point(347, 161);
+            ddSSubCategories.Name = "ddSSubCategories";
+            ddSSubCategories.Size = new Size(20, 28);
+            ddSSubCategories.TabIndex = 45;
             // 
             // ddSCategories
             // 
@@ -780,12 +822,12 @@
             label10.Text = "LinkType";
             label10.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox4
+            // s_linktype
             // 
-            textBox4.Location = new Point(131, 261);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(210, 27);
-            textBox4.TabIndex = 42;
+            s_linktype.Location = new Point(131, 261);
+            s_linktype.Name = "s_linktype";
+            s_linktype.Size = new Size(210, 27);
+            s_linktype.TabIndex = 42;
             // 
             // label9
             // 
@@ -796,12 +838,12 @@
             label9.Text = "Movie Category";
             label9.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox3
+            // s_moviecategory
             // 
-            textBox3.Location = new Point(131, 228);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(210, 27);
-            textBox3.TabIndex = 40;
+            s_moviecategory.Location = new Point(131, 228);
+            s_moviecategory.Name = "s_moviecategory";
+            s_moviecategory.Size = new Size(210, 27);
+            s_moviecategory.TabIndex = 40;
             // 
             // label8
             // 
@@ -812,12 +854,12 @@
             label8.Text = "Group Category";
             label8.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox2
+            // s_groupcategory
             // 
-            textBox2.Location = new Point(131, 195);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(210, 27);
-            textBox2.TabIndex = 38;
+            s_groupcategory.Location = new Point(131, 195);
+            s_groupcategory.Name = "s_groupcategory";
+            s_groupcategory.Size = new Size(210, 27);
+            s_groupcategory.TabIndex = 38;
             // 
             // label7
             // 
@@ -828,12 +870,12 @@
             label7.Text = "Sub Category";
             label7.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox1
+            // s_subcategory
             // 
-            textBox1.Location = new Point(131, 162);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(210, 27);
-            textBox1.TabIndex = 36;
+            s_subcategory.Location = new Point(131, 162);
+            s_subcategory.Name = "s_subcategory";
+            s_subcategory.Size = new Size(210, 27);
+            s_subcategory.TabIndex = 36;
             // 
             // label6
             // 
@@ -855,33 +897,132 @@
             // 
             gradientPanel2.BackgroundImage = (Image)resources.GetObject("gradientPanel2.BackgroundImage");
             gradientPanel2.BackgroundImageLayout = ImageLayout.Stretch;
-            gradientPanel2.Controls.Add(comboBox8);
+            gradientPanel2.Controls.Add(txtSearch2);
+            gradientPanel2.Controls.Add(ddSearch2);
+            gradientPanel2.Controls.Add(btnSearchVideoTitles2);
+            gradientPanel2.Controls.Add(btnClean2);
+            gradientPanel2.Controls.Add(btnJSON2);
+            gradientPanel2.Controls.Add(btnGetDescription2);
+            gradientPanel2.Controls.Add(btnDelete2);
+            gradientPanel2.Controls.Add(btnNew2);
+            gradientPanel2.Controls.Add(btnSave2);
+            gradientPanel2.Controls.Add(cbGroup2);
+            gradientPanel2.Controls.Add(upDownRecords2);
+            gradientPanel2.Controls.Add(lblGroups2);
+            gradientPanel2.Controls.Add(lblCounts2);
+            gradientPanel2.Controls.Add(ddMCategories2);
             gradientPanel2.Controls.Add(label13);
             gradientPanel2.Controls.Add(label14);
             gradientPanel2.Controls.Add(label12);
             gradientPanel2.Controls.Add(label11);
-            gradientPanel2.Controls.Add(comboBox5);
-            gradientPanel2.Controls.Add(comboBox6);
-            gradientPanel2.Controls.Add(comboBox7);
-            gradientPanel2.Controls.Add(button1);
-            gradientPanel2.Controls.Add(button2);
-            gradientPanel2.Controls.Add(button3);
+            gradientPanel2.Controls.Add(ddGroupCategories2);
+            gradientPanel2.Controls.Add(ddSubCategories2);
+            gradientPanel2.Controls.Add(ddCategories2);
+            gradientPanel2.Controls.Add(btnNext2);
+            gradientPanel2.Controls.Add(btnPrev2);
+            gradientPanel2.Controls.Add(btnFeeds2);
             gradientPanel2.Dock = DockStyle.Top;
             gradientPanel2.ForeColor = Color.White;
             gradientPanel2.GradientBottom = Color.Transparent;
             gradientPanel2.GradientTop = Color.Transparent;
             gradientPanel2.Location = new Point(0, 0);
             gradientPanel2.Name = "gradientPanel2";
-            gradientPanel2.Size = new Size(837, 122);
+            gradientPanel2.Size = new Size(914, 122);
             gradientPanel2.TabIndex = 0;
             // 
-            // comboBox8
+            // btnDelete2
             // 
-            comboBox8.FormattingEnabled = true;
-            comboBox8.Location = new Point(359, 46);
-            comboBox8.Name = "comboBox8";
-            comboBox8.Size = new Size(145, 28);
-            comboBox8.TabIndex = 37;
+            btnDelete2.BackgroundImage = (Image)resources.GetObject("btnDelete2.BackgroundImage");
+            btnDelete2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnDelete2.FlatStyle = FlatStyle.Popup;
+            btnDelete2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnDelete2.ForeColor = Color.White;
+            btnDelete2.Location = new Point(785, 7);
+            btnDelete2.Name = "btnDelete2";
+            btnDelete2.Size = new Size(81, 34);
+            btnDelete2.TabIndex = 44;
+            btnDelete2.Text = "Delete";
+            btnDelete2.UseVisualStyleBackColor = true;
+            // 
+            // btnNew2
+            // 
+            btnNew2.BackgroundImage = (Image)resources.GetObject("btnNew2.BackgroundImage");
+            btnNew2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnNew2.FlatStyle = FlatStyle.Popup;
+            btnNew2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNew2.ForeColor = Color.White;
+            btnNew2.Location = new Point(691, 6);
+            btnNew2.Name = "btnNew2";
+            btnNew2.Size = new Size(90, 34);
+            btnNew2.TabIndex = 43;
+            btnNew2.Text = "New";
+            btnNew2.UseVisualStyleBackColor = true;
+            // 
+            // btnSave2
+            // 
+            btnSave2.BackgroundImage = (Image)resources.GetObject("btnSave2.BackgroundImage");
+            btnSave2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnSave2.FlatStyle = FlatStyle.Popup;
+            btnSave2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnSave2.ForeColor = Color.White;
+            btnSave2.Location = new Point(604, 7);
+            btnSave2.Name = "btnSave2";
+            btnSave2.Size = new Size(84, 34);
+            btnSave2.TabIndex = 42;
+            btnSave2.Text = "Save";
+            btnSave2.UseVisualStyleBackColor = true;
+            // 
+            // cbGroup2
+            // 
+            cbGroup2.AutoSize = true;
+            cbGroup2.BackColor = Color.Transparent;
+            cbGroup2.Location = new Point(518, 17);
+            cbGroup2.Name = "cbGroup2";
+            cbGroup2.Size = new Size(18, 17);
+            cbGroup2.TabIndex = 41;
+            cbGroup2.UseVisualStyleBackColor = false;
+            // 
+            // upDownRecords2
+            // 
+            upDownRecords2.Location = new Point(518, 47);
+            upDownRecords2.Maximum = new decimal(new int[] { 3000, 0, 0, 0 });
+            upDownRecords2.Name = "upDownRecords2";
+            upDownRecords2.Size = new Size(72, 27);
+            upDownRecords2.TabIndex = 40;
+            upDownRecords2.TextAlign = HorizontalAlignment.Right;
+            upDownRecords2.Value = new decimal(new int[] { 1000, 0, 0, 0 });
+            // 
+            // lblGroups2
+            // 
+            lblGroups2.BackColor = Color.Transparent;
+            lblGroups2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblGroups2.ForeColor = Color.White;
+            lblGroups2.Location = new Point(412, 86);
+            lblGroups2.Name = "lblGroups2";
+            lblGroups2.Size = new Size(92, 20);
+            lblGroups2.TabIndex = 39;
+            lblGroups2.Text = "Movie";
+            lblGroups2.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblCounts2
+            // 
+            lblCounts2.BackColor = Color.Transparent;
+            lblCounts2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblCounts2.ForeColor = Color.White;
+            lblCounts2.Location = new Point(294, 86);
+            lblCounts2.Name = "lblCounts2";
+            lblCounts2.Size = new Size(97, 20);
+            lblCounts2.TabIndex = 38;
+            lblCounts2.Text = "Movie";
+            lblCounts2.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // ddMCategories2
+            // 
+            ddMCategories2.FormattingEnabled = true;
+            ddMCategories2.Location = new Point(359, 46);
+            ddMCategories2.Name = "ddMCategories2";
+            ddMCategories2.Size = new Size(145, 28);
+            ddMCategories2.TabIndex = 37;
             // 
             // label13
             // 
@@ -931,71 +1072,71 @@
             label11.Text = "Category";
             label11.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // comboBox5
+            // ddGroupCategories2
             // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(357, 11);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(145, 28);
-            comboBox5.TabIndex = 32;
+            ddGroupCategories2.FormattingEnabled = true;
+            ddGroupCategories2.Location = new Point(357, 11);
+            ddGroupCategories2.Name = "ddGroupCategories2";
+            ddGroupCategories2.Size = new Size(145, 28);
+            ddGroupCategories2.TabIndex = 32;
             // 
-            // comboBox6
+            // ddSubCategories2
             // 
-            comboBox6.FormattingEnabled = true;
-            comboBox6.Location = new Point(107, 42);
-            comboBox6.Name = "comboBox6";
-            comboBox6.Size = new Size(172, 28);
-            comboBox6.TabIndex = 31;
+            ddSubCategories2.FormattingEnabled = true;
+            ddSubCategories2.Location = new Point(107, 42);
+            ddSubCategories2.Name = "ddSubCategories2";
+            ddSubCategories2.Size = new Size(172, 28);
+            ddSubCategories2.TabIndex = 31;
             // 
-            // comboBox7
+            // ddCategories2
             // 
-            comboBox7.FormattingEnabled = true;
-            comboBox7.Location = new Point(107, 8);
-            comboBox7.Name = "comboBox7";
-            comboBox7.Size = new Size(172, 28);
-            comboBox7.TabIndex = 30;
+            ddCategories2.FormattingEnabled = true;
+            ddCategories2.Location = new Point(107, 8);
+            ddCategories2.Name = "ddCategories2";
+            ddCategories2.Size = new Size(172, 28);
+            ddCategories2.TabIndex = 30;
             // 
-            // button1
+            // btnNext2
             // 
-            button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
-            button1.BackgroundImageLayout = ImageLayout.Stretch;
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(203, 79);
-            button1.Name = "button1";
-            button1.Size = new Size(74, 35);
-            button1.TabIndex = 29;
-            button1.Text = "Next";
-            button1.UseVisualStyleBackColor = true;
+            btnNext2.BackgroundImage = (Image)resources.GetObject("btnNext2.BackgroundImage");
+            btnNext2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnNext2.FlatStyle = FlatStyle.Popup;
+            btnNext2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNext2.ForeColor = Color.White;
+            btnNext2.Location = new Point(203, 79);
+            btnNext2.Name = "btnNext2";
+            btnNext2.Size = new Size(74, 30);
+            btnNext2.TabIndex = 29;
+            btnNext2.Text = "Next";
+            btnNext2.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnPrev2
             // 
-            button2.BackgroundImage = (Image)resources.GetObject("button2.BackgroundImage");
-            button2.BackgroundImageLayout = ImageLayout.Stretch;
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(107, 78);
-            button2.Name = "button2";
-            button2.Size = new Size(83, 35);
-            button2.TabIndex = 28;
-            button2.Text = "Prev";
-            button2.UseVisualStyleBackColor = true;
+            btnPrev2.BackgroundImage = (Image)resources.GetObject("btnPrev2.BackgroundImage");
+            btnPrev2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnPrev2.FlatStyle = FlatStyle.Popup;
+            btnPrev2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnPrev2.ForeColor = Color.White;
+            btnPrev2.Location = new Point(107, 78);
+            btnPrev2.Name = "btnPrev2";
+            btnPrev2.Size = new Size(83, 30);
+            btnPrev2.TabIndex = 28;
+            btnPrev2.Text = "Prev";
+            btnPrev2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnFeeds2
             // 
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Popup;
-            button3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(19, 79);
-            button3.Name = "button3";
-            button3.Size = new Size(77, 35);
-            button3.TabIndex = 27;
-            button3.Text = "Feeds";
-            button3.UseVisualStyleBackColor = true;
+            btnFeeds2.BackgroundImage = (Image)resources.GetObject("btnFeeds2.BackgroundImage");
+            btnFeeds2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFeeds2.FlatStyle = FlatStyle.Popup;
+            btnFeeds2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnFeeds2.ForeColor = Color.White;
+            btnFeeds2.Location = new Point(19, 79);
+            btnFeeds2.Name = "btnFeeds2";
+            btnFeeds2.Size = new Size(77, 30);
+            btnFeeds2.TabIndex = 27;
+            btnFeeds2.Text = "Feeds";
+            btnFeeds2.UseVisualStyleBackColor = true;
             // 
             // imgListBlack
             // 
@@ -1017,13 +1158,85 @@
             imgListBlack.Images.SetKeyName(12, "uncheck");
             imgListBlack.Images.SetKeyName(13, "check");
             // 
+            // btnClean2
+            // 
+            btnClean2.BackgroundImage = (Image)resources.GetObject("btnClean2.BackgroundImage");
+            btnClean2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnClean2.FlatStyle = FlatStyle.Popup;
+            btnClean2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnClean2.ForeColor = Color.White;
+            btnClean2.Location = new Point(785, 44);
+            btnClean2.Name = "btnClean2";
+            btnClean2.Size = new Size(81, 34);
+            btnClean2.TabIndex = 47;
+            btnClean2.Text = "Clean";
+            btnClean2.UseVisualStyleBackColor = true;
+            // 
+            // btnJSON2
+            // 
+            btnJSON2.BackgroundImage = (Image)resources.GetObject("btnJSON2.BackgroundImage");
+            btnJSON2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnJSON2.FlatStyle = FlatStyle.Popup;
+            btnJSON2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnJSON2.ForeColor = Color.White;
+            btnJSON2.Location = new Point(691, 43);
+            btnJSON2.Name = "btnJSON2";
+            btnJSON2.Size = new Size(90, 34);
+            btnJSON2.TabIndex = 46;
+            btnJSON2.Text = "JSON";
+            btnJSON2.UseVisualStyleBackColor = true;
+            // 
+            // btnGetDescription2
+            // 
+            btnGetDescription2.BackgroundImage = (Image)resources.GetObject("btnGetDescription2.BackgroundImage");
+            btnGetDescription2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnGetDescription2.FlatStyle = FlatStyle.Popup;
+            btnGetDescription2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnGetDescription2.ForeColor = Color.White;
+            btnGetDescription2.Location = new Point(604, 44);
+            btnGetDescription2.Name = "btnGetDescription2";
+            btnGetDescription2.Size = new Size(84, 34);
+            btnGetDescription2.TabIndex = 45;
+            btnGetDescription2.Text = "Get Info";
+            btnGetDescription2.UseVisualStyleBackColor = true;
+            // 
+            // btnSearchVideoTitles2
+            // 
+            btnSearchVideoTitles2.BackgroundImage = (Image)resources.GetObject("btnSearchVideoTitles2.BackgroundImage");
+            btnSearchVideoTitles2.BackgroundImageLayout = ImageLayout.Stretch;
+            btnSearchVideoTitles2.FlatStyle = FlatStyle.Popup;
+            btnSearchVideoTitles2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnSearchVideoTitles2.ForeColor = Color.White;
+            btnSearchVideoTitles2.Location = new Point(518, 79);
+            btnSearchVideoTitles2.Name = "btnSearchVideoTitles2";
+            btnSearchVideoTitles2.Size = new Size(84, 34);
+            btnSearchVideoTitles2.TabIndex = 48;
+            btnSearchVideoTitles2.Text = "Search";
+            btnSearchVideoTitles2.UseVisualStyleBackColor = true;
+            // 
+            // ddSearch2
+            // 
+            ddSearch2.FormattingEnabled = true;
+            ddSearch2.Items.AddRange(new object[] { "Search General", "Search ChannelItems", "Search Playlist" });
+            ddSearch2.Location = new Point(608, 83);
+            ddSearch2.Name = "ddSearch2";
+            ddSearch2.Size = new Size(90, 28);
+            ddSearch2.TabIndex = 49;
+            // 
+            // txtSearch2
+            // 
+            txtSearch2.Location = new Point(716, 81);
+            txtSearch2.Name = "txtSearch2";
+            txtSearch2.Size = new Size(150, 27);
+            txtSearch2.TabIndex = 60;
+            // 
             // SplitEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(splitContainer1);
             Name = "SplitEditor";
-            Size = new Size(1153, 900);
+            Size = new Size(1215, 900);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
@@ -1039,6 +1252,8 @@
             splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvFeeds).EndInit();
             gradientPanel2.ResumeLayout(false);
+            gradientPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)upDownRecords2).EndInit();
             ResumeLayout(false);
         }
 
@@ -1050,7 +1265,7 @@
         private Label label5;
         private Button btnSearch;
         private CustomControls.LabelEx labelEx2;
-        private CustomControls.LabelEx labelEx1;
+        private CustomControls.LabelEx labelx;
         private Label lblSub;
         private ComboBox ddSubCategories;
         private Label lblCat;
@@ -1077,49 +1292,63 @@
         private Button btnRefreshGroups;
         private Button btnGetRumble;
         private TextBox txtURLRumble;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button btnNext2;
+        private Button btnPrev2;
+        private Button btnFeeds2;
         private TextBox s_category;
         private Label label6;
         private Label label7;
-        private TextBox textBox1;
+        private TextBox s_subcategory;
         private Label label8;
-        private TextBox textBox2;
+        private TextBox s_groupcategory;
         private Label label9;
-        private TextBox textBox3;
+        private TextBox s_moviecategory;
         private ComboBox ddSCategories;
         private Label label10;
-        private TextBox textBox4;
-        private ComboBox comboBox4;
-        private ComboBox comboBox3;
-        private ComboBox comboBox2;
-        private ComboBox comboBox1;
-        private ComboBox comboBox6;
-        private ComboBox comboBox7;
+        private TextBox s_linktype;
+        private ComboBox ddSLinkTypes;
+        private ComboBox ddSMovieCategories;
+        private ComboBox ddSGroupCategories;
+        private ComboBox ddSSubCategories;
+        private ComboBox ddSubCategories2;
+        private ComboBox ddCategories2;
         private Label label11;
         private Label label12;
         private Label label13;
         private Label label14;
-        private ComboBox comboBox8;
-        private ComboBox comboBox5;
-        private Button button4;
+        private ComboBox ddMCategories2;
+        private ComboBox ddGroupCategories2;
+        private Button btnLinkValue2;
         private Label label17;
-        private TextBox textBox9;
+        private TextBox s_rank;
         private Label label16;
-        private TextBox textBox8;
+        private TextBox s_author;
         private Label label15;
-        private TextBox textBox7;
-        private TextBox textBox6;
-        private Button button5;
-        private TextBox textBox5;
+        private TextBox s_duration;
+        private TextBox s_link;
+        private Button btnLink2;
+        private TextBox s_linkvalue;
         private Label label20;
-        private TextBox textBox12;
+        private TextBox s_description;
         private Label label21;
-        private TextBox textBox13;
+        private TextBox s_shortdescription;
         private Label label19;
-        private TextBox textBox11;
+        private TextBox s_title;
         private Label label18;
-        private TextBox textBox10;
+        private TextBox s_FeedId;
+        private Label lblCount;
+        private Label lblGroups2;
+        private Label lblCounts2;
+        private CheckBox cbGroup2;
+        private NumericUpDown upDownRecords2;
+        private Button btnDelete2;
+        private Button btnNew2;
+        private Button btnSave2;
+        private Button btnClean2;
+        private Button btnJSON2;
+        private Button btnGetDescription2;
+        private TextBox txtSearch2;
+        private ComboBox ddSearch2;
+        private Button btnSearchVideoTitles2;
     }
 }

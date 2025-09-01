@@ -95,6 +95,7 @@
     <None Remove="Resources\welcome.psd" />
     <None Remove="Resources\youtube-logo-11609383902z56yosfap9.png" />
     <None Remove="Resources\youtube.png" />
+    <None Remove="Resources\youtube_32.png" />
     <None Remove="Resources\zainetprofit.ico" />
     <None Remove="Resources\zainetprofit.png" />
     <None Remove="Resources\zainetstudio.png" />
@@ -224,6 +225,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\youtube-logo-11609383902z56yosfap9.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\youtube_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\zainetstudio.png">
@@ -587,9 +591,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\icon_master.psd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\youtube_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\zainetstudio.ico">

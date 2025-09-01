@@ -36,7 +36,8 @@ namespace AiNetStudio.DataAccess
 
                 try
                 {
-                    var dbPath = GetDbPath(); // Uses PathManager (separate class) to resolve folder.
+                    // Uses PathManager (separate class) to resolve folder.
+                    var dbPath = GetDbPath(); 
                     var dir = Path.GetDirectoryName(dbPath)!;
                     if (!Directory.Exists(dir))
                         Directory.CreateDirectory(dir);
@@ -100,16 +101,43 @@ namespace AiNetStudio.DataAccess
                                 // If empty, import from CSV only.
                                 if (GetRowCount(con) == 0)
                                 {
-                                    // Try common locations: alongside the DB first, then fallback paths.
+                                    // Try common locations: alongside the
+                                    // DB first, then fallback paths.
+                                    // exeDir + Libs
                                     var dbDir = Path.GetDirectoryName(dbPath)!;
-                                    string[] candidates =
+
+                                    PathManager pmx = new PathManager();
+
+                                    //SOURCE
+                                    //Path.Combine(pmx.GetInstallationFolder("Libs"), "feeds_subset.csv")
+                                    //Path.Combine(pmx.GetInstallationFolder("Libs"), "feeds.csv")
+
+                                    //DESTINATION
+                                    //Path.Combine(pmx.GetWritableFolder("Libs"), "feeds_subset.csv")
+                                    //Path.Combine(pmx.GetWritableFolder("Libs"), "feeds.csv")
+
+                                    string installLibs = pmx.GetInstallationFolder("Libs");
+                                    string writableLibs = pmx.GetWritableFolder("Libs");
+                                    Directory.CreateDirectory(writableLibs);
+
+                                    // Candidates only from installation Libs
+                                    string[] sourceCandidates =
                                     {
-                                        Path.Combine(dbDir, "feeds_subset.csv"),
-                                        Path.Combine(dbDir, "feeds.csv"),
-                                        @"C:\Temp\feeds_subset.csv",
-                                        @"C:\Temp\feeds.csv"
+                                        Path.Combine(installLibs, "feeds_subset.csv"),
+                                        Path.Combine(installLibs, "feeds.csv")
                                     };
-                                    var csvPath = candidates.FirstOrDefault(File.Exists);
+
+                                    string? csvPath = null;
+
+                                    // If a source exists in the installation folder, copy it to writable and use that
+                                    var firstSource = sourceCandidates.FirstOrDefault(File.Exists);
+                                    if (!string.IsNullOrEmpty(firstSource))
+                                    {
+                                        var destPath = Path.Combine(writableLibs, Path.GetFileName(firstSource));
+                                        File.Copy(firstSource, destPath, overwrite: true);
+                                        csvPath = destPath;
+                                    }
+
                                     if (!string.IsNullOrEmpty(csvPath))
                                     {
                                         ImportCsvIfEmpty(con, csvPath);
@@ -118,6 +146,7 @@ namespace AiNetStudio.DataAccess
                             }
                             catch (SqliteException ex) { ReportError("EnsureDatabase/ImportCsvIfEmpty", ex); throw; }
                             catch (Exception ex) { ReportError("EnsureDatabase/ImportCsvIfEmpty", ex); throw; }
+
                         }
                     }
 
@@ -889,7 +918,7 @@ namespace AiNetStudio.DataAccess
             catch (Exception ex) { ReportError("EnumerateCsvRecords", ex); throw; }
         }
 
-        public static void UpdateFeeds(ZFeedItem f, System.Windows.Forms.DataGridView dgv, LabelEx labelx)
+        public static void UpdateFeeds(ZFeedItem f, System.Windows.Forms.DataGridView dgv, Label labelx)
         {
             try
             {

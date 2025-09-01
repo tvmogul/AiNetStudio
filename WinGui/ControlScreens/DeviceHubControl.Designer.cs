@@ -61,6 +61,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             rbActive = new RadioButton();
             rbFaux = new RadioButton();
             splitContainer1 = new SplitContainer();
+            label2 = new Label();
             panelTiles.SuspendLayout();
             tileScale.SuspendLayout();
             tileTH.SuspendLayout();
@@ -335,6 +336,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             // 
             // panelTop
             // 
+            panelTop.Controls.Add(label2);
             panelTop.Controls.Add(label1);
             panelTop.Controls.Add(chkSaveReadings);
             panelTop.Controls.Add(rbActive);
@@ -420,6 +422,15 @@ namespace AiNetStudio.WinGui.ControlScreens
             splitContainer1.SplitterDistance = 133;
             splitContainer1.TabIndex = 6;
             // 
+            // label2
+            // 
+            label2.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label2.Location = new Point(577, 41);
+            label2.Name = "label2";
+            label2.Size = new Size(406, 74);
+            label2.TabIndex = 9;
+            label2.Text = "UNDER CONSTRUCTION\r\nCOMING SOON";
+            // 
             // DeviceHubControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -479,5 +490,6 @@ namespace AiNetStudio.WinGui.ControlScreens
         private RadioButton rbFaux;
         private Label label1;
         private SplitContainer splitContainer1;
+        private Label label2;
     }
 }
