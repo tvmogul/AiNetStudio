@@ -18,10 +18,13 @@
     <None Remove="Resources\app.ico" />
     <None Remove="Resources\bcheck.png" />
     <None Remove="Resources\bg.png" />
+    <None Remove="Resources\bg_blackbrains.gif" />
+    <None Remove="Resources\bg_blackelectric.gif" />
     <None Remove="Resources\blank.png" />
     <None Remove="Resources\blue.png" />
     <None Remove="Resources\blue2.png" />
     <None Remove="Resources\buncheck.png" />
+    <None Remove="Resources\deeplearning.gif" />
     <None Remove="Resources\divider_down3.png" />
     <None Remove="Resources\divider_middle.png" />
     <None Remove="Resources\ExampleButtonA.png" />
@@ -170,6 +173,12 @@
     <Content Include="Resources\bg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\bg_blackbrains.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\bg_blackelectric.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\blank.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -180,6 +189,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buncheck.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\deeplearning.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\divider_down3.png">

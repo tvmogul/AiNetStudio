@@ -77,6 +77,7 @@
 //    }
 //}
 
+using AiNetStudio.WinGui.Dialogs;
 using AiNetStudio.WinGui.Forms;
 using Serilog;
 using Serilog.Events;
@@ -172,7 +173,19 @@ namespace AiNetStudio
                 // ---------------------------------------------------------
 
                 ApplicationConfiguration.Initialize();
-                Application.Run(new WinGUIMain());
+                //Application.Run(new WinGUIMain());
+                using (SkinDlg splash = new SkinDlg())
+                {
+                    if (splash.ShowDialog() == DialogResult.OK)
+                    {
+                        Application.Run(new WinGUIMain());
+                    }
+                    else
+                    {
+                        //return;
+                        Application.Run(new WinGUIMain());
+                    }
+                }
 
                 Log.Information("AiNetStudio exited normally.");
             }
