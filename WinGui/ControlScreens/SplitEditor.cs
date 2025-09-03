@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -33,7 +34,6 @@ namespace AiNetStudio.WinGui.ControlScreens
 
         // Keep a small visible strip of Panel1/Panel2 
         // so the splitter (and button) are still visible.
-        // Adjust this to taste.
         private const int SplitterReveal = 24;
 
         // Hard cap so toggle never exceeds splitter height requested (e.g., 20px)
@@ -98,7 +98,8 @@ namespace AiNetStudio.WinGui.ControlScreens
         //private static readonly string connRSSFeeds = ConfigurationManager.ConnectionStrings["RSSFeeds"].ConnectionString;
         private int _start = 0;
         private int _max = 3000;
-        public List<RSSFeed> lstDisplay = new List<RSSFeed>();
+        //public List<RSSFeed> lstDisplay = new List<RSSFeed>();
+        public List<FeedItem> lstDisplay = new List<FeedItem>();
 
         const int SPI_SETNONCLIENTMETRICS = 0x002A;
         const int SPIF_UPDATEINIFILE = 0x01;
@@ -130,7 +131,8 @@ namespace AiNetStudio.WinGui.ControlScreens
                 Text = "",
                 Width = _toggleButtonWidth,
                 Height = 50,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand
             };
             btnToggle.FlatAppearance.BorderSize = 0;
             btnToggle.ImageAlign = ContentAlignment.MiddleCenter;
@@ -231,8 +233,11 @@ namespace AiNetStudio.WinGui.ControlScreens
             //InitializeMode(XDTransportMode.WindowsMessaging);
             //broadcast.SendToChannel("Status", string.Format("Handle: {0} connected!", this.Handle));
 
-            this.btnPrev2.Click += btnPrev2_Click;
-            this.btnNext2.Click += btnNext2_Click;
+            //this.btnPrev2.Click += btnPrev2_ClickAsync;
+            //this.btnNext2.Click += btnNext2_ClickAsync;
+            this.btnPrev2.Click += async (s, e) => btnPrev2_Click(s, e);
+            this.btnNext2.Click += async (s, e) => btnNext2_Click(s, e);
+
             this.ddCategories2.SelectedIndexChanged += ddCategories2_SelectedIndexChanged;
             this.ddSubCategories2.SelectedIndexChanged += ddSubCategories2_SelectedIndexChanged;
             this.ddMCategories2.SelectedIndexChanged += ddMCategories2_SelectedIndexChanged;
@@ -245,14 +250,14 @@ namespace AiNetStudio.WinGui.ControlScreens
             this.ddSLinkTypes.SelectedIndexChanged += ddSLinkTypes_SelectedIndexChanged;
 
 
-            //this.btnFeeds2.Click += btnFeeds2_Click;
+            this.btnFeeds2.Click += btnFeeds2_Click;
             //this.btnSearchVideoTitles2.Click += new System.EventHandler(this.btnSearchVideoTitles_Click);
             ////this.btnJSON.Click += new System.EventHandler(this.btnJSON_Click);
             ////this.btnLink.Click += new System.EventHandler(this.btnLink_Click);
             ////this.btnLinkValue.Click += new System.EventHandler(this.btnLinkValue_Click);
             //this.btnGetDescription.Click += new System.EventHandler(this.btnGetDescription_Click);
 
-
+            //this.btnClean2.Click += btnClean2_Click;
             //this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             //this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             //this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -291,7 +296,13 @@ namespace AiNetStudio.WinGui.ControlScreens
             ddMCategories2.Items.Add("Western");
             ddMCategories2.SelectedIndex = 0;
 
-            //AddColumns();
+            UpdateCategories2();
+            UpdateSubCategories2();
+            UpdateGroupCategories2();
+            //UpdateMovieCategories2();
+
+            InitializeDataGridViewFeeds();
+            AddColumnsFeeds();
 
             //By default, text in a DataGridViewTextBoxCell does not wrap. 
             //This can be controlled via the WrapMode property on the cell style (e.g. DataGridView.DefaultCellStyle.WrapMode). 
@@ -342,9 +353,6 @@ namespace AiNetStudio.WinGui.ControlScreens
 
             #endregion ============= BEGIN PANEL @2 =====================================
         }
-
-
-
 
 
         #region ============== BEGIN SPLITTER =============================
@@ -563,15 +571,12 @@ namespace AiNetStudio.WinGui.ControlScreens
         private void UpdateGroupCategories()
         {
             List<FeedGroupCategories> result = new List<FeedGroupCategories>();
-
             var cat = ddCategories.SelectedItem?.ToString() ?? "";
             var subs = Tubes.GetSubcategories(cat);
-
-            var qqq = Tubes.GetGroupCategories(cat, subs);
-
+            var grps = Tubes.GetGroupCategories(cat, subs);
             ddGroupCategories.Items.Clear();
             //ddGroupCategories.Items.Add(""); // allow 'no subcategory' option
-            foreach (var s in subs) ddGroupCategories.Items.Add(s);
+            foreach (var s in grps) ddGroupCategories.Items.Add(s);
             ddSubCategories.SelectedIndex = 0;
         }
 
@@ -1106,7 +1111,6 @@ namespace AiNetStudio.WinGui.ControlScreens
 
         }
 
-
         public void AddColumns()
         {
             dgvVideos.DataSource = null;
@@ -1377,25 +1381,11 @@ namespace AiNetStudio.WinGui.ControlScreens
             labelx.Text = "Total: " + list.Count;
             //broadcast.SendToChannel("Channel1", string.Format("{0}", "updatedropdowns"));
             //IXDBroadcast bc
-            LoadDataGrid(list, dgv);
+            LoadDataGridVideos(list, dgv);
 
         }
 
-        private static bool CheckedListBox(string s, List<RSSFeed> z)
-        {
-            bool bFound = false;
-            foreach (var item in z)
-            {
-                if (s == item.link)
-                {
-                    bFound = true;
-                    break;
-                }
-            }
-            return bFound;
-        }
-
-        public static void LoadDataGrid(List<RSSFeed> list, DataGridView dg)
+        public static void LoadDataGridVideos(List<RSSFeed> list, DataGridView dg)
         {
             dg.Rows.Clear();
             bool bb = false;
@@ -1433,7 +1423,19 @@ namespace AiNetStudio.WinGui.ControlScreens
             // REMOVE the second foreach that was adding mismatched rows.
         }
 
-
+        private static bool CheckedListBox(string s, List<RSSFeed> z)
+        {
+            bool bFound = false;
+            foreach (var item in z)
+            {
+                if (s == item.link)
+                {
+                    bFound = true;
+                    break;
+                }
+            }
+            return bFound;
+        }
 
         public static HashSet<char> _allowedChars = new HashSet<char>("0123456789numkMGHzVs%-.".ToArray());
 
@@ -1613,9 +1615,418 @@ namespace AiNetStudio.WinGui.ControlScreens
         #endregion ================ END TOP PANEL =======================================
 
 
-
-
         #region ============== BEGIN BOTTOM PANEL ===========================
+
+        //private async void btnClean2_Click(object? sender, EventArgs e)
+        //{
+        //    btnClean2.Enabled = false; // optional: disable button so user can’t click twice
+        //    btnClean2.Text = "Cleaning";
+
+        //    await Tubes.CleanUnavailableYouTubeVideosAsync();
+
+        //    //btnClean2.Text = "Cleaning finished!";
+        //    btnClean2.Text = "Clean";
+        //    btnClean2.Enabled = true;
+        //    MessageBox.Show("YouTube feed cleanup completed.");
+        //}
+
+        // 1) Click handler stays responsive and shows when the process finishes
+        // Button handler (async, UI-safe)
+        //private async void btnClean2_Click(object? sender, EventArgs e)
+        //{
+        //    //btnClean2.Enabled = false;
+        //    ////lblStatus.Text = "Scanning YouTube links…";
+
+        //    //var flagged = await Tubes.DetectUnavailableYouTubeVideosAsync();
+
+        //    ////lblStatus.Text = $"Scan complete. {flagged.Count} unavailable videos flagged.";
+        //    //btnClean2.Enabled = true;
+
+        //    //if (flagged.Count > 0 &&
+        //    //    MessageBox.Show($"Delete {flagged.Count} feed(s) now?", "Confirm purge", MessageBoxButtons.YesNo) == DialogResult.Yes)
+        //    //{
+        //    //    btnClean2.Enabled = false;
+        //    //    //lblStatus.Text = "Purging…";
+
+        //    //    var deleted = await Tubes.PurgeUnavailableYouTubeVideosAsync();
+
+        //    //    //lblStatus.Text = $"Purge complete. Deleted {deleted} row(s).";
+        //    //    btnClean2.Enabled = true;
+        //    //}
+        //}
+
+
+
+        private void UpdateCategories2()
+        {
+            //Tubes.EnsureDatabase(seedIfEmpty: true);
+            var cats = Tubes.GetCategories();
+            ddCategories2.Items.Clear();
+            foreach (var c in cats) ddCategories2.Items.Add(c);
+            if (ddCategories2.Items.Count > 0) ddCategories2.SelectedIndex = 0;
+        }
+
+        private void UpdateSubCategories2()
+        {
+            var cat = ddCategories2.SelectedItem?.ToString() ?? "";
+            var subs = Tubes.GetSubcategories(cat);
+
+            ddSubCategories2.Items.Clear();
+            ddSubCategories2.Items.Add(""); // allow 'no subcategory' option
+            foreach (var s in subs) ddSubCategories2.Items.Add(s);
+            ddSubCategories2.SelectedIndex = 0;
+        }
+
+        private void UpdateGroupCategories2()
+        {
+            List<FeedGroupCategories> result = new List<FeedGroupCategories>();
+            var cat = ddCategories2.SelectedItem?.ToString() ?? "";
+            var subs = Tubes.GetSubcategories(cat);
+            var grps = Tubes.GetGroupCategories(cat, subs);
+            ddGroupCategories2.Items.Clear();
+            //ddGroupCategories2.Items.Add(""); // allow 'no subcategory' option
+            foreach (var s in grps) ddGroupCategories2.Items.Add(s);
+            ddSubCategories2.SelectedIndex = 0;
+        }
+
+        //InitializeDataGridViewFeeds();
+        //AddColumnsFeeds()
+
+        private void InitializeDataGridViewFeeds()
+        {
+            //System.Windows.Forms.DataGridViewCellStyle styleHeader = new System.Windows.Forms.DataGridViewCellStyle();
+            //System.Windows.Forms.DataGridViewCellStyle styleRow = new System.Windows.Forms.DataGridViewCellStyle();
+            //System.Windows.Forms.DataGridViewCellStyle styleAlternating = new System.Windows.Forms.DataGridViewCellStyle();
+            //System.Windows.Forms.DataGridViewCellStyle styleSelected = new System.Windows.Forms.DataGridViewCellStyle();
+            //System.Drawing.Font DefaultStateFont = new System.Drawing.Font("Trebuchet MS", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //styleRow.Font = DefaultStateFont;
+            //this.dgvFeeds.RowsDefaultCellStyle = styleRow;
+
+            // Initialize basic DataGridView properties.
+            //dgvFeeds.Dock = DockStyle.Fill;
+            //dgvFeeds.BackgroundColor = Color.FromArgb(29, 29, 29);
+            //dgvFeeds.BackgroundColor = Color.FromArgb(255, 255, 255);
+            dgvFeeds.BorderStyle = BorderStyle.FixedSingle;
+            //dgvFeeds.RowHeadersVisible = false;
+
+            dgvFeeds.RowHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgvFeeds.AutoSize = false;
+
+            //dgvFeeds.AllowUserToAddRows = false;
+            //dgvFeeds.AllowUserToDeleteRows = false;
+            //dgvFeeds.AllowUserToOrderColumns = true;
+            dgvFeeds.ReadOnly = false; // allow checkbox edits
+            dgvFeeds.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            //dgvFeeds.MultiSelect = false;
+            dgvFeeds.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; // keep rows fixed height equal to image height
+            //dgvFeeds.AllowUserToResizeColumns = true;
+            ////dgvFeeds.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            //dgvFeeds.AllowUserToResizeRows = false;
+            //dgvFeeds.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
+            // Set the selection background color for all the cells.
+            //dgvFeeds.DefaultCellStyle.SelectionBackColor = Color.DarkGray;
+            //dgvFeeds.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            // Set RowHeadersDefaultCellStyle.SelectionBackColor so that its default
+            // value won't override DataGridView.DefaultCellStyle.SelectionBackColor.
+            dgvFeeds.RowHeadersDefaultCellStyle.SelectionBackColor = Color.Empty;
+
+            // Set the background color for all rows and for alternating rows. 
+            // The value for alternating rows overrides the value for all rows. 
+            //dgvFeeds.RowsDefaultCellStyle.BackColor = Color.Black;
+            //dgvFeeds.RowsDefaultCellStyle.BackColor = Color.White;
+            //dgvFeeds.RowsDefaultCellStyle.ForeColor = Color.Black;
+            //dgvFeeds.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray; // Color.FromArgb(30, 30, 30);
+            //dgvFeeds.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
+
+            dgvFeeds.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(29, 29, 29);
+
+            //splitContainer1.BackColor = Color.FromArgb(29, 29, 29);
+            //splitContainer1.Panel1.BackColor = Color.FromArgb(29, 29, 29);
+            //splitContainer1.Panel2.BackColor = Color.FromArgb(29, 29, 29);
+
+            // ensure checkboxes commit on click and users can't add new rows
+            dgvFeeds.AllowUserToAddRows = false;
+            dgvFeeds.EditMode = DataGridViewEditMode.EditOnEnter;
+            dgvFeeds.CurrentCellDirtyStateChanged += (s, e) =>
+            {
+                if (dgvFeeds.IsCurrentCellDirty && dgvFeeds.CurrentCell is DataGridViewCheckBoxCell)
+                {
+                    dgvFeeds.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                    dgvFeeds.EndEdit();
+                }
+            };
+
+            // keep image size fixed even when rows grow due to wrapped text
+            dgvFeeds.CellPainting += (s, e) =>
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex == dgvFeeds.Columns["image"]!.Index)
+                {
+                    e.PaintBackground(e.ClipBounds, true);
+
+                    var img = dgvFeeds.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as Image;
+                    if (img != null)
+                    {
+                        int targetW = 90; // fixed image width
+                        int targetH = 50; // fixed image height (matches desired row height)
+                        int x = e.CellBounds.X + (e.CellBounds.Width - targetW) / 2;
+                        int y = e.CellBounds.Y + (e.CellBounds.Height - targetH) / 2;
+
+                        var g = e.Graphics;
+                        var oldMode = g.InterpolationMode;
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        g.DrawImage(img, new Rectangle(x, y, targetW, targetH));
+                        g.InterpolationMode = oldMode;
+                    }
+
+                    e.Handled = true;
+                }
+            };
+
+            // enforce fixed row height equal to image height for all rows
+            dgvFeeds.RowTemplate.Height = 50;
+            dgvFeeds.RowsAdded += (s, e) =>
+            {
+                for (int i = 0; i < e.RowCount; i++)
+                {
+                    var r = dgvFeeds.Rows[e.RowIndex + i];
+                    if (r.Height != 50) r.Height = 50;
+                }
+            };
+
+            this.dgvFeeds.SelectionChanged += dgvFeeds_SelectionChanged;
+
+        }
+
+        private void dgvFeeds_SelectionChanged(object? sender, EventArgs e)
+        {
+            if (dgvFeeds.CurrentRow != null)
+            {
+                var feedId = dgvFeeds.CurrentRow.Cells["FeedId"].Value?.ToString();
+                LoadScreen(feedId!);
+            }
+        }
+
+        private void LoadScreen(string id)
+        {
+            //s_category
+            //s_subcategory
+            //s_groupcategory
+            //s_moviecategory
+            //s_linktype
+            //s_linkvalue
+            //s_link
+            //s_duration
+            //s_author
+            //s_rank
+            //s_FeedId.Text = feedId;
+            //s_title
+            //s_shortdescription
+            //s_description
+            //s_bodylinks
+            //s_image
+            ClearScreen();
+
+            int qqq = lstDisplay.Count;
+
+            s_FeedId.Text = id;
+            foreach (FeedItem item in lstDisplay)
+            {
+                if (item.FeedId.ToString().Trim().ToLower() == id.ToLower())
+                {
+                    //for (int i = 0, ln = ddSCategories.Items.Count; i < ln; i++)
+                    //{
+                    //    if (ddSCategories.Items[i].ToString() == item.category)
+                    //    {
+                    //        ddSCategories.SelectedIndex = i;
+                    //    }
+                    //}
+                    //for (int i = 0, ln = ddSMovieCategories.Items.Count; i < ln; i++)
+                    //{
+                    //    if (ddSMovieCategories.Items[i].ToString().Trim().ToLower() == item.moviecategory.Trim().ToLower())
+                    //    {
+                    //        ddSMovieCategories.SelectedIndex = i;
+                    //    }
+                    //}
+
+                    s_category.Text = item.Category;
+                    s_subcategory.Text = item.SubCategory;
+                    s_groupcategory.Text = item.GroupCategory;
+                    s_moviecategory.Text = item.MovieCategory;
+
+                    s_duration.Text = item.Duration;
+                    s_author.Text = item.Author;
+                    s_rank.Text = item.Rank.ToString();
+                    //s_published.MinDate = DateTime.Parse(item.publishedDate.ToShortDateString());
+
+                    string fullPath = string.Empty;
+                    if (item.Image!.StartsWith("http:") || item.Image.StartsWith("https:"))
+                    {
+                        try
+                        {
+                            //pbImage.Image = GetImageFromUrl(item.Image);
+                            pbImage.BackgroundImage = GetImageFromUrl(item.Image);
+                        }
+                        catch (Exception)
+                        {
+                            //pbImage.Image = null;
+                            pbImage.BackgroundImage = null;
+                        }
+                    }
+                    else
+                    {
+                        string[] paths = { Application.StartupPath, item.Image };
+                        fullPath = Path.Combine(paths);
+                        if (File.Exists(fullPath))
+                        {
+                            //pbImage.Image = new Bitmap(fullPath);
+                            pbImage.BackgroundImage = new Bitmap(fullPath);
+                        }
+                    }
+                    //pbImage.Image = GetImageFromUrl(item.image);
+                    s_image.Text = item.Image;
+
+                    //s_linktype.SelectedIndex = 0;
+                    //for (int i = 0, ln = ddSLinkTypes.Items.Count; i < ln; i++)
+                    //{
+                    //    if (ddSLinkTypes.Items[i] != null && ddSLinkTypes.Items[i].ToString().Length > 0 && ddSLinkTypes.Items[i].ToString() == item.linkType)
+                    //    {
+                    //        ddSLinkTypes.SelectedIndex = i;
+                    //    }
+                    //}
+                    s_linktype.Text = item.LinkType;
+                    s_linkvalue.Text = item.LinkValue;
+                    s_link.Text = item.Link;
+                    s_title.Text = item.Title;
+                    s_shortdescription.Text = item.ShortDescription;
+                    s_description.Text = item.Description;
+                    s_bodylinks.Text = item.BodyLinks;
+                }
+            }
+        }
+
+        private void ClearScreen()
+        {
+            s_FeedId.Text = "000-0000-0000";
+
+            //ddSCategories.SelectedIndex = 0;
+            //ddSMovieCategories.SelectedIndex = 0;
+            s_category.Text = string.Empty;
+            s_subcategory.Text = string.Empty;
+            s_groupcategory.Text = string.Empty;
+            s_moviecategory.Text = string.Empty;
+            s_linktype.Text = string.Empty;
+
+            s_duration.Text = "0:00:00";
+            s_author.Text = string.Empty;
+            s_rank.Text = "0";
+            //s_published.MinDate = DateTime.UtcNow;
+            //s_begindate.MinDate = DateTime.UtcNow;
+            //s_enddate.MinDate = DateTime.UtcNow;
+
+            //s_areacode.Text = string.Empty;
+            //s_city.Text = string.Empty;
+            //s_state.Text = string.Empty;
+            //s_postalcode.Text = string.Empty;
+            //s_country.Text = string.Empty;
+            //s_closed.Checked = false;
+
+            pbImage.Image = null;
+            s_image.Text = string.Empty;
+
+            ddSLinkTypes.SelectedIndex = 0;
+
+            s_linkvalue.Text = string.Empty;
+            s_link.Text = string.Empty;
+            s_title.Text = string.Empty;
+            s_shortdescription.Text = string.Empty;
+            s_description.Text = string.Empty;
+            s_bodylinks.Text = string.Empty;
+
+            //s_showvideo.Checked = false;
+            //s_carousel.Checked = false;
+            //s_carouselcaption.Text = string.Empty;
+
+            //ck_anticoagulant.Checked = false;
+            //ck_carcinogen.Checked = false;
+            //ck_hypoglycemic.Checked = false;
+            //ck_kidneydamage.Checked = false;
+            //ck_liverdamage.Checked = false;
+
+            //string _anticoagulant = string.Empty;
+            //if (dd_anticoagulant.SelectedItem != null)
+            //{
+            //    _anticoagulant = dd_anticoagulant.SelectedItem.ToString();
+            //}
+            //MessageBox.Show(_anticoagulant);
+            //dd_anticoagulant.SelectedIndex = 0;
+            //dd_carcinogen.SelectedIndex = 0;
+            //dd_hypoglycemic.SelectedIndex = 0;
+            //dd_kidneydamage.SelectedIndex = 0;
+            //dd_liverdamage.SelectedIndex = 0;
+
+            //s_dosage.Text = string.Empty;
+            //s_sideeffects.Text = string.Empty;
+            //s_warnings.Text = string.Empty;
+
+        }
+
+        public void AddColumnsFeeds()
+        {
+            dgvFeeds.DataSource = null;
+            dgvFeeds.Rows.Clear();
+            dgvFeeds.Columns.Clear();
+            //dgvFeeds.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dgvFeeds.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dgvFeeds.ColumnCount = 2;
+            dgvFeeds.RowTemplate.Height = 50;
+
+            DataGridViewCheckBoxColumn checkColumn = new DataGridViewCheckBoxColumn();
+            checkColumn.Name = "X";
+            checkColumn.HeaderText = "X";
+            checkColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            checkColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            checkColumn.Width = 30;
+            checkColumn.ReadOnly = false;
+            //if the datagridview is resized (on form resize) the checkbox won't take 
+            //up too much; value is relative to the other columns' fill values
+            checkColumn.FillWeight = 18;
+            //checkColumn.DefaultCellStyle.Font = new Font("Tahoma", 36);
+            checkColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvFeeds.Columns.Insert(0, checkColumn);
+
+            DataGridViewImageColumn dgvImageColumn = new DataGridViewImageColumn();
+            dgvImageColumn.Name = "image";
+            dgvImageColumn.Width = 90;
+            dgvImageColumn.HeaderText = "Image";
+            dgvImageColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvImageColumn.ImageLayout = DataGridViewImageCellLayout.Normal; // keep original size; custom paint maintains fixed size
+            dgvImageColumn.ReadOnly = true;
+            dgvFeeds.Columns.Insert(1, dgvImageColumn);
+
+            dgvFeeds.Columns[2].Name = "title";
+            dgvFeeds.Columns[2].HeaderText = "Title";
+            dgvFeeds.Columns[2].Width = 180;
+            //dgvFeeds.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvFeeds.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvFeeds.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
+            dgvFeeds.Columns[2].DefaultCellStyle.WrapMode = DataGridViewTriState.True; // enable wrapping (row height remains fixed)
+            dgvFeeds.Columns[2].ReadOnly = true;
+
+            dgvFeeds.Columns[3].Name = "FeedId";
+            dgvFeeds.Columns[3].HeaderText = "FeedId";
+            dgvFeeds.Columns[3].Width = 180;
+            dgvFeeds.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvFeeds.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvFeeds.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
+            dgvFeeds.Columns[3].Visible = false;
+            dgvFeeds.Columns[3].ReadOnly = true;
+
+            dgvFeeds.RowHeadersVisible = false;
+
+        }
 
         private void btnPrev2_Click(object? sender, EventArgs e)
         {
@@ -1633,15 +2044,14 @@ namespace AiNetStudio.WinGui.ControlScreens
             string _subcat = ddSubCategories.Text.ToString();
 
             //lstDisplay.Clear();
-            lstDisplay = new List<RSSFeed>();
+            //lstDisplay = new List<FeedItem>();
             //lstDisplay = DataHelper.GetFeeds(_cat, _subcat, _start, _max);
             //if (lstDisplay == null || lstDisplay.Count < 1)
             //{
             //    MessageBox.Show("No Results!?");
             //    return;
             //}
-            //dgvFeeds.Rows.Clear();
-            //LoadDataGrid(lstDisplay, dgvFeeds, broadcast);
+            GetFeeds();
         }
 
         private void btnNext2_Click(object? sender, EventArgs e)
@@ -1652,7 +2062,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             string _subcat = ddSubCategories.Text.ToString();
 
             //lstDisplay.Clear();
-            lstDisplay = new List<RSSFeed>();
+            //lstDisplay = new List<FeedItem>();
 
             //lstDisplay = DataHelper.GetFeeds(_cat, _subcat, _start, _max);
             //if (lstDisplay == null || lstDisplay.Count < 1)
@@ -1660,25 +2070,25 @@ namespace AiNetStudio.WinGui.ControlScreens
             //    MessageBox.Show("No Results!?");
             //    return;
             //}
-            //dgvFeeds.Rows.Clear();
-            //LoadDataGrid(lstDisplay, dgvFeeds, broadcast);
+            GetFeeds();
         }
 
         private void ddCategories2_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            s_category.Text = ddSCategories.SelectedItem!.ToString()!.Trim();
+            //UpdateCategories();
+            UpdateSubCategories2();
+            UpdateGroupCategories2();
         }
 
         private void ddSubCategories2_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            s_subcategory.Text = ddSubCategories.SelectedItem!.ToString()!.Trim();
+            //s_subcategory.Text = ddSubCategories.SelectedItem!.ToString()!.Trim();
         }
 
         private void ddMCategories2_SelectedIndexChanged(object? sender, EventArgs e)
         {
             s_moviecategory.Text = ddMCategories2.SelectedItem!.ToString()!.Trim();
         }
-
 
         private void ddSLinkTypes_SelectedIndexChanged(object? sender, EventArgs e)
         {
@@ -1705,7 +2115,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             s_category.Text = ddSCategories.SelectedItem!.ToString()!.Trim();
         }
 
-        private void BtnFeeds2_Click(object? sender, EventArgs e)
+        private async void btnFeeds2_Click(object? sender, EventArgs e)
         {
             _start = 0;
 
@@ -1713,17 +2123,17 @@ namespace AiNetStudio.WinGui.ControlScreens
             string _subcat = string.Empty;
             string _groupcat = "none";
 
-            if (ddCategories.Items.Count > 0 && ddCategories.SelectedItem != null)
+            if (ddCategories2.Items.Count > 0 && ddCategories2.SelectedItem != null)
             {
-                _cat = ddCategories.SelectedItem.ToString()!;
+                _cat = ddCategories2.SelectedItem.ToString()!;
             }
-            if (ddSubCategories.Items.Count > 0 && ddSubCategories.SelectedItem != null)
+            if (ddSubCategories2.Items.Count > 0 && ddSubCategories2.SelectedItem != null)
             {
-                _subcat = ddSubCategories.SelectedItem.ToString()!;
+                _subcat = ddSubCategories2.SelectedItem.ToString()!;
             }
-            if (ddGroupCategories.Items.Count > 0 && ddGroupCategories.SelectedItem != null)
+            if (ddGroupCategories2.Items.Count > 0 && ddGroupCategories2.SelectedItem != null)
             {
-                _groupcat = ddGroupCategories.SelectedItem.ToString()!;
+                _groupcat = ddGroupCategories2.SelectedItem.ToString()!;
             }
 
             //string _moviecat = string.Empty;
@@ -1744,22 +2154,27 @@ namespace AiNetStudio.WinGui.ControlScreens
             //}
 
             _max = Convert.ToInt32(upDownRecords2.Value);
-            int skip = 0;
 
-            List<FeedItem> lstDisplay = Tubes.GetFeedsByCategory(_cat, _subcat, 500, skip);
+            // Load data off the UI thread
+            lstDisplay = await Task.Run(() => Tubes.GetFeedsByCategory(_cat, _subcat, _start, _max));
+
+            //lblCounts2.Text = "Total: " + lstDisplay.Count.ToString();
+            lblCounts2.Text = "Page: " + _start.ToString() + " Count: " + lstDisplay.Count.ToString();
 
 
             if (cbGroup2.Checked)
             {
                 var distinctGroupCategoryCount = lstDisplay != null ? lstDisplay.Select(feed => feed.GroupCategory).Distinct().Count() : 0;
-                lblGroups2.Text = "Groups: " + distinctGroupCategoryCount.ToString();
+                //lblGroups2.Text = "Groups: " + distinctGroupCategoryCount.ToString();
                 //lstDisplay = (List<RSSFeed>)FilterLstDisplay(_groupcat);
             }
 
             if (lstDisplay != null)
             {
                 dgvFeeds.Rows.Clear();
-                //LoadDataGrid(lstDisplay, dgvFeeds, broadcast);
+                // populate grid without freezing UI
+                await LoadDataGridFeedsAsync(lstDisplay, dgvFeeds);
+                lblCounts2.Text = "Page: " + _start.ToString() + " Count: " + dgvFeeds.Rows.Count.ToString();
             }
             else
             {
@@ -1768,6 +2183,274 @@ namespace AiNetStudio.WinGui.ControlScreens
             }
         }
 
+        private async void GetFeeds()
+        {
+            string _cat = string.Empty;
+            string _subcat = string.Empty;
+            string _groupcat = "none";
+
+            if (ddCategories2.Items.Count > 0 && ddCategories2.SelectedItem != null)
+            {
+                _cat = ddCategories2.SelectedItem.ToString()!;
+            }
+            if (ddSubCategories2.Items.Count > 0 && ddSubCategories2.SelectedItem != null)
+            {
+                _subcat = ddSubCategories2.SelectedItem.ToString()!;
+            }
+            if (ddGroupCategories2.Items.Count > 0 && ddGroupCategories2.SelectedItem != null)
+            {
+                _groupcat = ddGroupCategories2.SelectedItem.ToString()!;
+            }
+
+            //string _moviecat = string.Empty;
+            //if (_cat == "movies" || _cat == "All Movies")
+            //{
+            //    if (ddMCategories.SelectedItem != null)
+            //    {
+            //        _moviecat = ddMCategories.SelectedItem.ToString();
+            //    }
+            //}
+
+
+            //lstDisplay.Clear();
+
+            //if (_moviecat.ToUpper() == "ALL")
+            //{
+            //    _moviecat = string.Empty;
+            //}
+
+            _max = Convert.ToInt32(upDownRecords2.Value);
+
+            // Load data off the UI thread
+            lstDisplay = await Task.Run(() => Tubes.GetFeedsByCategory(_cat, _subcat, _start, _max));
+
+            //lblCounts2.Text = "Total: " + lstDisplay.Count.ToString();
+            lblCounts2.Text = "Page: " + _start.ToString() + " Count: " + lstDisplay.Count.ToString();
+
+
+            if (cbGroup2.Checked)
+            {
+                var distinctGroupCategoryCount = lstDisplay != null ? lstDisplay.Select(feed => feed.GroupCategory).Distinct().Count() : 0;
+                //lblGroups2.Text = "Groups: " + distinctGroupCategoryCount.ToString();
+                //lstDisplay = (List<RSSFeed>)FilterLstDisplay(_groupcat);
+            }
+
+            if (lstDisplay != null)
+            {
+                dgvFeeds.Rows.Clear();
+                // populate grid without freezing UI
+                await LoadDataGridFeedsAsync(lstDisplay, dgvFeeds);
+                lblCounts2.Text = "Page: " + _start.ToString() + " Count: " + dgvFeeds.Rows.Count.ToString();
+            }
+            else
+            {
+                MessageBox.Show("No Results!?");
+                return;
+            }
+        }
+
+        // ---------- ADDED: Async loader that keeps UI responsive, loads images off-thread, updates grid on UI thread ----------
+        private static async Task LoadDataGridFeedsAsync(List<FeedItem> list, DataGridView dg, System.Threading.CancellationToken ct = default)
+        {
+            // Possible freeze causes (forensics):
+            // 1) Spawning too many Task.Run() -> ThreadPool starvation and UI can't get CPU.
+            // 2) Long/blocked network image loads -> tasks never complete and UI awaits forever.
+            // 3) Cross-thread UI calls waiting on UI thread that's busy (deadlock potential).
+            // 4) Huge row-by-row additions without cancellation -> lengthy uninterruptible UI work.
+            //
+            // Mitigations added below:
+            // - Concurrency throttle with SemaphoreSlim (prevents threadpool starvation)
+            // - Per-image try/catch and cancellation checks
+            // - Optional CancellationToken so callers can stop the operation
+            // - Defensive Invoke + TCS pattern preserved but wrapped with cancellation and exceptions
+            // - UI work guarded with SuspendLayout/ResumeLayout and loop-level cancellation checks
+
+            // Limit parallelism to avoid saturating the ThreadPool (tune as needed)
+            var gate = new System.Threading.SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
+
+            // Preload images off the UI thread to avoid blocking
+            var preloadTasks = list.Select(async item =>
+            {
+                // Early bail if canceled
+                if (ct.IsCancellationRequested) return (item, img: (Image?)null, error: (Exception?)null);
+
+                await gate.WaitAsync(ct).ConfigureAwait(false);
+                try
+                {
+                    // Wrap each load in try/catch so one bad URL won't take down the whole batch
+                    var img = await Task.Run(() =>
+                    {
+                        // Double-check cancellation inside the worker
+                        if (ct.IsCancellationRequested) return (Image?)null;
+                        return LoadImageFromUrl(item.Image);
+                    }, ct).ConfigureAwait(false);
+
+                    return (item, img, error: (Exception?)null);
+                }
+                catch (Exception ex)
+                {
+                    // Capture the error with the item; caller can still show the row without image
+                    return (item, img: (Image?)null, error: ex);
+                }
+                finally
+                {
+                    gate.Release();
+                }
+            }).ToArray();
+
+            (FeedItem item, Image? img, Exception? error)[] results;
+            try
+            {
+                results = await Task.WhenAll(preloadTasks).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // If canceled while loading, just return quietly
+                return;
+            }
+
+            // Now marshal back to UI thread to update the grid
+            if (dg.InvokeRequired)
+            {
+                var tcs = new TaskCompletionSource<bool>();
+
+                // If already canceled after preload, skip UI work
+                if (ct.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                dg.BeginInvoke(new System.Action(() =>
+                {
+                    try
+                    {
+                        // If canceled right before UI work, bail out quickly
+                        if (ct.IsCancellationRequested)
+                        {
+                            tcs.SetResult(true);
+                            return;
+                        }
+
+                        dg.SuspendLayout();
+                        dg.Rows.Clear();
+                        bool bb = false;
+
+                        foreach (var r in results)
+                        {
+                            // Allow cancel during long UI add loop
+                            if (ct.IsCancellationRequested)
+                                break;
+
+                            // If image failed, use null; cell type should tolerate it (or assign a placeholder if you have one)
+                            dg.Rows.Add(
+                                bb,                      // X (checkbox)
+                                r.img,                   // image (Image, may be null if load failed)
+                                r.item.Title ?? string.Empty,
+                                r.item.FeedId ?? string.Empty
+                            );
+
+                            var lastRow = dg.Rows[dg.Rows.Count - 1];
+                            // Protect index access in case columns differ at runtime
+                            if (dg.Columns.Count > 1)
+                            {
+                                lastRow.Cells[1].Tag = r.item.Image ?? string.Empty;
+                                lastRow.Cells[1].ToolTipText = r.item.Image ?? string.Empty;
+                            }
+                            if (dg.Columns.Contains("imageUrl"))
+                            {
+                                lastRow.Cells["imageUrl"].Value = r.item.Image ?? string.Empty;
+                            }
+                        }
+                        dg.ResumeLayout();
+
+                        tcs.SetResult(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        tcs.SetException(ex);
+                    }
+                }));
+
+                // Await UI completion off the UI context to avoid deadlocks
+                await tcs.Task.ConfigureAwait(false);
+            }
+            else
+            {
+                // Running on UI thread already
+                if (ct.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                dg.SuspendLayout();
+                try
+                {
+                    dg.Rows.Clear();
+                    bool bb = false;
+
+                    foreach (var r in results)
+                    {
+                        if (ct.IsCancellationRequested)
+                            break;
+
+                        dg.Rows.Add(
+                            bb,                      // X (checkbox)
+                            r.img!,                   // image (Image, may be null if load failed)
+                            r.item.Title ?? string.Empty,
+                            r.item.FeedId ?? string.Empty
+                        );
+
+                        var lastRow = dg.Rows[dg.Rows.Count - 1];
+                        if (dg.Columns.Count > 1)
+                        {
+                            lastRow.Cells[1].Tag = r.item.Image ?? string.Empty;
+                            lastRow.Cells[1].ToolTipText = r.item.Image ?? string.Empty;
+                        }
+                        if (dg.Columns.Contains("imageUrl"))
+                        {
+                            lastRow.Cells["imageUrl"].Value = r.item.Image ?? string.Empty;
+                        }
+                    }
+                }
+                finally
+                {
+                    dg.ResumeLayout();
+                }
+            }
+        }
+
+
+        public static void LoadDataGridFeeds(List<FeedItem> list, DataGridView dg)
+        {
+            dg.Rows.Clear();
+            bool bb = false;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                var thumb = LoadImageFromUrl(list[i].Image);
+
+                dg.Rows.Add(
+                    bb,                 // X (checkbox)
+                    thumb!,             // image (Image, not string)
+                    list[i].Title!,
+                    list[i].FeedId
+                );
+
+                var lastRow = dg.Rows[dg.Rows.Count - 1];
+                // persist the FULL image URL so we can retrieve it later
+                lastRow.Cells[1].Tag = list[i].Image;          // cell index 1 is your "image" column
+                lastRow.Cells[1].ToolTipText = list[i].Image;  // redundant storage for robustness
+                if (dg.Columns.Contains("imageUrl"))
+                {
+                    lastRow.Cells["imageUrl"].Value = list[i].Image; // hidden text column for the URL
+                }
+
+            }
+
+            //lbl.Text = "Total: " + list.Count;
+
+            // REMOVE the second foreach that was adding mismatched rows.
+        }
 
         private void dgvFeeds_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {

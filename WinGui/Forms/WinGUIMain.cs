@@ -181,6 +181,37 @@ namespace AiNetStudio.WinGui.Forms
 
             //SelectCompany();
 
+            #region ========== BEGIN SHOW HAND CURSOR OVER TABS ================
+
+            //GetTabRect(int) gives bounding rectangle of each tab header; you
+            //just hit-test mouse location against those rects and set the cursor
+            //accordingly. This is intended API for tab header geometry and hit
+            //testing (see GetTabRect and tab control hit testing in the docs).
+
+            tabControlEx1.MouseMove += (s, e) =>
+            {
+                for (int i = 0; i < tabControlEx1.TabPages.Count; i++)
+                {
+                    var headerRect = tabControlEx1.GetTabRect(i); // header area for tab i
+                    if (headerRect.Contains(e.Location))
+                    {
+                        if (tabControlEx1.Cursor != Cursors.Hand)
+                            tabControlEx1.Cursor = Cursors.Hand;
+                        return; // we're over a tab header; done
+                    }
+                }
+                // not over any header
+                if (tabControlEx1.Cursor != Cursors.Default)
+                    tabControlEx1.Cursor = Cursors.Default;
+            };
+
+            tabControlEx1.MouseLeave += (s, e) =>
+            {
+                tabControlEx1.Cursor = Cursors.Default;
+            };
+
+            #endregion ======= END SHOW HAND CURSOR OVER TABS ==================
+
         }
 
         public void SelectTab(int iTab)
@@ -216,7 +247,6 @@ namespace AiNetStudio.WinGui.Forms
         //        }
         //    }
         //}
-
 
         public void HandleEventFromBrowser(string payload /* format: "action:value" */)
         {
@@ -320,7 +350,7 @@ namespace AiNetStudio.WinGui.Forms
             tp1.Text = "Welcome";
             tp2.Text = "Browser";
             tp3.Text = "Device Hub";
-            tp4.Text = "SplitEditor";
+            tp4.Text = "Video Editor";
             //tp5.Text = "Transactions";
             //tp6.Text = "Reports";
             //tp7.Text = "Categories";
@@ -503,7 +533,7 @@ namespace AiNetStudio.WinGui.Forms
             deviceHybControl.Dock = DockStyle.Fill;
             tp3.Controls.Add(deviceHybControl);
 
-            tp4.Text = "Split Editor";
+            tp4.Text = "Video Editor";
             tabControlEx1.TabPages.Add(tp4);
             SplitEditor splitEditor = new SplitEditor(this);
             splitEditor.MainFormReference = this;
@@ -578,6 +608,8 @@ namespace AiNetStudio.WinGui.Forms
             //tsbPassGuard.Click += tsbPassGuard_Click;
 
         }
+
+
 
         private void SetAllToolStripRenderMode(Control parent)
         {

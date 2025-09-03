@@ -161,72 +161,244 @@ namespace AiNetStudio.DataAccess
         /// Scans all feeds with YouTube links and removes those that are no longer available.
         /// Uses the YouTube oEmbed endpoint for validation.
         /// </summary>
-        public static void CleanUnavailableYouTubeVideos()
+        //public static Task CleanUnavailableYouTubeVideosAsync()
+        //{
+        //    return Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            //EnsureDatabase();
+
+        //            using var con = OpenConnection();
+        //            using var cmd = con.CreateCommand();
+        //            cmd.CommandText = "SELECT FeedId, link FROM Feeds WHERE link LIKE 'https://%youtube.com/watch%'";
+        //            using var rdr = cmd.ExecuteReader();
+
+        //            var badIds = new System.Collections.Concurrent.ConcurrentBag<string>();
+        //            using var http = new HttpClient() { Timeout = TimeSpan.FromSeconds(8) };
+
+        //            var checks = new List<Task>();
+
+        //            while (rdr.Read())
+        //            {
+        //                var feedId = rdr.GetString(0);
+        //                var link = rdr.IsDBNull(1) ? null : rdr.GetString(1);
+        //                if (string.IsNullOrWhiteSpace(link)) continue;
+        //                if (string.IsNullOrWhiteSpace(feedId)) continue;
+
+        //                // Extract the videoId from link (basic parsing for v=VIDEOID)
+        //                var uri = new Uri(link);
+        //                var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        //                var videoId = query.Get("v");
+        //                if (string.IsNullOrWhiteSpace(videoId)) continue;
+
+        //                var url = $"https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={videoId}&format=json";
+
+        //                // run the probe on a background thread, collect bad ids thread-safely
+        //                checks.Add(Task.Run(async () =>
+        //                {
+        //                    try
+        //                    {
+        //                        var resp = await http.GetAsync(url).ConfigureAwait(false);
+        //                        if (!resp.IsSuccessStatusCode)
+        //                        {
+        //                            badIds.Add(feedId);
+        //                        }
+        //                    }
+        //                    catch
+        //                    {
+        //                        badIds.Add(feedId);
+        //                    }
+        //                }));
+        //            }
+
+        //            rdr.Close();
+
+        //            // wait for all probes to finish
+        //            await Task.WhenAll(checks).ConfigureAwait(false);
+
+        //            var toDelete = badIds.Distinct().ToList();
+
+        //            if (toDelete.Count > 0)
+        //            {
+        //                using var tx = con.BeginTransaction();
+        //                using var del = con.CreateCommand();
+        //                del.Transaction = tx;
+        //                // extra safety: constrain delete to youtube-watch links only
+        //                del.CommandText = "DELETE FROM Feeds WHERE FeedId = $id AND link LIKE 'https://%youtube.com/watch%'";
+        //                var pId = del.CreateParameter();
+        //                pId.ParameterName = "$id";
+        //                del.Parameters.Add(pId);
+
+        //                foreach (var id in toDelete)
+        //                {
+        //                    if (string.IsNullOrWhiteSpace(id)) continue;
+        //                    pId.Value = id;
+        //                    del.ExecuteNonQuery();
+        //                }
+
+        //                tx.Commit();
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ReportError("CleanUnavailableYouTubeVideos", ex);
+        //            throw;
+        //        }
+        //    });
+        //}
+
+        // Tubes.cs
+        // Tubes.cs
+        public static async Task<List<string>> DetectUnavailableYouTubeVideosAsync()
         {
-            try
+            return await Task.Run(async () =>
             {
-                //EnsureDatabase();
-
-                using var con = OpenConnection();
-                using var cmd = con.CreateCommand();
-                cmd.CommandText = "SELECT FeedId, link FROM Feeds WHERE link LIKE 'https://%youtube.com/watch%'";
-                using var rdr = cmd.ExecuteReader();
-
                 var badIds = new List<string>();
-                using var http = new HttpClient();
-
-                while (rdr.Read())
+                try
                 {
-                    var feedId = rdr.GetString(0);
-                    var link = rdr.IsDBNull(1) ? null : rdr.GetString(1);
-                    if (string.IsNullOrWhiteSpace(link)) continue;
+                    using var con = OpenConnection();
+                    using var cmd = con.CreateCommand();
+                    cmd.CommandText = "SELECT FeedId, link FROM Feeds WHERE link LIKE 'https://%youtube.com/watch%'";
+                    using var rdr = cmd.ExecuteReader();
 
-                    // Extract the videoId from link (basic parsing for v=VIDEOID)
-                    var uri = new Uri(link);
-                    var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
-                    var videoId = query.Get("v");
-                    if (string.IsNullOrWhiteSpace(videoId)) continue;
+                    using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(8) };
+                    var sem = new SemaphoreSlim(8);
+                    var tasks = new List<Task>();
 
-                    var url = $"https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={videoId}&format=json";
-                    try
+                    while (rdr.Read())
                     {
-                        var resp = http.GetAsync(url).Result;
-                        if (resp.StatusCode != HttpStatusCode.OK)
+                        var feedId = rdr.GetString(0);
+                        var link = rdr.IsDBNull(1) ? null : rdr.GetString(1);
+                        if (string.IsNullOrWhiteSpace(feedId) || string.IsNullOrWhiteSpace(link)) continue;
+
+                        string? videoId = null;
+                        try
                         {
-                            badIds.Add(feedId);
+                            var uri = new Uri(link);
+                            var q = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                            videoId = q.Get("v");
                         }
+                        catch { }
+                        if (string.IsNullOrWhiteSpace(videoId)) continue;
+
+                        var url = $"https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={videoId}&format=json";
+
+                        await sem.WaitAsync().ConfigureAwait(false);
+                        tasks.Add(Task.Run(async () =>
+                        {
+                            try
+                            {
+                                var resp = await http.GetAsync(url).ConfigureAwait(false);
+                                if (!resp.IsSuccessStatusCode)
+                                {
+                                    lock (badIds) badIds.Add(feedId);
+                                }
+                            }
+                            catch
+                            {
+                                lock (badIds) badIds.Add(feedId);
+                            }
+                            finally { sem.Release(); }
+                        }));
                     }
-                    catch
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
+
+                    // Write to side table (no deletes here)
+                    if (badIds.Count > 0)
                     {
-                        badIds.Add(feedId);
+                        using var tx = con.BeginTransaction();
+                        using (var create = con.CreateCommand())
+                        {
+                            create.Transaction = tx;
+                            create.CommandText = @"CREATE TABLE IF NOT EXISTS Feeds_Unavailable(FeedId TEXT PRIMARY KEY)";
+                            create.ExecuteNonQuery();
+                        }
+                        using (var ins = con.CreateCommand())
+                        {
+                            ins.Transaction = tx;
+                            ins.CommandText = "INSERT OR IGNORE INTO Feeds_Unavailable(FeedId) VALUES($id)";
+                            var p = ins.CreateParameter(); p.ParameterName = "$id"; ins.Parameters.Add(p);
+                            foreach (var id in badIds.Distinct())
+                            {
+                                p.Value = id;
+                                ins.ExecuteNonQuery();
+                            }
+                        }
+                        tx.Commit();
                     }
                 }
-
-                rdr.Close();
-
-                if (badIds.Count > 0)
+                catch (Exception ex)
                 {
-                    using var tx = con.BeginTransaction();
-                    using var del = con.CreateCommand();
-                    del.Transaction = tx;
-                    del.CommandText = "DELETE FROM Feeds WHERE FeedId = $id";
+                    ReportError("DetectUnavailableYouTubeVideosAsync", ex);
+                    throw;
+                }
+                return badIds.Distinct().ToList();
+            });
+        }
 
-                    foreach (var id in badIds)
+        // Single-shot DELETE using a temp table/CTE. No per-row loops, no parameter reuse, no updates.
+        public static async Task<int> PurgeUnavailableYouTubeVideosAsync()
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    using var con = OpenConnection();
+                    using var tx = con.BeginTransaction();
+
+                    // Build a temp table of IDs to delete (copy from Feeds_Unavailable to avoid joins on delete)
+                    using (var dropTmp = con.CreateCommand())
                     {
-                        del.Parameters.Clear();
-                        del.Parameters.AddWithValue("$id", id);
-                        del.ExecuteNonQuery();
+                        dropTmp.Transaction = tx;
+                        dropTmp.CommandText = "DROP TABLE IF EXISTS _TmpToDelete";
+                        dropTmp.ExecuteNonQuery();
+                    }
+                    using (var mkTmp = con.CreateCommand())
+                    {
+                        mkTmp.Transaction = tx;
+                        mkTmp.CommandText = "CREATE TEMP TABLE _TmpToDelete(FeedId TEXT PRIMARY KEY)";
+                        mkTmp.ExecuteNonQuery();
+                    }
+                    using (var fillTmp = con.CreateCommand())
+                    {
+                        fillTmp.Transaction = tx;
+                        fillTmp.CommandText = @"INSERT INTO _TmpToDelete(FeedId)
+                                        SELECT FeedId FROM Feeds_Unavailable";
+                        fillTmp.ExecuteNonQuery();
+                    }
+
+                    // Delete only rows that are YouTube watch links AND in the temp table
+                    int affected;
+                    using (var del = con.CreateCommand())
+                    {
+                        del.Transaction = tx;
+                        del.CommandText =
+                            @"DELETE FROM Feeds
+                      WHERE link LIKE 'https://%youtube.com/watch%'
+                        AND FeedId IN (SELECT FeedId FROM _TmpToDelete)";
+                        affected = del.ExecuteNonQuery();
+                    }
+
+                    // Optional: clear the flags we just processed
+                    using (var clr = con.CreateCommand())
+                    {
+                        clr.Transaction = tx;
+                        clr.CommandText = "DELETE FROM Feeds_Unavailable WHERE FeedId IN (SELECT FeedId FROM _TmpToDelete)";
+                        clr.ExecuteNonQuery();
                     }
 
                     tx.Commit();
+                    return affected;
                 }
-            }
-            catch (Exception ex)
-            {
-                ReportError("CleanUnavailableYouTubeVideos", ex);
-                throw;
-            }
+                catch (Exception ex)
+                {
+                    ReportError("PurgeUnavailableYouTubeVideosAsync", ex);
+                    throw;
+                }
+            });
         }
+
 
         /// <summary>
         /// Distinct top-level categories.
@@ -347,7 +519,7 @@ namespace AiNetStudio.DataAccess
         /// <summary>
         /// Returns feeds filtered by category and optional subcategory.
         /// </summary>
-        public static List<FeedItem> GetFeedsByCategory(string category, string? subcategory = null, int take = 500, int skip = 0)
+        public static List<FeedItem> GetFeedsByCategory(string category, string? subcategory = null, int start = 0, int max = 300)
         {
             try
             {
@@ -363,25 +535,29 @@ namespace AiNetStudio.DataAccess
                     cmd.CommandText = @"
                 SELECT FeedId, category, subcategory, catsub, groupcategory, moviecategory, rank, title, author, link, linkType, linkValue, shortDescription, description, bodyLinks, image, publishedDate, duration, tags
                 FROM Feeds
-                WHERE category = $c
+                WHERE TRIM(category) = TRIM($c) COLLATE NOCASE
                 ORDER BY rank ASC, title COLLATE NOCASE
                 LIMIT $take OFFSET $skip;";
-                    cmd.Parameters.AddWithValue("$c", category);
+                    cmd.Parameters.AddWithValue("$c", category.Trim());
                 }
                 else
                 {
                     cmd.CommandText = @"
                 SELECT FeedId, category, subcategory, catsub, groupcategory, moviecategory, rank, title, author, link, linkType, linkValue, shortDescription, description, bodyLinks, image, publishedDate, duration, tags
                 FROM Feeds
-                WHERE category = $c AND COALESCE(subcategory,'') = $sc
+                WHERE TRIM(category) = TRIM($c) COLLATE NOCASE
+                  AND TRIM(COALESCE(subcategory,'')) = TRIM($sc) COLLATE NOCASE
                 ORDER BY rank ASC, title COLLATE NOCASE
                 LIMIT $take OFFSET $skip;";
-                    cmd.Parameters.AddWithValue("$c", category);
-                    cmd.Parameters.AddWithValue("$sc", subcategory);
+                    cmd.Parameters.AddWithValue("$c", category.Trim());
+                    cmd.Parameters.AddWithValue("$sc", subcategory.Trim());
                 }
 
-                cmd.Parameters.AddWithValue("$take", Math.Clamp(take, 1, 5000));
-                cmd.Parameters.AddWithValue("$skip", Math.Max(0, skip));
+                var take = Math.Clamp(max, 0, 5000);
+                var skip = Math.Max(0, start);
+
+                cmd.Parameters.AddWithValue("$take", take);
+                cmd.Parameters.AddWithValue("$skip", skip);
 
                 using var rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -411,9 +587,19 @@ namespace AiNetStudio.DataAccess
 
                 return items;
             }
-            catch (SqliteException ex) { ReportError("GetFeedsByCategory", ex); throw; }
-            catch (Exception ex) { ReportError("GetFeedsByCategory", ex); throw; }
+            catch (SqliteException ex)
+            {
+                ReportError("GetFeedsByCategory", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                ReportError("GetFeedsByCategory", ex);
+                throw;
+            }
+
         }
+
 
         public static string BuildFeedsHtml(string category, string? subcategory, IEnumerable<FeedItem> feeds)
         {
