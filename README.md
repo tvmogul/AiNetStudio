@@ -28,6 +28,14 @@ I created this to help people do accounting and make profit.
 
 To use the Video Features you can download FFmpeg from:
 - https://github.com/BtbN/FFmpeg-Builds/releases"
+- Create a folder inside the "Libs" folder called "ffmpeg"
+- ## Core binaries (Windows + macOS/Linux)
+- Place these files in that folder: 
+- Libs/ffmpeg/ffprobe
+- Libs/ffmpeg/ffplay
+- Libs/ffmpeg/ffmpeg.exe
+- Libs/ffmpeg/ffprobe.exe
+- Libs/ffmpeg/ffplay.exe
 
 ---
 ## Speculative Concepts
