@@ -37,6 +37,13 @@ To use the Video Features you can download FFmpeg from:
 - Libs/ffmpeg/ffprobe.exe
 - Libs/ffmpeg/ffplay.exe
 
+## Video Editing
+- Two Screens in One. Top Screen:
+![AiNetStudio](https://ainetstudio.com/img/zvideo_top.png)
+
+- Two Screens in One. Bottom Screen:
+![AiNetStudio](https://ainetstudio.com/img/zvideo_bottom.png)
+
 ---
 ## Speculative Concepts
 
