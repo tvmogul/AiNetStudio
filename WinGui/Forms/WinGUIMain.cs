@@ -20,7 +20,11 @@
  */
 
 //using AiNetStudio.WinGui.Dialogs;
+using AiNetStudio.Helpers;
 using AiNetStudio.WinGui.Controls;
+using AiNetStudio.WinGui.ControlScreens;
+using CustomControls;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,14 +32,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Microsoft.Win32;
-using static System.Drawing.ThemedColors;
-using CustomControls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 //using SkinDialogs;
 //using AIDemos.Models;
 //using BlackBox;
@@ -43,7 +39,12 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 //using AiNetStudio.WinGui.ControlScreens;
 //using AiNetStudio.Helpers;
 using System.IO.Compression;
-using AiNetStudio.WinGui.ControlScreens;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Drawing.ThemedColors;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace AiNetStudio.WinGui.Forms
 {
@@ -578,7 +579,8 @@ namespace AiNetStudio.WinGui.Forms
             tabControlEx1.Selecting += tabControlEx1_Selecting!;
 
             statusStripCopyright.Text = $"Copyright 2024 - {DateTime.Now.Year} Ouslan, Inc., All Rights Reserved Worldwide.";
-            //statusStripVersion.Text = VersionHelper.GetFormattedAppTitle();
+            statusStripVersion.Text = "Version: " + VersionHelper.GetAssemblyVersion();
+            //Version: VersionHelper.GetInformationalVersion() </ span >
 
             toolStrip1.AutoSize = false;
             toolStrip1.Height = 40; //pixels
@@ -1072,7 +1074,7 @@ namespace AiNetStudio.WinGui.Forms
 
             btnManual.Click += (sender, e) =>
             {
-                string url = "https://ainetprofit.com/Manual";
+                string url = "https://ainetstudio.com/Manual";
                 OpenUrlInChromeOrDefault(url);
             };
             toolStrip1.Items.Add(btnManual);

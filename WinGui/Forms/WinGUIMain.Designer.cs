@@ -72,11 +72,11 @@
             // statusStripVersion
             // 
             statusStripVersion.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            statusStripVersion.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            statusStripVersion.ForeColor = Color.Red;
+            statusStripVersion.Font = new Font("Segoe UI", 9F);
+            statusStripVersion.ForeColor = Color.Black;
             statusStripVersion.ImageAlign = ContentAlignment.MiddleRight;
             statusStripVersion.Name = "statusStripVersion";
-            statusStripVersion.Size = new Size(60, 23);
+            statusStripVersion.Size = new Size(56, 23);
             statusStripVersion.Text = "version";
             statusStripVersion.TextAlign = ContentAlignment.MiddleRight;
             // 
