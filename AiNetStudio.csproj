@@ -120,6 +120,10 @@
     <None Remove="Resources\zscreen_crap.png" />
     <None Remove="Resources\zscreen_cuurent.png" />
     <None Remove="Resources\zscreen_good.png" />
+    <None Remove="Resources\zvideo_bottom - Copy.png" />
+    <None Remove="Resources\zvideo_bottom.png" />
+    <None Remove="Resources\zvideo_top - Copy.png" />
+    <None Remove="Resources\zvideo_top.png" />
     <None Remove="Resources\z_1092610.jpg" />
     <None Remove="Resources\z_6409.jpg" />
     <None Remove="Resources\z_gradient-thumbnail.jpg" />
@@ -295,6 +299,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\zscreen_good.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zvideo_bottom - Copy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zvideo_bottom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zvideo_top - Copy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zvideo_top.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\z_1092610.jpg">
@@ -659,6 +675,12 @@
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
     <None Update="wwwroot\img\alienr.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="wwwroot\img\zvideo_bottom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="wwwroot\img\zvideo_top.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="wwwroot\js\category.js">
