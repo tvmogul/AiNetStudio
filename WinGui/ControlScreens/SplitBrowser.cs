@@ -1,4 +1,25 @@
-﻿using AiNetStudio.DataAccess;
+﻿//
+////////////////////////////////////////////////////////////////
+//
+/**************************************************************
+**        __                                          __
+**     __/_/__________________________________________\_\__
+**  __|_                                                  |__
+** (___O)     Ouslan, Inc.                              (O___)
+**(_____O)	  ainetstudio.com              			   (O_____)
+**(_____O)	  Author: Bill SerGio, Infomercial King™   (O_____)
+** (__O)                                                (O__)
+**    |___________________________________________________|
+**
+****************************************************************/
+/*
+ * (C) Copyright 2024-2025 Ouslan,Inc, All Rights Reserved Worldwide.
+ * software-rus.com   
+ * tvmogul1@yahoo.com  
+ *
+ */
+
+using AiNetStudio.DataAccess;
 using AiNetStudio.WinGui.Forms;
 using System;
 using System.Collections.Generic;

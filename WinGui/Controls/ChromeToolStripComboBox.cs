@@ -1,5 +1,27 @@
-﻿// WinGui/Controls/ChromeToolStripComboBox.cs
-// .NET 9 WinForms - ToolStripComboBox-derived control with Chrome-like rounded blue focus ring.
+﻿//
+////////////////////////////////////////////////////////////////
+//
+/**************************************************************
+**        __                                          __
+**     __/_/__________________________________________\_\__
+**  __|_                                                  |__
+** (___O)     Ouslan, Inc.                              (O___)
+**(_____O)	  ainetstudio.com              			   (O_____)
+**(_____O)	  Author: Bill SerGio, Infomercial King™   (O_____)
+** (__O)                                                (O__)
+**    |___________________________________________________|
+**
+****************************************************************/
+/*
+ * (C) Copyright 2024-2025 Ouslan,Inc, All Rights Reserved Worldwide.
+ * software-rus.com   
+ * tvmogul1@yahoo.com  
+ *
+ */
+
+// WinGui/Controls/ChromeToolStripComboBox.cs
+// .NET 9 WinForms - ToolStripComboBox-derived
+// control with Chrome-like rounded blue focus ring.
 
 using System;
 using System.ComponentModel;
