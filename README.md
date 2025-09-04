@@ -44,8 +44,9 @@ To use the Video Features you can download FFmpeg from:
 ## Video Editing
 - Two Screens in One. Top Screen.
 - This screen allows you to search YouTibe videos.
-- I will be adding YouKU: https://www.youku.tv/
+- I will be adding YouKu: https://www.youku.tv/
 - And I will be adding over 100 tube servers!
+- International tubes give added access to research abroad
 ![AiNetStudio](https://ainetstudio.com/img/zvideo_top.png)
 
 - Two Screens in One. Bottom Screen.
