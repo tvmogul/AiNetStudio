@@ -416,3 +416,43 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# --- FFmpeg (ignore all variants, any platform) ---
+# Ignore any FFmpeg bundle in a Libs/ffmpeg folder (any depth)
+**/Libs/ffmpeg/**
+
+# Core binaries (Windows + macOS/Linux)
+**/ffmpeg
+**/ffprobe
+**/ffplay
+**/ffmpeg.exe
+**/ffprobe.exe
+**/ffplay.exe
+
+# Common FFmpeg DLL/SO/DYLIB names with version wildcards
+**/avcodec-*.dll
+**/avfilter-*.dll
+**/avformat-*.dll
+**/avdevice-*.dll
+**/avutil-*.dll
+**/swscale-*.dll
+**/swresample-*.dll
+**/libavcodec*.so*
+**/libavfilter*.so*
+**/libavformat*.so*
+**/libavdevice*.so*
+**/libavutil*.so*
+**/libswscale*.so*
+**/libswresample*.so*
+**/libavcodec*.dylib
+**/libavfilter*.dylib
+**/libavformat*.dylib
+**/libavdevice*.dylib
+**/libavutil*.dylib
+**/libswscale*.dylib
+**/libswresample*.dylib
+
+# If you want to keep the folder in Git (empty), allow a placeholder file:
+!**/Libs/ffmpeg/.keep
+
+

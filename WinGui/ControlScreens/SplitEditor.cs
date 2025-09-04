@@ -38,8 +38,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VideoLibrary;
 using YouTubeScrapper;
+using YoutubeExplode;
+using YoutubeExplode.Videos.Streams;
+using YoutubeExplode.Converter; 
 using static NumSharp.np;
+using static System.Windows.Forms.LinkLabel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static TorchSharp.torch.distributions.constraints;
 
@@ -274,8 +279,9 @@ namespace AiNetStudio.WinGui.ControlScreens
             this.btnFeeds2.Click += btnFeeds2_Click;
             //this.btnSearchVideoTitles2.Click += new System.EventHandler(this.btnSearchVideoTitles_Click);
             ////this.btnJSON.Click += new System.EventHandler(this.btnJSON_Click);
-            ////this.btnLink.Click += new System.EventHandler(this.btnLink_Click);
-            ////this.btnLinkValue.Click += new System.EventHandler(this.btnLinkValue_Click);
+            this.btnLink2.Click += btnLink2_Click;
+            this.btnLinkValue2.Click += btnLinkValue2_Click;
+
             //this.btnGetDescription.Click += new System.EventHandler(this.btnGetDescription_Click);
 
             //this.btnClean2.Click += btnClean2_Click;
@@ -1284,6 +1290,128 @@ namespace AiNetStudio.WinGui.ControlScreens
             dgvVideos.Cursor = Cursors.Default;
         }
 
+        //static async void Search(string search, int max, DataGridView dgv, Label labelx, string dur)
+        //{
+        //    //Log.setMode(false);
+
+        //    int idur = Convert.ToInt32(dur);
+
+        //    string querystring = search;
+        //    int querypages = max;
+
+        //    VideoSearch videos = new VideoSearch();
+        //    var items = await videos.GetVideos(querystring, querypages);
+        //    //var items = await videos.GetVideosPaged(querystring, querypages);
+
+        //    List<RSSFeed> list = new List<RSSFeed>();
+
+        //    foreach (var item in items)
+        //    {
+        //        RSSFeed f = new RSSFeed();
+        //        f.title = FilterString(item.getTitle());
+        //        f.author = item.getAuthor();
+
+        //        //////////////////////////////////////////////////////////
+        //        string _description = FilterString(item.getDescription());
+        //        if (_description.Length < 1)
+        //        {
+        //            _description = item.getTitle();
+        //        }
+        //        f.description = _description;
+        //        f.shortDescription = _description;
+        //        //////////////////////////////////////////////////////////
+
+        //        // for movies!!!
+        //        f.duration = item.getDuration();
+
+        //        string x = item.getUrl();
+        //        char[] equal = new char[1] { '=' };
+        //        String[] strlist = x.Split(new char[] { '=' });
+
+        //        if (strlist[1].Length > 0)
+        //        {
+        //            f.linkValue = strlist[1];
+        //        }
+        //        else
+        //        {
+        //            f.linkValue = string.Empty;
+        //        }
+
+        //        f.image = item.getThumbnail();
+        //        string _views = item.getViewCount();
+        //        int parsedViews;
+        //        if (!string.IsNullOrEmpty(_views) && int.TryParse(_views.Replace(".", ""), out parsedViews))
+        //        {
+        //            f.rank = parsedViews;
+        //        }
+        //        else
+        //        {
+        //            f.rank = 0; // Default value if _views is null, empty, or not a valid int
+        //        }
+
+
+        //        Guid id = Guid.NewGuid();
+        //        f.FeedId = id.ToString();
+        //        f.category = "unknown";
+        //        //f.title = sdr.GetString("title");
+        //        //f.author = sdr.GetString("author");
+        //        f.link = item.getUrl();
+        //        f.linkType = "youtube";
+        //        //f.linkValue = sdr.GetString("linkValue");
+        //        f.bodyLinks = string.Empty;
+        //        //f.image = sdr.GetString("image");
+        //        f.warnings = string.Empty;
+        //        f.sideeffects = string.Empty;
+        //        f.dosage = string.Empty;
+        //        f.anticoagulant = false;
+        //        f.carcinogenic = false;
+        //        f.hypoglycemic = false;
+        //        f.liverdamage = false;
+        //        f.kidneydamage = false;
+        //        //f.rank = sdr.GetInt32("rank");
+        //        f.publishedDate = DateTime.UtcNow;
+        //        f.beginDate = DateTime.UtcNow;
+        //        f.endDate = DateTime.UtcNow;
+        //        f.city = string.Empty;
+        //        f.state = string.Empty;
+        //        f.postalCode = string.Empty;
+        //        f.country = string.Empty;
+        //        f.areaCode = string.Empty;
+        //        f.closed = false;
+        //        f.carousel = false;
+        //        f.carousel_caption = string.Empty;
+        //        f.showvideo = false;
+        //        f.moviecategory = "ZOther";
+
+        //        // for movies!!! idur
+        //        int mm = 0;
+        //        try
+        //        {
+        //            mm = CalculateTimeInMinutes1(f.duration);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            mm = 0;
+        //        }
+        //        // if(hh >= idur)
+
+        //        if ((f.FeedId.Length > 0) && (mm >= idur))
+        //        {
+        //            //string x = item.getUrl();
+        //            if (!CheckedListBox(x, list))
+        //            {
+        //                list.Add(f);
+        //            }
+        //        }
+
+        //    }
+        //    labelx.Text = "Total: " + list.Count;
+        //    //broadcast.SendToChannel("Channel1", string.Format("{0}", "updatedropdowns"));
+        //    //IXDBroadcast bc
+        //    LoadDataGridVideos(list, dgv);
+
+        //}
+
         static async void Search(string search, int max, DataGridView dgv, Label labelx, string dur)
         {
             //Log.setMode(false);
@@ -1297,13 +1425,13 @@ namespace AiNetStudio.WinGui.ControlScreens
             var items = await videos.GetVideos(querystring, querypages);
             //var items = await videos.GetVideosPaged(querystring, querypages);
 
-            List<RSSFeed> list = new List<RSSFeed>();
+            List<FeedItem> list = new List<FeedItem>();
 
             foreach (var item in items)
             {
-                RSSFeed f = new RSSFeed();
-                f.title = FilterString(item.getTitle());
-                f.author = item.getAuthor();
+                FeedItem f = new FeedItem();
+                f.Title = FilterString(item.getTitle());
+                f.Author = item.getAuthor();
 
                 //////////////////////////////////////////////////////////
                 string _description = FilterString(item.getDescription());
@@ -1311,12 +1439,12 @@ namespace AiNetStudio.WinGui.ControlScreens
                 {
                     _description = item.getTitle();
                 }
-                f.description = _description;
-                f.shortDescription = _description;
+                f.Description = _description;
+                f.ShortDescription = _description;
                 //////////////////////////////////////////////////////////
 
                 // for movies!!!
-                f.duration = item.getDuration();
+                f.Duration = item.getDuration();
 
                 string x = item.getUrl();
                 char[] equal = new char[1] { '=' };
@@ -1324,64 +1452,39 @@ namespace AiNetStudio.WinGui.ControlScreens
 
                 if (strlist[1].Length > 0)
                 {
-                    f.linkValue = strlist[1];
+                    f.LinkValue = strlist[1];
                 }
                 else
                 {
-                    f.linkValue = string.Empty;
+                    f.LinkValue = string.Empty;
                 }
 
-                f.image = item.getThumbnail();
+                f.Image = item.getThumbnail();
                 string _views = item.getViewCount();
                 int parsedViews;
                 if (!string.IsNullOrEmpty(_views) && int.TryParse(_views.Replace(".", ""), out parsedViews))
                 {
-                    f.rank = parsedViews;
+                    f.Rank = parsedViews;
                 }
                 else
                 {
-                    f.rank = 0; // Default value if _views is null, empty, or not a valid int
+                    f.Rank = 0; // Default value if _views is null, empty, or not a valid int
                 }
-
 
                 Guid id = Guid.NewGuid();
                 f.FeedId = id.ToString();
-                f.category = "unknown";
-                //f.title = sdr.GetString("title");
-                //f.author = sdr.GetString("author");
-                f.link = item.getUrl();
-                f.linkType = "youtube";
-                //f.linkValue = sdr.GetString("linkValue");
-                f.bodyLinks = string.Empty;
-                //f.image = sdr.GetString("image");
-                f.warnings = string.Empty;
-                f.sideeffects = string.Empty;
-                f.dosage = string.Empty;
-                f.anticoagulant = false;
-                f.carcinogenic = false;
-                f.hypoglycemic = false;
-                f.liverdamage = false;
-                f.kidneydamage = false;
-                //f.rank = sdr.GetInt32("rank");
-                f.publishedDate = DateTime.UtcNow;
-                f.beginDate = DateTime.UtcNow;
-                f.endDate = DateTime.UtcNow;
-                f.city = string.Empty;
-                f.state = string.Empty;
-                f.postalCode = string.Empty;
-                f.country = string.Empty;
-                f.areaCode = string.Empty;
-                f.closed = false;
-                f.carousel = false;
-                f.carousel_caption = string.Empty;
-                f.showvideo = false;
-                f.moviecategory = "ZOther";
+                f.Category = "unknown";
+                f.Link = item.getUrl();
+                f.LinkType = "youtube";
+                f.BodyLinks = string.Empty;
+                f.PublishedDate = DateTime.UtcNow.ToShortDateString();
+                f.MovieCategory = "ZOther";
 
                 // for movies!!! idur
                 int mm = 0;
                 try
                 {
-                    mm = CalculateTimeInMinutes1(f.duration);
+                    mm = CalculateTimeInMinutes1(f.Duration);
                 }
                 catch (Exception ex)
                 {
@@ -1406,35 +1509,73 @@ namespace AiNetStudio.WinGui.ControlScreens
 
         }
 
-        public static void LoadDataGridVideos(List<RSSFeed> list, DataGridView dg)
+        //public static void LoadDataGridVideos(List<RSSFeed> list, DataGridView dg)
+        //{
+        //    dg.Rows.Clear();
+        //    bool bb = false;
+
+        //    for (int i = 0; i < list.Count; i++)
+        //    {
+        //        var thumb = LoadImageFromUrl(list[i].image); // <-- convert URL -> Image
+
+        //        dg.Rows.Add(
+        //            bb,                     // X (checkbox)
+        //            thumb!,                  // image (Image, not string)
+        //            list[i].title,
+        //            list[i].author,
+        //            list[i].shortDescription,
+        //            list[i].description,
+        //            list[i].duration,
+        //            list[i].linkValue,
+        //            list[i].rank,
+        //            list[i].linkType
+        //        );
+
+        //        var lastRow = dg.Rows[dg.Rows.Count - 1];
+        //        // persist the FULL image URL so we can retrieve it later
+        //        lastRow.Cells[1].Tag = list[i].image;          // cell index 1 is your "image" column
+        //        lastRow.Cells[1].ToolTipText = list[i].image;  // redundant storage for robustness
+        //        if (dg.Columns.Contains("imageUrl"))
+        //        {
+        //            lastRow.Cells["imageUrl"].Value = list[i].image; // hidden text column for the URL
+        //        }
+
+        //    }
+
+        //    //labelx.Text = "Total: " + list.Count;
+
+        //    // REMOVE the second foreach that was adding mismatched rows.
+        //}
+
+        public static void LoadDataGridVideos(List<FeedItem> list, DataGridView dg)
         {
             dg.Rows.Clear();
             bool bb = false;
 
             for (int i = 0; i < list.Count; i++)
             {
-                var thumb = LoadImageFromUrl(list[i].image); // <-- convert URL -> Image
+                var thumb = LoadImageFromUrl(list[i].Image); // <-- convert URL -> Image
 
                 dg.Rows.Add(
                     bb,                     // X (checkbox)
                     thumb!,                  // image (Image, not string)
-                    list[i].title,
-                    list[i].author,
-                    list[i].shortDescription,
-                    list[i].description,
-                    list[i].duration,
-                    list[i].linkValue,
-                    list[i].rank,
-                    list[i].linkType
+                    list[i].Title!,
+                    list[i].Author!,
+                    list[i].ShortDescription!,
+                    list[i].Description!,
+                    list[i].Duration!,
+                    list[i].LinkValue!,
+                    list[i].Rank,
+                    list[i].LinkType!
                 );
 
                 var lastRow = dg.Rows[dg.Rows.Count - 1];
                 // persist the FULL image URL so we can retrieve it later
-                lastRow.Cells[1].Tag = list[i].image;          // cell index 1 is your "image" column
-                lastRow.Cells[1].ToolTipText = list[i].image;  // redundant storage for robustness
+                lastRow.Cells[1].Tag = list[i].Image;          // cell index 1 is your "image" column
+                lastRow.Cells[1].ToolTipText = list[i].Image;  // redundant storage for robustness
                 if (dg.Columns.Contains("imageUrl"))
                 {
-                    lastRow.Cells["imageUrl"].Value = list[i].image; // hidden text column for the URL
+                    lastRow.Cells["imageUrl"].Value = list[i].Image; // hidden text column for the URL
                 }
 
             }
@@ -1444,12 +1585,13 @@ namespace AiNetStudio.WinGui.ControlScreens
             // REMOVE the second foreach that was adding mismatched rows.
         }
 
-        private static bool CheckedListBox(string s, List<RSSFeed> z)
+
+        private static bool CheckedListBox(string s, List<FeedItem> z)
         {
             bool bFound = false;
             foreach (var item in z)
             {
-                if (s == item.link)
+                if (s == item.Link)
                 {
                     bFound = true;
                     break;
@@ -1637,6 +1779,103 @@ namespace AiNetStudio.WinGui.ControlScreens
 
 
         #region ============== BEGIN BOTTOM PANEL ===========================
+
+        private void btnLink2_Click(object? sender, EventArgs e)
+        {
+            MultiTabBrowser.OpenUrlInChromeOrDefault(s_link.Text);
+        }
+
+        private async void btnLinkValue2_Click(object? sender, EventArgs e)
+        {
+            await DownloadYouTubeByVideoIDAsync(s_linkvalue.Text);
+        }
+
+        public async System.Threading.Tasks.Task DownloadYouTubeByVideoIDAsync(string link)
+        {
+            // Normalize: accept full URL or bare ID
+            string url = (!string.IsNullOrWhiteSpace(link) && !link.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                ? "https://www.youtube.com/watch?v=" + link
+                : link;
+
+            var pm = new PathManager();
+            string fallbackFolder = pm.GetWritableFolder("Downloads");
+            if (!Directory.Exists(fallbackFolder))
+            {
+                Directory.CreateDirectory(fallbackFolder);
+            }
+
+            string ffmpegFolder = pm.GetInstallationFolder("Libs\\ffmpeg");
+            string ffmpegPath = Path.Combine(ffmpegFolder, "ffmpeg.exe");
+
+            if (!File.Exists(ffmpegPath))
+            {
+                MessageBox.Show(
+                    "FFmpeg (ffmpeg.exe) not found.\r\n\r\n" +
+                    "Please place ffmpeg.exe in the Libs folder:\r\n" + ffmpegFolder + "\r\n\r\n" +
+                    "You can download it from:\r\nhttps://github.com/BtbN/FFmpeg-Builds/releases",
+                    "FFmpeg Not Found",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            //string exeDir = Path.GetDirectoryName(Application.ExecutablePath) ?? AppContext.BaseDirectory;
+            //string initialDir = Path.Combine(exeDir, "Downloads");
+            //if (!Directory.Exists(initialDir)) initialDir = fallbackFolder;
+            string initialDir = fallbackFolder;
+
+            // Show SaveFileDialog on UI thread
+            string finalPath = null!;
+            void ShowDialogOnUi()
+            {
+                using var sfd = new SaveFileDialog
+                {
+                    InitialDirectory = initialDir,
+                    Title = "Save Video File",
+                    CheckFileExists = false,
+                    CheckPathExists = true,
+                    DefaultExt = "mp4",
+                    Filter = "MP4 video (*.mp4)|*.mp4|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = true,
+                    FileName = "video.mp4"
+                };
+                if (sfd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(sfd.FileName))
+                    finalPath = sfd.FileName;
+            }
+            if (this is Control c && c.InvokeRequired) c.Invoke((System.Action)ShowDialogOnUi);
+            else ShowDialogOnUi();
+
+            if (string.IsNullOrWhiteSpace(finalPath))
+            {
+                // User canceled; default to fallback location
+                finalPath = Path.Combine(fallbackFolder, "video.mp4");
+            }
+
+            try
+            {
+                var youtube = new YoutubeClient();
+
+                // ✅ IMPORTANT: make sure ffmpeg.exe is available.
+                // Change this path to where you installed FFmpeg (e.g., C:\ytdl\ffmpeg\bin\ffmpeg.exe).
+                // If ffmpeg is already on PATH, you can omit SetFFmpegPath.
+                await youtube.Videos.DownloadAsync(
+                    url,
+                    finalPath,
+                    o => o
+                        .SetPreset(ConversionPreset.Medium) // or UltraFast/Fast/Slow, etc.
+                        .SetFFmpegPath(ffmpegPath) 
+                );
+
+                MessageBox.Show("Completed!");
+            }
+            catch (Exception ex)
+            {
+                // Show the real reason (e.g., FFmpeg not found, 403, age-restricted, etc.)
+                MessageBox.Show("Download failed:\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         //private async void btnClean2_Click(object? sender, EventArgs e)
         //{

@@ -15,6 +15,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Libs\ffmpeg\avcodec-62.dll" />
+    <None Remove="Libs\ffmpeg\avdevice-62.dll" />
+    <None Remove="Libs\ffmpeg\avfilter-11.dll" />
+    <None Remove="Libs\ffmpeg\avformat-62.dll" />
+    <None Remove="Libs\ffmpeg\avutil-60.dll" />
+    <None Remove="Libs\ffmpeg\ffmpeg.exe" />
+    <None Remove="Libs\ffmpeg\ffplay.exe" />
+    <None Remove="Libs\ffmpeg\ffprobe.exe" />
+    <None Remove="Libs\ffmpeg\swresample-6.dll" />
+    <None Remove="Libs\ffmpeg\swscale-9.dll" />
     <None Remove="Resources\ainetstudio.psd" />
     <None Remove="Resources\antigravity_formula_energy_density.png" />
     <None Remove="Resources\antigravity_formula_monopole.png" />
@@ -168,6 +178,36 @@
 
   <ItemGroup>
     <Content Include="html\welcome.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\avcodec-62.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\avdevice-62.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\avfilter-11.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\avformat-62.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\avutil-60.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\ffmpeg.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\ffplay.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\ffprobe.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\swresample-6.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libs\ffmpeg\swscale-9.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\bcheck.png">
@@ -456,6 +496,9 @@
     <PackageReference Include="SQLitePCLRaw.core" Version="3.0.1" />
     <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="3.0.1" />
     <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.119" />
+    <PackageReference Include="VideoLibrary" Version="3.2.9" />
+    <PackageReference Include="YoutubeExplode" Version="6.5.4" />
+    <PackageReference Include="YoutubeExplode.Converter" Version="6.5.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -675,6 +718,10 @@
     <None Update="wwwroot\js\zcompanyaccount.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

@@ -895,7 +895,7 @@
             btnLinkValue2.Name = "btnLinkValue2";
             btnLinkValue2.Size = new Size(107, 28);
             btnLinkValue2.TabIndex = 49;
-            btnLinkValue2.Text = "LinkValue";
+            btnLinkValue2.Text = "Download";
             btnLinkValue2.UseVisualStyleBackColor = true;
             // 
             // ddSLinkTypes

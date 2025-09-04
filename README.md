@@ -24,7 +24,12 @@ I created this to help people do accounting and make profit.
 [**Click Here**](https://ainetprofit.com)
 
 ---
+## Video Features
 
+To use the Video Features you can download FFmpeg from:
+- https://github.com/BtbN/FFmpeg-Builds/releases"
+
+---
 ## Speculative Concepts
 
 Reports about devices like the **“Graviflyer”** describe counter-rotating discs, high-voltage differentials, Tesla-coil RF bias, magnets, and ultrasound.  
