@@ -27,6 +27,31 @@ I created this to help people do accounting and make profit.
 [**Click Here**](https://ainetprofit.com)
 
 ---
+## Project Status
+- Right now I am implementing the basic structure of the application.
+- I will be adding an extensive collection of Patents for:
+- Manned Drones AI Neural networks
+- Antigravity in General
+- PAIS Effect
+- DNP Dynamic Nuclear Polarization
+- Energy Generation
+- Electrogravitics, Graviflyer & PAIS Effect Testing
+- Graviflyer
+- Gravitational Waves
+- Inertial Propulsion
+- Hutchison Effect
+- Searl Effect
+- Superconductors
+- Warp Drives
+- Zero Point Energy
+- Corkscrew Propulsion   
+
+## After that I will finish adding
+- Test Device Connectors
+- High Performance Oscilloscope in Browser
+- Specialized Interfaces for Instruments
+
+---
 ## Video Features
 
 To use the Video Features you can download FFmpeg from:
