@@ -352,7 +352,7 @@ namespace AiNetStudio.WinGui.Forms
             tp2.Text = "Browser";
             tp3.Text = "Device Hub";
             tp4.Text = "Video Editor";
-            //tp5.Text = "Transactions";
+            tp5.Text = "Patents";
             //tp6.Text = "Reports";
             //tp7.Text = "Categories";
             //tp8.Text = "Export";
@@ -388,22 +388,15 @@ namespace AiNetStudio.WinGui.Forms
                     //importCtrl.UpdateCompany();
                 }
             }
-            //else if (selectedTab == tp5) // "Transactions"
-            //{
-            //    if (tp5.Controls[0] is TransactionControl transCtrl)
-            //    {
-            //        transCtrl.UpdateCompany();
-            //        transCtrl.UpdateCompanyComboBox();
-
-            //        transCtrl.LoadUserCompanyCategories();
-
-            //        transCtrl.LoadTransactionsIntoGrid();
-
-            //        //GlobalData.SelectedDatabase = "demo_company.aidb";
-            //        //if (statusStrip1.Text.Length > 0)
-            //        //    GlobalData.SelectedDatabase = statusStrip1.Text;
-            //    }
-            //}
+            else if (selectedTab == tp5) // "PatentLibrary"
+            {
+                if (tp5.Controls[0] is PatentLibrary patentCtrl)
+                {
+                    //GlobalData.SelectedDatabase = "demo_company.aidb";
+                    //if (statusStrip1.Text.Length > 0)
+                    //    GlobalData.SelectedDatabase = statusStrip1.Text;
+                }
+            }
             //else if (selectedTab == tp6) // "Reports"
             //{
             //    if (tp6.Controls[0] is ReportControl reportCtrl)
@@ -541,12 +534,12 @@ namespace AiNetStudio.WinGui.Forms
             splitEditor.Dock = DockStyle.Fill;
             tp4.Controls.Add(splitEditor);
 
-            //tp5.Text = "Transactions";
-            //tabControlEx1.TabPages.Add(tp5);
-            //TransactionControl transControl = new TransactionControl(this);
-            //transControl.MainFormReference = this;
-            //transControl.Dock = DockStyle.Fill;
-            //tp5.Controls.Add(transControl);
+            tp5.Text = "Patents";
+            tabControlEx1.TabPages.Add(tp5);
+            PatentLibrary patentsControl = new PatentLibrary(this);
+            patentsControl.MainFormReference = this;
+            patentsControl.Dock = DockStyle.Fill;
+            tp5.Controls.Add(patentsControl);
 
             //tp6.Text = "Reports";
             //tabControlEx1.TabPages.Add(tp6);

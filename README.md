@@ -50,6 +50,9 @@ I created this to help people do accounting and make profit.
 - Test Device Connectors
 - High Performance Oscilloscope in Browser
 - Specialized Interfaces for Instruments
+- PDF Viewer 
+- Database of antigravity patents and papers
+- AI Neural Networks
 
 ---
 ## Video Features

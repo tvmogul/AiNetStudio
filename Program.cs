@@ -19,11 +19,13 @@
  *
  */
 
+using AiNetStudio.DataAccess;
 using AiNetStudio.WinGui.Dialogs;
 using AiNetStudio.WinGui.Forms;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -110,9 +112,71 @@ namespace AiNetStudio
                     var srcAidb = Path.Combine(srcLibs, "rssfeeds.aidb");
                     var dstAidb = Path.Combine(dstDatabases, "rssfeeds.aidb");
                     if (File.Exists(srcAidb) && !File.Exists(dstAidb)) File.Copy(srcAidb, dstAidb, overwrite: false);
+
+                    // ////////////////////////////////////////////////////////////
+                    var srcPdfs = Path.Combine(srcLibs, "Library");
+                    var dstPdfs = pm.GetWritableFolder("Library");
+
+                    // Only run copy if destination folder does NOT exist
+                    if (!Directory.Exists(dstPdfs))
+                    {
+                        Directory.CreateDirectory(dstPdfs);
+
+                        // Copy all *.pdf files if they don’t already exist
+                        foreach (var srcFile in Directory.EnumerateFiles(srcPdfs, "*.pdf", SearchOption.TopDirectoryOnly))
+                        {
+                            var fileName = Path.GetFileName(srcFile);
+                            var dstFile = Path.Combine(dstPdfs, fileName);
+
+                            if (!File.Exists(dstFile))
+                            {
+                                File.Copy(srcFile, dstFile, overwrite: false);
+                            }
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////
+
+                    var q = pm.GetWritableFolder("Databases");
+                    var dbPDFs = Path.Combine(q, "techarchive.aidb");
+                    DbInitializer.EnsurePatentsSchema(dbPDFs);
                 }
                 catch { /* ignore copy errors */ }
                 // ---------------------------------------------------------
+
+                // Run import on startup (wrap in Task.
+                // Run so we can call async code)
+                //Task.Run(async () =>
+                //{
+                //    var pm2 = new PathManager();
+                //    var dbDir = pm2.GetWritableFolder("Databases");
+                //    Directory.CreateDirectory(dbDir);
+                //    var dbPDFs = Path.Combine(dbDir, "techarchive.aidb");
+
+                //    string sourceFolder = Path.Combine(pm2.GetInstallationFolder("Libs"), "Library");
+                //    string appDataRoot = pm2.GetWritableFolder("");
+
+                //    MessageBox.Show($"Import from:\n{sourceFolder}\n\nDB:\n{dbPDFs}\n\nLib root:\n{appDataRoot}", "Importer Paths");
+
+                //    try
+                //    {
+                //        int imported = await PdfBulkImporter.ImportFolderAsync(
+                //            sourceFolder,
+                //            appDataRoot,
+                //            dbPDFs,
+                //            new Progress<(int done, int total, string file)>(p =>
+                //            {
+                //                Debug.WriteLine($"[{p.done}/{p.total}] {p.file}");
+                //            })
+                //        );
+
+                //        MessageBox.Show($"Imported {imported} PDFs.", "Importer");
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        var msg = $"IMPORT FAILED\n\nMessage:\n{ex.Message}\n\nStackTrace:\n{ex.StackTrace}";
+                //        ErrorDialog.Show("Importer Error", msg);
+                //    }
+                //}).Wait();
 
                 ApplicationConfiguration.Initialize();
                 //Application.Run(new WinGUIMain());
@@ -143,3 +207,42 @@ namespace AiNetStudio
         }
     }
 }
+
+
+//public static class ErrorDialog
+//{
+//    public static void Show(string title, string message)
+//    {
+//        Form f = new Form
+//        {
+//            Text = title,
+//            Width = 700,
+//            Height = 500,
+//            StartPosition = FormStartPosition.CenterScreen
+//        };
+
+//        var tb = new TextBox
+//        {
+//            Multiline = true,
+//            ReadOnly = true,
+//            ScrollBars = ScrollBars.Both,
+//            Dock = DockStyle.Fill,
+//            Font = new Font("Consolas", 10),
+//            Text = message,
+//            WordWrap = false
+//        };
+
+//        f.Controls.Add(tb);
+
+//        var ok = new Button
+//        {
+//            Text = "OK",
+//            Dock = DockStyle.Bottom,
+//            DialogResult = DialogResult.OK
+//        };
+//        f.Controls.Add(ok);
+
+//        f.AcceptButton = ok;
+//        f.ShowDialog();
+//    }
+//}
