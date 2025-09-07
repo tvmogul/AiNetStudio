@@ -84,11 +84,7 @@ To use the Video Features you can download FFmpeg from:
 ---
 ## Patents Screen
 - Handles Searching and Saving Patents & Studies
-![AiNetStudio](https://ainetstudio.com/img/zvideo_patents.png)
-
-- Two Screens in One. Bottom Screen.
-- This screen allows you to edit the video content.
-![AiNetStudio](https://ainetstudio.com/img/zvideo_bottom.png)
+![AiNetStudio](https://ainetstudio.com/img/zscreen_patents.png)
 
 ---
 
