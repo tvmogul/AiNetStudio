@@ -51,6 +51,7 @@
             imgListBlack.Images.SetKeyName(9, "go");
             imgListBlack.Images.SetKeyName(10, "ai");
             imgListBlack.Images.SetKeyName(11, "tv");
+            imgListBlack.Images.SetKeyName(12, "pa");
             // 
             // imgListOrange
             // 
@@ -68,6 +69,7 @@
             imgListOrange.Images.SetKeyName(8, "add");
             imgListOrange.Images.SetKeyName(9, "home");
             imgListOrange.Images.SetKeyName(10, "tv");
+            imgListOrange.Images.SetKeyName(11, "pa");
             // 
             // MultiTabBrowser
             // 

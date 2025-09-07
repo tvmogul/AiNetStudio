@@ -56,6 +56,8 @@ namespace AiNetStudio.WinGui.ControlScreens
         private readonly ToolStripButton _btnGo;
         //private readonly ToolStripButton _btnAI;
         private readonly ToolStripDropDownButton _btnAI;
+        private readonly ToolStripDropDownButton _btnPAT;
+
         private readonly ToolStripButton _btnLoad;
         private readonly ChromeToolStripComboBox _category;
         private readonly ChromeToolStripComboBox _subCategory;
@@ -172,7 +174,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             _addressBox = new ChromeToolStripComboBox
             {
                 AutoSize = false,
-                Width = 240,
+                Width = 200,
                 ToolTipText = "Enter or choose URL",
                 DropDownStyle = ComboBoxStyle.DropDown,
                 AutoCompleteMode = AutoCompleteMode.SuggestAppend,
@@ -230,6 +232,32 @@ namespace AiNetStudio.WinGui.ControlScreens
                 ("PlasmaChannel", "https://www.youtube.com/PlasmaChannel"),
                 ("TheoriesofEverything", "https://www.youtube.com/TheoriesofEverything")
             };
+
+            _btnPAT = new ToolStripDropDownButton
+            {
+                ToolTipText = "Patent Search",
+                //Image = Properties.Resources.tbx_ai,
+                ImageKey = "pa",
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Margin = new Padding(2, 0, 2, 0)
+            };
+            (string Name, string Url)[] paSites = new[]
+{
+                ("Duke University", "https://quicksearch.library.duke.edu/?q=patents"),
+                ("UCLA", "https://www.library.ucla.edu/search-site?q=patents"),
+                ("The LENS", "https://www.lens.org/"),
+                ("Espacenet", "https://worldwide.espacenet.com/"),
+                ("Google Patents", "https://patents.google.com/")
+            };
+            foreach (var site in paSites)
+            {
+                _btnPAT.DropDownItems.Add(site.Name, null, async (s, e) =>
+                {
+                    _addressBox.Text = site.Url;
+                    await NavigateAsync(_addressBox.Text);
+                });
+            }
+            _btnPAT.DropDown.Font = new Font("Segoe UI", 9f);
 
             //https://www.youtube.com/PlasmaChannel
             //("Old Man Builds", "https://www.youtube.com/channel/UCEF-4uYXyU1eG_W2RB0b7vQ"),
@@ -440,6 +468,7 @@ namespace AiNetStudio.WinGui.ControlScreens
                 _addressBox,
                 _btnGo,
                 _btnAI,
+                _btnPAT,
                 _sep2,
                 _btnNewTab,
                 _btnCloseTab,

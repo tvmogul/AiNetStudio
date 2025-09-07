@@ -60,10 +60,11 @@ namespace AiNetStudio.WinGui.ControlScreens
         public int LeftModeReveal
         {
             get => _leftModeReveal;
-            set { 
-                _leftModeReveal = Math.Max(0, value); 
-                ApplyRevealForCurrentMode(); 
-                RepositionButton(); 
+            set
+            {
+                _leftModeReveal = Math.Max(0, value);
+                ApplyRevealForCurrentMode();
+                RepositionButton();
             }
         }
 
@@ -71,10 +72,11 @@ namespace AiNetStudio.WinGui.ControlScreens
         public int TopModeReveal
         {
             get => _rightModeReveal;
-            set { 
-                _rightModeReveal = Math.Max(0, value); 
-                ApplyRevealForCurrentMode(); 
-                RepositionButton(); 
+            set
+            {
+                _rightModeReveal = Math.Max(0, value);
+                ApplyRevealForCurrentMode();
+                RepositionButton();
             }
         }
 
@@ -82,11 +84,12 @@ namespace AiNetStudio.WinGui.ControlScreens
         public int ToggleMaxWidth
         {
             get => _toggleMaxWidth;
-            set {
-                _toggleMaxWidth = Math.Max(1, value); 
-                SyncButtonSizeToSplitter(); 
-                SetToggleIcon(_toggleLeft); 
-                RepositionButton(); 
+            set
+            {
+                _toggleMaxWidth = Math.Max(1, value);
+                SyncButtonSizeToSplitter();
+                SetToggleIcon(_toggleLeft);
+                RepositionButton();
             }
         }
 
@@ -94,11 +97,12 @@ namespace AiNetStudio.WinGui.ControlScreens
         public int ToggleButtonWidth
         {
             get => _toggleButtonWidth;
-            set { 
-                _toggleButtonWidth = Math.Max(8, value); 
-                SyncButtonSizeToSplitter(); 
-                SetToggleIcon(_toggleLeft); 
-                RepositionButton(); 
+            set
+            {
+                _toggleButtonWidth = Math.Max(8, value);
+                SyncButtonSizeToSplitter();
+                SetToggleIcon(_toggleLeft);
+                RepositionButton();
             }
         }
 
@@ -211,7 +215,28 @@ namespace AiNetStudio.WinGui.ControlScreens
             var q = pm.GetWritableFolder("Databases");
             var dbPath = Path.Combine(q, "techarchive.aidb");
             LoadPdfGrid(dbPath);
+            //LoadShit();
         }
+        //private void LoadShit()
+        //{
+        //    // 1) Devices
+        //    accordionPanel1.AddPanel("Devices", null, expanded: true, expandedHeight: 180);
+
+        //    // 2) Live Data
+        //    accordionPanel1.AddPanel("Live Data", null, expanded: false, expandedHeight: 180);
+
+        //    // 3) Actions
+        //    accordionPanel1.AddPanel("Actions", null, expanded: false, expandedHeight: 160);
+
+        //    // Optional: prove it works
+        //    // accordionPanel1.ExpandAll();
+        //    // accordionPanel1.CollapseAll();
+        //}
+
+
+
+
+
 
         private void LoadPdfGrid(string dbPath)
         {
@@ -237,18 +262,24 @@ namespace AiNetStudio.WinGui.ControlScreens
                     dgvPDF.MultiSelect = false;
                     dgvPDF.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dgvPDF.RowHeadersVisible = false;
+                    // Set smaller font
+                    dgvPDF.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+                    dgvPDF.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+                    // Adjust row height to fit font
+                    dgvPDF.RowTemplate.Height = dgvPDF.DefaultCellStyle.Font.Height + 6;
 
                     dgvPDF.DataSource = dt;
 
                     // Hide internal columns
-                    if (dgvPDF.Columns["PdfGuid"] != null) dgvPDF.Columns["PdfGuid"].Visible = false;
-                    if (dgvPDF.Columns["FileName"] != null) dgvPDF.Columns["FileName"].Visible = false;
-                    if (dgvPDF.Columns["PdfPath"] != null) dgvPDF.Columns["PdfPath"].Visible = false;
+                    if (dgvPDF.Columns["PdfGuid"] != null) dgvPDF.Columns["PdfGuid"]!.Visible = false;
+                    if (dgvPDF.Columns["FileName"] != null) dgvPDF.Columns["FileName"]!.Visible = false;
+                    if (dgvPDF.Columns["PdfPath"] != null) dgvPDF.Columns["PdfPath"]!.Visible = false;
 
                     if (dgvPDF.Columns["Title"] != null)
                     {
-                        dgvPDF.Columns["Title"].HeaderText = "Title";
-                        dgvPDF.Columns["Title"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        dgvPDF.Columns["Title"]!.HeaderText = "Double Click Row Below to Load";
+                        dgvPDF.Columns["Title"]!.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     }
 
                     // Wire double-click once
