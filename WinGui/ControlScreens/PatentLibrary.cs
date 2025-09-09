@@ -207,6 +207,8 @@ namespace AiNetStudio.WinGui.ControlScreens
             {
                 await InitPdfPreviewAsync(_browser, _patentsFolder, "0A0625E967774EB5885A86794D259FF3.pdf");
             };
+
+            //UpdateCategories();
         }
 
         private void patentLibrary_Load(object? sender, EventArgs e)
@@ -215,8 +217,66 @@ namespace AiNetStudio.WinGui.ControlScreens
             var q = pm.GetWritableFolder("Databases");
             var dbPath = Path.Combine(q, "techarchive.aidb");
             LoadPdfGrid(dbPath);
-            //LoadShit();
+
+            // Load categories into ddCategory
+            var categories = GetCategories();
+            ddCategory.Items.Clear();
+            ddCategory.Items.AddRange(categories.ToArray());
+            ddCategory.SelectedIndex = -1; // don’t preselect
+
+            dgvPDF.SelectionChanged += (s, e) =>
+            {
+                if (dgvPDF.CurrentRow is DataGridViewRow row && row.Index >= 0)
+                {
+                    string Get(string col) => dgvPDF.Columns.Contains(col)
+                        ? row.Cells[col].Value?.ToString() ?? ""
+                        : "";
+
+                    var title = Get("Title");
+                    var category = Get("Category");
+                    var subcategory = Get("SubCategory");
+                    var description = Get("Description");
+
+                    txtTitle.Text = !string.IsNullOrWhiteSpace(title) ? title : Get("FileName");
+                    txtDescription.Text = description;
+
+                    void SetComboAllowArbitrary(ComboBox cb, string value)
+                    {
+                        if (cb == null) return;
+                        var v = value?.Trim() ?? "";
+                        if (v.Length == 0) { cb.SelectedIndex = -1; cb.Text = ""; return; }
+
+                        int idx = cb.FindStringExact(v);
+                        if (idx >= 0)
+                        {
+                            cb.SelectedIndex = idx;
+                            return;
+                        }
+
+                        if (cb.DropDownStyle == ComboBoxStyle.DropDownList)
+                        {
+                            // value must exist in list; add then select
+                            cb.Items.Add(v);
+                            cb.SelectedIndex = cb.FindStringExact(v);
+                        }
+                        else
+                        {
+                            // free-text allowed
+                            cb.SelectedIndex = -1;
+                            cb.Text = v;
+                        }
+                    }
+
+                    SetComboAllowArbitrary(ddCategory, category);
+                    SetComboAllowArbitrary(ddSubCategory, subcategory);
+                }
+            };
+
+
         }
+
+
+
         //private void LoadShit()
         //{
         //    // 1) Devices
@@ -247,7 +307,18 @@ namespace AiNetStudio.WinGui.ControlScreens
 
                 using var cmd = con.CreateCommand();
                 // Include PdfPath so we can open the file on double-click; keep Guid as TEXT to avoid Image-column issues
-                cmd.CommandText = @"SELECT lower(hex(PdfGuid)) AS PdfGuid, FileName, PdfPath, Title FROM Pdfs ORDER BY Title;";
+                //cmd.CommandText = @"SELECT lower(hex(PdfGuid)) AS PdfGuid, FileName, PdfPath, Title FROM Pdfs ORDER BY Title;";
+                cmd.CommandText = @"
+                    SELECT 
+                        lower(hex(PdfGuid)) AS PdfGuid,
+                        FileName,
+                        PdfPath,
+                        Title,
+                        Category,
+                        SubCategory,
+                        Description
+                    FROM Pdfs
+                    ORDER BY Title;";
 
                 using var reader = cmd.ExecuteReader();
                 var dt = new DataTable();
@@ -262,6 +333,7 @@ namespace AiNetStudio.WinGui.ControlScreens
                     dgvPDF.MultiSelect = false;
                     dgvPDF.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dgvPDF.RowHeadersVisible = false;
+
                     // Set smaller font
                     dgvPDF.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
                     dgvPDF.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -271,21 +343,27 @@ namespace AiNetStudio.WinGui.ControlScreens
 
                     dgvPDF.DataSource = dt;
 
-                    // Hide internal columns
-                    if (dgvPDF.Columns["PdfGuid"] != null) dgvPDF.Columns["PdfGuid"]!.Visible = false;
-                    if (dgvPDF.Columns["FileName"] != null) dgvPDF.Columns["FileName"]!.Visible = false;
-                    if (dgvPDF.Columns["PdfPath"] != null) dgvPDF.Columns["PdfPath"]!.Visible = false;
+                    // ----- SHOW ONLY Category -----
+                    // Hide everything first
+                    foreach (DataGridViewColumn c in dgvPDF.Columns)
+                        c.Visible = false;
 
-                    if (dgvPDF.Columns["Title"] != null)
+                    // Show Category only
+                    if (dgvPDF.Columns["Category"] != null)
                     {
-                        dgvPDF.Columns["Title"]!.HeaderText = "Double Click Row Below to Load";
-                        dgvPDF.Columns["Title"]!.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        var col = dgvPDF.Columns["Category"]!;
+                        col.Visible = true;
+                        col.HeaderText = "Double Click Row Below to Load"; // restore your header text
+                        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        col.DisplayIndex = 0;
                     }
+                    // --------------------------------
 
                     // Wire double-click once
                     dgvPDF.CellDoubleClick -= dgvPDF_CellDoubleClick;
                     dgvPDF.CellDoubleClick += dgvPDF_CellDoubleClick;
                 }
+
 
                 if (dgvPDF.InvokeRequired) dgvPDF.Invoke((Action)Bind); else Bind();
             }
@@ -478,6 +556,199 @@ namespace AiNetStudio.WinGui.ControlScreens
         }
 
         #endregion ============== END SPLITTER =============================
+
+        public void UpdateCategories()
+        {
+            // Resolve database path the same way your loader does
+            var pm = new PathManager();
+            var dbFolder = pm.GetWritableFolder("Databases");
+            var dbPath = Path.Combine(dbFolder, "techarchive.aidb");
+
+            if (!File.Exists(dbPath))
+            {
+                ErrorDialog.Show("Update Categories", $"Database not found:\r\n{dbPath}");
+                return;
+            }
+
+            using var con = new SqliteConnection($"Data Source={dbPath};Mode=ReadWrite;Cache=Shared");
+            con.Open();
+            using var tx = con.BeginTransaction();
+
+            // Helper: apply a category to all rows whose FileName matches any of the patterns.
+            // Pattern rules:
+            //   - Exact filename (case-insensitive) if it contains no '*' and no SQL wildcard chars.
+            //   - If it contains '*', it's translated to SQL LIKE where '*' -> '%'.
+            //   - Matching is done against lower(FileName).
+            void ApplyCategory(string category, params string[] patterns)
+            {
+                foreach (var raw in patterns)
+                {
+                    string p = raw.Trim();
+
+                    // Decide exact vs LIKE
+                    bool useLike = p.Contains('*') || p.Contains('%') || p.Contains('_');
+
+                    if (useLike)
+                    {
+                        // Normalize to lower-case like-pattern, convert '*' to '%'
+                        string like = p.Replace('*', '%').ToLowerInvariant();
+
+                        // Special hints like "WALLACE gravitational force field patents"
+                        // may be a family label rather than a literal filename; treat
+                        // any token without an extension as a prefix/contains pattern.
+                        if (!like.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase) && !like.Contains('%'))
+                        {
+                            // If it looks like a family label (no extension), search anywhere
+                            like = $"%{like}%";
+                        }
+
+                        using var cmd = con.CreateCommand();
+                        cmd.Transaction = tx;
+                        cmd.CommandText = @"
+                    UPDATE Pdfs
+                    SET Category = $cat
+                    WHERE lower(FileName) LIKE $like;
+                ";
+                        cmd.Parameters.AddWithValue("$cat", category);
+                        cmd.Parameters.AddWithValue("$like", like);
+                        cmd.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        // Exact filename, case-insensitive
+                        string file = p.ToLowerInvariant();
+                        using var cmd = con.CreateCommand();
+                        cmd.Transaction = tx;
+                        cmd.CommandText = @"
+                    UPDATE Pdfs
+                    SET Category = $cat
+                    WHERE lower(FileName) = $file;
+                ";
+                        cmd.Parameters.AddWithValue("$cat", category);
+                        cmd.Parameters.AddWithValue("$file", file);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            // 1) Electrogravitics & Gravity Control
+            ApplyCategory("Electrogravitics & Gravity Control",
+                "brown_electrokinetic_*",
+                "WALLACE*", // family label; will behave like prefix/contains
+                "method_for_creating_gravity_3675879.pdf",
+                "Electric_dipole_moment_propulsion_system_20030209635.pdf",
+                "Electric_dipole_spacecraft_20060038081.pdf",
+                "triangular_spacecraft_20060145019.pdf",
+                "Prutchi-Critique-of-Alzofon-Gravity-Control-Experiments.pdf",
+                "myworldbyviktorgrebennikovfinpdf.pdf"
+            );
+
+            // 2) Electrostatic / High-Voltage Apparatus
+            ApplyCategory("Electrostatic / High-Voltage Apparatus",
+                "apparatus_for_converting_electrostatic_potential_energy_6974110.pdf",
+                "bennett_electric_discharge_system_2279586.pdf",
+                "bennett_electrode_Electric_discharge_2231877.pdf",
+                "blomgren_energy_transfer_apparatus_4377839.pdf",
+                "brown_electrostatic_motor_1974483.pdf",
+                "Rotating_electrostatic_propulsion_system_20030209637.pdf",
+                "slayter_electrically_generating_pressures_2305500.pdf"
+            );
+
+            // 3) Propulsion Systems (Non-Conventional)
+            ApplyCategory("Propulsion Systems (Non-Conventional)",
+                "AIR-BOUYANT_STRUCTURES_AND_VEHICLES_11027816.pdf",
+                "burton_atmospheric_fueled_ion_engine_6145298.pdf",
+                "magnetic_propulsion_5269482.pdf",
+                "MagnetoHydroDynamicPropulsionAppartus_pat3322374.pdf",
+                "pinto_flying_saucer_3774865.pdf",
+                "Magnetic vortex wormhole generator.pdf",
+                "JPC-Propellantless-Propulsion-with-Negative-Matter-Generated-by-Electric-Charges.pdf"
+            );
+
+            // 4) Navy / Government Patents & Reports
+            ApplyCategory("Navy / Government Patents & Reports",
+                "navy10322827.pdf",
+                "navy20190348597A1.pdf",
+                "navy7505243.pdf",
+                "HAL5-Dec2018-Talk-AntiGravity.pdf",
+                "US10144532.pdf",
+                "US11027816.pdf",
+                "US20120092107A1.pdf"
+            );
+
+            // 5) Miscellaneous Physics & Theoretical Papers
+            ApplyCategory("Miscellaneous Physics & Theoretical Papers",
+                "Wheeler-DeWitt_Equation_1506.00927v1.pdf",
+                "Time_Arrow_1505.01125v2.pdf",
+                "uap_vol2_ptb_pgs61to75.pdf",
+                "export_3_25_2022 12_08_39 PM.pdf",
+                "reverse_engineer.pdf",
+                "documents.mx_the-hutchison-effect-file-1.pdf"
+            );
+
+            // 6) Energy Transfer & Alternative Power
+            ApplyCategory("Energy Transfer & Alternative Power",
+                "bondar_voltage_sound_waves_4460809.pdf",
+                "peterson_electrical_potential_4839581.pdf",
+                "gas_vaporizer_1928.pdf",
+                "gps.pdf"
+            );
+
+            // 7) Other / Unclassified
+            ApplyCategory("Other / Unclassified",
+                "carr_amusement_device_2912244.pdf",
+                "telsa_method_aerial_transportation_1655113.pdf",
+                "Boylan_10.pdf"
+            );
+
+            // Extra: if you want to tag any remaining uncategorized items, uncomment:
+            // using (var cmd = con.CreateCommand())
+            // {
+            //     cmd.Transaction = tx;
+            //     cmd.CommandText = "UPDATE Pdfs SET Category = 'Other / Unclassified' WHERE IFNULL(Category,'') = '';";
+            //     cmd.ExecuteNonQuery();
+            // }
+
+            tx.Commit();
+        }
+
+        public List<string> GetCategories()
+        {
+            var categories = new List<string>();
+
+            var pm = new PathManager();
+            var dbFolder = pm.GetWritableFolder("Databases");
+            var dbPath = Path.Combine(dbFolder, "techarchive.aidb");
+
+            if (!File.Exists(dbPath))
+            {
+                ErrorDialog.Show("Get Categories", $"Database not found:\r\n{dbPath}");
+                return categories;
+            }
+
+            try
+            {
+                using var con = new SqliteConnection($"Data Source={dbPath};Mode=ReadWrite;Cache=Shared");
+                con.Open();
+
+                using var cmd = con.CreateCommand();
+                cmd.CommandText = "SELECT DISTINCT Category FROM Pdfs WHERE Category IS NOT NULL AND trim(Category) <> '' ORDER BY Category;";
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    categories.Add(reader.GetString(0));
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorDialog.Show("Get Categories Error", ex.ToString());
+            }
+
+            return categories;
+        }
+
+
 
         // Added: helper to perform the async WebView2 navigation safely
         private static async Task InitPdfPreviewAsync(MultiTabBrowser browser, string patentsFolder, string fileName)

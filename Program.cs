@@ -113,14 +113,21 @@ namespace AiNetStudio
                     var dstAidb = Path.Combine(dstDatabases, "rssfeeds.aidb");
                     if (File.Exists(srcAidb) && !File.Exists(dstAidb)) File.Copy(srcAidb, dstAidb, overwrite: false);
 
+                    var srcAidb2 = Path.Combine(srcLibs, "techarchive.aidb");
+                    var dstAidb2 = Path.Combine(dstDatabases, "techarchive.aidb");
+                    if (File.Exists(srcAidb) && !File.Exists(dstAidb)) File.Copy(srcAidb2, dstAidb2, overwrite: false);
+
                     // ////////////////////////////////////////////////////////////
                     var srcPdfs = Path.Combine(srcLibs, "Library");
                     var dstPdfs = pm.GetWritableFolder("Library");
 
                     // Only run copy if destination folder does NOT exist
-                    if (!Directory.Exists(dstPdfs))
+                    if (!Directory.Exists(dstPdfs) || Directory.GetFiles(dstPdfs, "*.pdf").Length == 0)
                     {
-                        Directory.CreateDirectory(dstPdfs);
+                        if (!Directory.Exists(dstPdfs))
+                        {
+                            Directory.CreateDirectory(dstPdfs);
+                        }
 
                         // Copy all *.pdf files if they don’t already exist
                         foreach (var srcFile in Directory.EnumerateFiles(srcPdfs, "*.pdf", SearchOption.TopDirectoryOnly))
@@ -207,6 +214,8 @@ namespace AiNetStudio
         }
     }
 }
+
+
 
 
 //public static class ErrorDialog

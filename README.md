@@ -26,6 +26,9 @@ I created this to help antigravity researchers.
 I created this to help people do accounting and make profit.  
 [**Click Here**](https://ainetprofit.com)
 
+### 💼 AiNetProfit® Video
+AiNetStudio® transforms advanced AI into real-world flight: generate custom neural networks to control antigravity engines:
+[**Click Here**](https://ai.invideo.io/watch/iJCN9LkUPAa)
 ---
 ## Project Status
 - Right now I am implementing the basic structure of the application.

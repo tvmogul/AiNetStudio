@@ -122,7 +122,7 @@
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnSave.ForeColor = Color.White;
-            btnSave.Location = new Point(224, 515);
+            btnSave.Location = new Point(226, 552);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(79, 29);
             btnSave.TabIndex = 35;
@@ -170,9 +170,11 @@
             // 
             // txtTitle
             // 
-            txtTitle.Location = new Point(72, 361);
+            txtTitle.Font = new Font("Segoe UI", 8F);
+            txtTitle.Location = new Point(56, 361);
+            txtTitle.Multiline = true;
             txtTitle.Name = "txtTitle";
-            txtTitle.Size = new Size(233, 27);
+            txtTitle.Size = new Size(272, 59);
             txtTitle.TabIndex = 9;
             // 
             // ddSSubCategory
@@ -185,10 +187,10 @@
             // 
             // txtDescription
             // 
-            txtDescription.Location = new Point(72, 462);
+            txtDescription.Location = new Point(56, 497);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(233, 47);
+            txtDescription.Size = new Size(272, 40);
             txtDescription.TabIndex = 15;
             // 
             // label4
@@ -207,9 +209,9 @@
             // 
             label7.FlatStyle = FlatStyle.Flat;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label7.Location = new Point(16, 394);
+            label7.Location = new Point(8, 429);
             label7.Name = "label7";
-            label7.Size = new Size(47, 25);
+            label7.Size = new Size(41, 25);
             label7.TabIndex = 13;
             label7.Text = "Cat";
             label7.TextAlign = ContentAlignment.MiddleRight;
@@ -226,9 +228,9 @@
             // 
             label9.FlatStyle = FlatStyle.Flat;
             label9.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label9.Location = new Point(13, 471);
+            label9.Location = new Point(7, 506);
             label9.Name = "label9";
-            label9.Size = new Size(50, 25);
+            label9.Size = new Size(44, 25);
             label9.TabIndex = 16;
             label9.Text = "Desc";
             label9.TextAlign = ContentAlignment.MiddleRight;
@@ -236,18 +238,18 @@
             // ddSubCategory
             // 
             ddSubCategory.FormattingEnabled = true;
-            ddSubCategory.Location = new Point(72, 428);
+            ddSubCategory.Location = new Point(56, 463);
             ddSubCategory.Name = "ddSubCategory";
-            ddSubCategory.Size = new Size(233, 28);
+            ddSubCategory.Size = new Size(272, 28);
             ddSubCategory.TabIndex = 12;
             // 
             // label6
             // 
             label6.FlatStyle = FlatStyle.Flat;
             label6.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label6.Location = new Point(16, 429);
+            label6.Location = new Point(10, 464);
             label6.Name = "label6";
-            label6.Size = new Size(47, 25);
+            label6.Size = new Size(41, 25);
             label6.TabIndex = 14;
             label6.Text = "Sub";
             label6.TextAlign = ContentAlignment.MiddleRight;
@@ -256,20 +258,21 @@
             // 
             label8.FlatStyle = FlatStyle.Flat;
             label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label8.Location = new Point(16, 360);
+            label8.Location = new Point(10, 374);
             label8.Name = "label8";
-            label8.Size = new Size(47, 25);
+            label8.Size = new Size(41, 25);
             label8.TabIndex = 10;
             label8.Text = "Title";
             label8.TextAlign = ContentAlignment.MiddleRight;
             // 
             // ddCategory
             // 
+            ddCategory.DropDownWidth = 400;
             ddCategory.ForeColor = SystemColors.WindowFrame;
             ddCategory.FormattingEnabled = true;
-            ddCategory.Location = new Point(72, 394);
+            ddCategory.Location = new Point(56, 429);
             ddCategory.Name = "ddCategory";
-            ddCategory.Size = new Size(233, 28);
+            ddCategory.Size = new Size(272, 28);
             ddCategory.TabIndex = 11;
             // 
             // imgListBlack
