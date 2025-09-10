@@ -285,4 +285,28 @@ C:\
                 |-- AiNetStudio (contains source files)
                 |-- _ainetstudio.nsi
 
+SOURCE FILES
+C:\
+└── AiProjects\AiNetStudio\AiNetStudio
+    └── Program.cs
+    └── Libs
+        └── rssfeeds.aidb
+        └── techarchive.aidb
+        └── feeds_export.sql
+        └── feeds_subset.csv
+        └── Library
+            ├── 0A0625E967774EB5885A86794D259FF3.pdf
+            └── *.pdf files
 
+WRITABLE FOLDER
+C:\
+└── Users\[owner]\AppData\Local\AiNetStudio
+    └── Databases
+        └── rssfeeds.aidb
+        └── techarchive.aidb
+    └── Library
+        ├── 0A0625E967774EB5885A86794D259FF3.pdf
+        └── *.pdf files
+    └── Libs
+        └── feeds_export.sql
+        └── feeds_subset.csv

@@ -302,7 +302,9 @@ namespace AiNetStudio.WinGui.ControlScreens
         {
             try
             {
-                using var con = new SqliteConnection($"Data Source={dbPath};Mode=ReadWriteCreate;Cache=Shared");
+                if (!File.Exists(dbPath)) { ErrorDialog.Show("SQLite Error", $"Database not found:\r\n{dbPath}"); return; }
+                using var con = new SqliteConnection($"Data Source={dbPath};Mode=ReadWrite;Cache=Shared");
+
                 con.Open();
 
                 using var cmd = con.CreateCommand();

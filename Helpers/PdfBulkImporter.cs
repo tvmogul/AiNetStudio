@@ -30,8 +30,20 @@ public static class PdfBulkImporter
         {
             DataSource = dbPath,
             Cache = SqliteCacheMode.Shared,
-            Mode = SqliteOpenMode.ReadWriteCreate
+            // IMPORTANT: do not create/overwrite DB here; require it to exist
+            Mode = SqliteOpenMode.ReadWrite
         }.ToString();
+
+        // Guard: refuse to create a new/empty DB; importer must not overwrite seed DBs
+        if (!File.Exists(dbPath))
+            throw new FileNotFoundException("Database not found for import. Importer will not create or overwrite.", dbPath);
+        try
+        {
+            var sz = new FileInfo(dbPath).Length;
+            if (sz < 1024) // treat tiny/empty DBs as invalid to avoid populating a placeholder
+                throw new InvalidDataException($"Database appears empty or uninitialized: {dbPath} (size {sz} bytes)");
+        }
+        catch (IOException) { /* if we can't read size, let open attempt surface the real error */ }
 
         using var con = new SqliteConnection(cs);
         await con.OpenAsync();
