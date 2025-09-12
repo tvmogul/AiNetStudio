@@ -27,6 +27,16 @@ AI that makes them safe, stable, and finally possible.
 
 ---
 
+### 🚀 We Might Add Google’s Gemma AI?
+We are in the process of testing whether or not to include Gemma, Google DeepMind’s 
+breakthrough lightweight AI model. Unlike bulky cloud-only systems, Gemma is designed 
+to run directly on your device—fast, private, and secure. Its advanced EmbeddingGemma 
+technology transforms complex text into meaningful vectors, unlocking smarter search, 
+instant classification, and intelligent research insights. By embedding this cutting-edge 
+AI into our platform, we give researchers the ability to harness enterprise-grade 
+intelligence with the speed and efficiency of a desktop app.We are testing it right now 
+and will have a decision shortly.
+
 ### 🚀 Checkout my 100% FREE AiNetStudio®
 I created this to help antigravity researchers.  
 [**Click Here**](https://ainetstudio.com)
