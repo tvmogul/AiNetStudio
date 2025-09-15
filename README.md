@@ -14,42 +14,10 @@ devleopment real antigravity emgines.
 AI is accelerating discovery everywhere—from reading ancient scrolls with imaging + machine learning to optimizing complex physical systems.  
 In every case, **fine-tuning to achieve resonance** is critical—and that’s where AI shines.
 
-### 💼 AiNetProfit® Video
-Introducing AiNetStudio®, the 100% FREE breakthrough AI software with full source code 
-that creates neural networks specifically designed to control anti gravity engines. 
-Our system processes thousands of flight variables per second, making micro adjustments 
-that keep manned drones perfectly stable. AiNetStudio® doesn't just improve flight control, 
-it completely revolutionizes personal aviation. The technology that sci-fi promised is finally 
-here, powered by neural networks that learn and adapt. The future isn't just flying cars. It's 
-AI that makes them safe, stable, and finally possible.
-
-[**Click Here**](https://youtu.be/g4CauDMQrUM)
-
----
-
-### 🚀 We Might Add Google’s Gemma AI?
-We are in the process of testing whether or not to include Gemma, Google DeepMind’s 
-breakthrough lightweight AI model. Unlike bulky cloud-only systems, Gemma is designed 
-to run directly on your device—fast, private, and secure. Its advanced EmbeddingGemma 
-technology transforms complex text into meaningful vectors, unlocking smarter search, 
-instant classification, and intelligent research insights. By embedding this cutting-edge 
-AI into our platform, we give researchers the ability to harness enterprise-grade 
-intelligence with the speed and efficiency of a desktop app.We are testing it right now 
-and will have a decision shortly.
-
-### 🚀 Checkout my 100% FREE AiNetStudio®
-I created this to help antigravity researchers.  
-[**Click Here**](https://ainetstudio.com)
-
----
-
-### 💼 Checkout my 100% FREE AiNetProfit®
-I created this to help people do accounting and make profit.  
-[**Click Here**](https://ainetprofit.com)
-
 ---
 ## Project Status
 - Right now I am implementing the basic structure of the application.
+- I will adding Neural Networks for Fine Tuning Drone Motors and Antigravity Engines
 - I will be adding an extensive collection of Patents for:
 - Manned Drones AI Neural networks
 - Antigravity in General
@@ -66,6 +34,31 @@ I created this to help people do accounting and make profit.
 - Warp Drives
 - Zero Point Energy
 - Corkscrew Propulsion   
+
+### 💼 AiNetProfit® Video
+Introducing AiNetStudio®, the 100% FREE breakthrough AI software with full source code 
+that creates neural networks specifically designed to control anti gravity engines. 
+Our system processes thousands of flight variables per second, making micro adjustments 
+that keep manned drones perfectly stable. AiNetStudio® doesn't just improve flight control, 
+it completely revolutionizes personal aviation. The technology that sci-fi promised is finally 
+here, powered by neural networks that learn and adapt. The future isn't just flying cars. It's 
+AI that makes them safe, stable, and finally possible.
+
+[**Click Here**](https://youtu.be/g4CauDMQrUM)
+
+---
+
+### 🚀 Checkout my 100% FREE AiNetStudio®
+I created this to help antigravity researchers.  
+[**Click Here**](https://ainetstudio.com)
+
+---
+
+### 💼 Checkout my 100% FREE AiNetProfit®
+I created this to help people do accounting and make profit.  
+[**Click Here**](https://ainetprofit.com)
+
+---
 
 ## After that I will finish adding
 - Test Device Connectors

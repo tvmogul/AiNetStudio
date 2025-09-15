@@ -412,6 +412,16 @@ namespace AiNetStudio.WinGui.ControlScreens
 
             SetToggleIcon(_toggleDown);
             RepositionButton();
+
+            // RELOAD DROPDOWNS!!!!!
+            UpdateCategories();
+            UpdateSubCategories();
+            UpdateGroupCategories();
+
+            UpdateCategories2();
+            UpdateSubCategories2();
+            UpdateGroupCategories2();
+
         }
 
         private void SetToggleIcon(bool down)
