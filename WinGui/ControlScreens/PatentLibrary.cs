@@ -218,11 +218,34 @@ namespace AiNetStudio.WinGui.ControlScreens
             var dbPath = Path.Combine(q, "techarchive.aidb");
             LoadPdfGrid(dbPath);
 
-            // Load categories into ddCategory
+            // Load categories into ddSCategory
             var categories = GetCategories();
+            ddSCategory.Items.Clear();
+            ddSCategory.Items.AddRange(categories.ToArray());
+            ddSCategory.SelectedIndex = -1; // don’t preselect
+
+            // Load categories into ddCategory
             ddCategory.Items.Clear();
             ddCategory.Items.AddRange(categories.ToArray());
             ddCategory.SelectedIndex = -1; // don’t preselect
+
+            ddCategory.SelectedIndexChanged += (s, ev) =>
+            {
+                var selected = ddCategory.SelectedItem?.ToString();
+                var subs = GetSubCategories(selected);
+                ddSubCategory.Items.Clear();
+                ddSubCategory.Items.AddRange(subs.ToArray());
+                ddSubCategory.SelectedIndex = -1;
+            };
+
+            ddSCategory.SelectedIndexChanged += (s, ev) =>
+            {
+                var selected = ddSCategory.SelectedItem?.ToString();
+                var subs = GetSubCategories(selected);
+                ddSubCategory.Items.Clear();
+                ddSubCategory.Items.AddRange(subs.ToArray());
+                ddSubCategory.SelectedIndex = -1;
+            };
 
             dgvPDF.SelectionChanged += (s, e) =>
             {
@@ -272,31 +295,25 @@ namespace AiNetStudio.WinGui.ControlScreens
                 }
             };
 
-
+            btnSave.Click += btnSave_Click;
+            btnDelete.Click += btnDelete_Click;
+            btnAiAnalyze.Click += btnAiAnalyze_Click;
         }
 
+        private void btnSave_Click(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Give me a chance to add this\r\nand a LOT more! Coming Soon!");
+        }
 
+        private void btnDelete_Click(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Give me a chance to add this\r\nand a LOT more! Coming Soon!");
+        }
 
-        //private void LoadShit()
-        //{
-        //    // 1) Devices
-        //    accordionPanel1.AddPanel("Devices", null, expanded: true, expandedHeight: 180);
-
-        //    // 2) Live Data
-        //    accordionPanel1.AddPanel("Live Data", null, expanded: false, expandedHeight: 180);
-
-        //    // 3) Actions
-        //    accordionPanel1.AddPanel("Actions", null, expanded: false, expandedHeight: 160);
-
-        //    // Optional: prove it works
-        //    // accordionPanel1.ExpandAll();
-        //    // accordionPanel1.CollapseAll();
-        //}
-
-
-
-
-
+        private void btnAiAnalyze_Click(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Give me a chance to add this\r\nand a LOT more! Coming Soon!");
+        }
 
         private void LoadPdfGrid(string dbPath)
         {
@@ -750,7 +767,55 @@ namespace AiNetStudio.WinGui.ControlScreens
             return categories;
         }
 
+        public List<string> GetSubCategories(string? categoryValue)
+        {
+            var subs = new List<string>();
 
+            // Guard: no category selected
+            if (string.IsNullOrWhiteSpace(categoryValue))
+                return subs;
+
+            var pm = new PathManager();
+            var dbFolder = pm.GetWritableFolder("Databases");
+            var dbPath = Path.Combine(dbFolder, "techarchive.aidb");
+
+            if (!File.Exists(dbPath))
+            {
+                ErrorDialog.Show("Get SubCategories", $"Database not found:\r\n{dbPath}");
+                return subs;
+            }
+
+            try
+            {
+                using var con = new Microsoft.Data.Sqlite.SqliteConnection($"Data Source={dbPath};Mode=ReadWrite;Cache=Shared");
+                con.Open();
+
+                using var cmd = con.CreateCommand();
+                // Case/whitespace-insensitive match on Category, and only non-empty SubCategory values
+                cmd.CommandText = @"
+                    SELECT DISTINCT SubCategory
+                    FROM Pdfs
+                    WHERE 
+                        SubCategory IS NOT NULL 
+                        AND trim(SubCategory) <> ''
+                        AND lower(trim(Category)) = lower(trim($cat))
+                    ORDER BY SubCategory;
+                ";
+                cmd.Parameters.AddWithValue("$cat", categoryValue);
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    subs.Add(reader.GetString(0));
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorDialog.Show("Get SubCategories Error", ex.ToString());
+            }
+
+            return subs;
+        }
 
         // Added: helper to perform the async WebView2 navigation safely
         private static async Task InitPdfPreviewAsync(MultiTabBrowser browser, string patentsFolder, string fileName)

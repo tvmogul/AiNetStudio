@@ -31,19 +31,20 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatentLibrary));
             splitContainer1 = new SplitContainer();
+            btnAiAnalyze = new Button();
+            btnDelete = new Button();
+            ddSSubCategory = new ComboBox();
+            ddSCategory = new ComboBox();
             label1 = new Label();
             btnSearch = new Button();
             btnSave = new Button();
             txtSearch = new TextBox();
-            label2 = new Label();
             dgvPDF = new DataGridView();
             label3 = new Label();
             txtTitle = new TextBox();
-            ddSSubCategory = new ComboBox();
             txtDescription = new TextBox();
             label4 = new Label();
             label7 = new Label();
-            ddSCategory = new ComboBox();
             label9 = new Label();
             ddSubCategory = new ComboBox();
             label6 = new Label();
@@ -64,19 +65,20 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(btnAiAnalyze);
+            splitContainer1.Panel1.Controls.Add(btnDelete);
+            splitContainer1.Panel1.Controls.Add(ddSSubCategory);
+            splitContainer1.Panel1.Controls.Add(ddSCategory);
             splitContainer1.Panel1.Controls.Add(label1);
             splitContainer1.Panel1.Controls.Add(btnSearch);
             splitContainer1.Panel1.Controls.Add(btnSave);
             splitContainer1.Panel1.Controls.Add(txtSearch);
-            splitContainer1.Panel1.Controls.Add(label2);
             splitContainer1.Panel1.Controls.Add(dgvPDF);
             splitContainer1.Panel1.Controls.Add(label3);
             splitContainer1.Panel1.Controls.Add(txtTitle);
-            splitContainer1.Panel1.Controls.Add(ddSSubCategory);
             splitContainer1.Panel1.Controls.Add(txtDescription);
             splitContainer1.Panel1.Controls.Add(label4);
             splitContainer1.Panel1.Controls.Add(label7);
-            splitContainer1.Panel1.Controls.Add(ddSCategory);
             splitContainer1.Panel1.Controls.Add(label9);
             splitContainer1.Panel1.Controls.Add(ddSubCategory);
             splitContainer1.Panel1.Controls.Add(label6);
@@ -86,6 +88,57 @@
             splitContainer1.SplitterDistance = 344;
             splitContainer1.SplitterWidth = 24;
             splitContainer1.TabIndex = 0;
+            // 
+            // btnAiAnalyze
+            // 
+            btnAiAnalyze.BackgroundImage = (Image)resources.GetObject("btnAiAnalyze.BackgroundImage");
+            btnAiAnalyze.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAiAnalyze.Cursor = Cursors.Hand;
+            btnAiAnalyze.FlatStyle = FlatStyle.Flat;
+            btnAiAnalyze.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnAiAnalyze.ForeColor = Color.Black;
+            btnAiAnalyze.Location = new Point(200, 543);
+            btnAiAnalyze.Name = "btnAiAnalyze";
+            btnAiAnalyze.Size = new Size(128, 29);
+            btnAiAnalyze.TabIndex = 37;
+            btnAiAnalyze.Text = "Ai Analyze";
+            btnAiAnalyze.UseVisualStyleBackColor = true;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackgroundImage = (Image)resources.GetObject("btnDelete.BackgroundImage");
+            btnDelete.BackgroundImageLayout = ImageLayout.Stretch;
+            btnDelete.Cursor = Cursors.Hand;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(127, 543);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(65, 29);
+            btnDelete.TabIndex = 36;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            // 
+            // ddSSubCategory
+            // 
+            ddSSubCategory.Cursor = Cursors.Hand;
+            ddSSubCategory.DropDownWidth = 250;
+            ddSSubCategory.FormattingEnabled = true;
+            ddSSubCategory.IntegralHeight = false;
+            ddSSubCategory.Location = new Point(38, 68);
+            ddSSubCategory.Name = "ddSSubCategory";
+            ddSSubCategory.Size = new Size(160, 28);
+            ddSSubCategory.TabIndex = 5;
+            // 
+            // ddSCategory
+            // 
+            ddSCategory.Cursor = Cursors.Hand;
+            ddSCategory.DropDownWidth = 250;
+            ddSCategory.FormattingEnabled = true;
+            ddSCategory.Location = new Point(38, 34);
+            ddSCategory.Name = "ddSCategory";
+            ddSCategory.Size = new Size(160, 28);
+            ddSCategory.TabIndex = 4;
             // 
             // label1
             // 
@@ -105,12 +158,13 @@
             // 
             btnSearch.BackgroundImage = (Image)resources.GetObject("btnSearch.BackgroundImage");
             btnSearch.BackgroundImageLayout = ImageLayout.Stretch;
+            btnSearch.Cursor = Cursors.Hand;
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnSearch.ForeColor = Color.White;
-            btnSearch.Location = new Point(226, 74);
+            btnSearch.Location = new Point(204, 35);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(79, 29);
+            btnSearch.Size = new Size(124, 29);
             btnSearch.TabIndex = 32;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = true;
@@ -119,49 +173,39 @@
             // 
             btnSave.BackgroundImage = (Image)resources.GetObject("btnSave.BackgroundImage");
             btnSave.BackgroundImageLayout = ImageLayout.Stretch;
+            btnSave.Cursor = Cursors.Hand;
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnSave.ForeColor = Color.White;
-            btnSave.Location = new Point(226, 552);
+            btnSave.Location = new Point(56, 543);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(79, 29);
+            btnSave.Size = new Size(65, 29);
             btnSave.TabIndex = 35;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(49, 74);
+            txtSearch.Location = new Point(204, 69);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(170, 27);
+            txtSearch.Size = new Size(124, 27);
             txtSearch.TabIndex = 2;
-            // 
-            // label2
-            // 
-            label2.FlatStyle = FlatStyle.Flat;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label2.Location = new Point(10, 74);
-            label2.Name = "label2";
-            label2.Size = new Size(38, 25);
-            label2.TabIndex = 3;
-            label2.Text = "Key";
-            label2.TextAlign = ContentAlignment.MiddleRight;
             // 
             // dgvPDF
             // 
             dgvPDF.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvPDF.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPDF.Location = new Point(0, 109);
+            dgvPDF.Location = new Point(0, 102);
             dgvPDF.Name = "dgvPDF";
             dgvPDF.RowHeadersWidth = 51;
-            dgvPDF.Size = new Size(344, 237);
+            dgvPDF.Size = new Size(344, 244);
             dgvPDF.TabIndex = 17;
             // 
             // label3
             // 
             label3.FlatStyle = FlatStyle.Flat;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label3.Location = new Point(10, 40);
+            label3.Location = new Point(-3, 35);
             label3.Name = "label3";
             label3.Size = new Size(38, 25);
             label3.TabIndex = 6;
@@ -177,14 +221,6 @@
             txtTitle.Size = new Size(272, 59);
             txtTitle.TabIndex = 9;
             // 
-            // ddSSubCategory
-            // 
-            ddSSubCategory.FormattingEnabled = true;
-            ddSSubCategory.Location = new Point(200, 39);
-            ddSSubCategory.Name = "ddSSubCategory";
-            ddSSubCategory.Size = new Size(103, 28);
-            ddSSubCategory.TabIndex = 5;
-            // 
             // txtDescription
             // 
             txtDescription.Location = new Point(56, 497);
@@ -198,7 +234,7 @@
             label4.BackColor = Color.Transparent;
             label4.FlatStyle = FlatStyle.Flat;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label4.Location = new Point(160, 40);
+            label4.Location = new Point(3, 69);
             label4.Name = "label4";
             label4.Size = new Size(36, 25);
             label4.TabIndex = 7;
@@ -216,14 +252,6 @@
             label7.Text = "Cat";
             label7.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // ddSCategory
-            // 
-            ddSCategory.FormattingEnabled = true;
-            ddSCategory.Location = new Point(51, 39);
-            ddSCategory.Name = "ddSCategory";
-            ddSCategory.Size = new Size(103, 28);
-            ddSCategory.TabIndex = 4;
-            // 
             // label9
             // 
             label9.FlatStyle = FlatStyle.Flat;
@@ -237,6 +265,7 @@
             // 
             // ddSubCategory
             // 
+            ddSubCategory.Cursor = Cursors.Hand;
             ddSubCategory.FormattingEnabled = true;
             ddSubCategory.Location = new Point(56, 463);
             ddSubCategory.Name = "ddSubCategory";
@@ -267,6 +296,7 @@
             // 
             // ddCategory
             // 
+            ddCategory.Cursor = Cursors.Hand;
             ddCategory.DropDownWidth = 400;
             ddCategory.ForeColor = SystemColors.WindowFrame;
             ddCategory.FormattingEnabled = true;
@@ -315,7 +345,6 @@
         private SplitContainer splitContainer1;
         private ImageList imgListBlack;
         private Label label1;
-        private Label label2;
         private TextBox txtSearch;
         private Label label4;
         private Label label3;
@@ -338,5 +367,7 @@
         private Controls.AccordionSection accordionSection4;
         private Controls.AccordionSection accordionSection5;
         private Controls.AccordionSection accordionSection6;
+        private Button btnDelete;
+        private Button btnAiAnalyze;
     }
 }

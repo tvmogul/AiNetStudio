@@ -47,6 +47,8 @@
     <None Remove="Resources\go.png" />
     <None Remove="Resources\gray.png" />
     <None Remove="Resources\home.png" />
+    <None Remove="Resources\large_graviflyer2.png" />
+    <None Remove="Resources\large_graviflyer2.psd" />
     <None Remove="Resources\png-transparent-computer-icons-house-house-angle-text-orange.png" />
     <None Remove="Resources\png-transparent-search-find-view-ecommerce-icon-icon.png" />
     <None Remove="Resources\tbx_ai.png" />
@@ -88,6 +90,8 @@
     <None Remove="Resources\tb_home_black.png" />
     <None Remove="Resources\tb_home_orange.png" />
     <None Remove="Resources\tb_minus.png" />
+    <None Remove="Resources\tb_pa_black.png" />
+    <None Remove="Resources\tb_pa_orange.png" />
     <None Remove="Resources\tb_plus.png" />
     <None Remove="Resources\tb_refresh.png" />
     <None Remove="Resources\tb_reload.png" />
@@ -120,6 +124,7 @@
     <None Remove="Resources\zscreen_crap.png" />
     <None Remove="Resources\zscreen_cuurent.png" />
     <None Remove="Resources\zscreen_good.png" />
+    <None Remove="Resources\zscreen_patents.png" />
     <None Remove="Resources\zvideo_bottom - Copy.png" />
     <None Remove="Resources\zvideo_bottom.png" />
     <None Remove="Resources\zvideo_top - Copy.png" />
@@ -153,6 +158,7 @@
     <None Remove="wwwroot\img\icons8-ai-16.png" />
     <None Remove="wwwroot\img\icons8-close-window-48.png" />
     <None Remove="wwwroot\img\iloveimg-rotateed.zip" />
+    <None Remove="wwwroot\img\large_graviflyer2.png" />
     <None Remove="wwwroot\img\megaphone.gif" />
     <None Remove="wwwroot\img\OK.ico" />
     <None Remove="wwwroot\img\rocket.gif" />
@@ -177,6 +183,8 @@
     <None Remove="wwwroot\img\zcirclecheck.png" />
     <None Remove="wwwroot\img\zcool.png" />
     <None Remove="wwwroot\img\zspywhacker.ico" />
+    <None Remove="wwwroot\img\zvideo_bottom.png" />
+    <None Remove="wwwroot\img\zvideo_top.png" />
     <None Remove="wwwroot\img\zwelcome69.png" />
   </ItemGroup>
 
@@ -265,6 +273,12 @@
     <Content Include="Resources\home.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\large_graviflyer2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\large_graviflyer2.psd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\png-transparent-computer-icons-house-house-angle-text-orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -275,6 +289,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\tb_down2_black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tb_pa_black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tb_pa_orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\tb_up2_black.png">
@@ -299,6 +319,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\zscreen_good.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\zscreen_patents.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\zvideo_bottom.png">
@@ -394,6 +417,9 @@
     <Content Include="wwwroot\img\iloveimg-rotateed.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\img\large_graviflyer2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\img\megaphone.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -464,6 +490,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\img\zspywhacker.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\img\zvideo_bottom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\img\zvideo_top.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\img\zwelcome69.png">
@@ -996,12 +1028,6 @@
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
     <None Update="wwwroot\img\alienr.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="wwwroot\img\zvideo_bottom.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="wwwroot\img\zvideo_top.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="wwwroot\js\category.js">
