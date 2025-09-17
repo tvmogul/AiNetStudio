@@ -102,6 +102,30 @@ To use the Video Features you can download FFmpeg from:
 
 ---
 
+// EQUIBALENT FOR OnBeforeNavigate!!!
+web.CoreWebView2.NavigationStarting += (s, e) =>
+{
+    var uri = e.Uri ?? string.Empty;
+
+    // ADD: catch event:action:value clicked from page content
+    if (uri.StartsWith("event:", StringComparison.OrdinalIgnoreCase))
+    {
+        e.Cancel = true;
+        HandleEventUrl(uri);
+        return;
+    }
+
+    _addressBox.Text = uri;
+
+    if (!string.IsNullOrEmpty(uri) && uri.Contains("zebra_", StringComparison.OrdinalIgnoreCase))
+    {
+        e.Cancel = true;
+        MessageBox.Show("Blocked URL: " + uri, "Navigation Blocked",
+            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+};
+
+
 ---
 ## Speculative Concepts
 

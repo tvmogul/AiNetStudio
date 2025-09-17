@@ -24,6 +24,7 @@ using AiNetStudio.Models;
 using AiNetStudio.WinGui.Controls;
 using AiNetStudio.WinGui.Forms;
 using CustomControls;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,10 +40,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VideoLibrary;
-using YouTubeScrapper;
 using YoutubeExplode;
-using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Converter; 
+using YoutubeExplode.Videos.Streams;
+using YouTubeScrapper;
 using static NumSharp.np;
 using static System.Windows.Forms.LinkLabel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
@@ -290,6 +291,8 @@ namespace AiNetStudio.WinGui.ControlScreens
             //this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             //this.ddSFolders.SelectedIndexChanged += new System.EventHandler(this.ddSFolders_SelectedIndexChanged);
             //this.ddSImages.SelectedIndexChanged += new System.EventHandler(this.ddSImages_SelectedIndexChanged);
+
+            btnDelete2.Click += btnDelete2_Click;
 
             ddSearch2.Items.Clear();
             ddSearch2.Items.Add("title");
@@ -1790,6 +1793,89 @@ namespace AiNetStudio.WinGui.ControlScreens
 
         #region ============== BEGIN BOTTOM PANEL ===========================
 
+        private void btnDelete2_Click(object? sender, EventArgs e)
+        {
+            if (dgvFeeds == null || dgvFeeds.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Select a row first.");
+                return;
+            }
+
+            dgvFeeds.EndEdit();
+            var row = dgvFeeds.SelectedRows[0];
+
+            bool isChecked = false;
+            if (dgvFeeds.Columns.Contains("X"))
+                isChecked = (row.Cells["X"].Value as bool?) == true;
+            else
+            {
+                var cbCol = dgvFeeds.Columns
+                    .Cast<DataGridViewColumn>()
+                    .FirstOrDefault(c => c is DataGridViewCheckBoxColumn);
+                if (cbCol != null)
+                    isChecked = (row.Cells[cbCol.Index].Value as bool?) == true;
+            }
+
+            if (!isChecked)
+            {
+                MessageBox.Show("You must check the selected row to delete it.");
+                return;
+            }
+
+            string feedId = string.Empty;
+            if (dgvFeeds.Columns.Contains("FeedId"))
+                feedId = Convert.ToString(row.Cells["FeedId"].Value) ?? string.Empty;
+            else if (dgvFeeds.Columns.Contains("FeedID"))
+                feedId = Convert.ToString(row.Cells["FeedID"].Value) ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(feedId))
+            {
+                MessageBox.Show("Cannot determine FeedId for the selected row.");
+                return;
+            }
+
+            if (MessageBox.Show("Delete this item permanently?", "Confirm Delete",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                return;
+
+            try
+            {
+                // Resolve database path via PathManager (no hardcoding)
+                var pm = new PathManager();
+                string dbFolder = pm.GetWritableFolder("Databases");
+                string dbPath = Path.Combine(dbFolder, "rssfeeds.aidb");
+
+                var cs = new SqliteConnectionStringBuilder
+                {
+                    DataSource = dbPath,
+                    Cache = SqliteCacheMode.Shared,
+                    Mode = SqliteOpenMode.ReadWrite
+                }.ToString();
+
+                using var conn = new SqliteConnection(cs);
+                conn.Open();
+
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM Feeds WHERE FeedId = $id OR FeedID = $id";
+                cmd.Parameters.AddWithValue("$id", feedId);
+
+                int affected = cmd.ExecuteNonQuery();
+                if (affected > 0)
+                {
+                    dgvFeeds.Rows.Remove(row);
+                    MessageBox.Show("Deleted.");
+                }
+                else
+                {
+                    MessageBox.Show("No rows were deleted. Record may not exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting record:\r\n" + ex.Message);
+            }
+        }
+
         private void btnLink2_Click(object? sender, EventArgs e)
         {
             MultiTabBrowser.OpenUrlInChromeOrDefault(s_link.Text);
@@ -1808,7 +1894,19 @@ namespace AiNetStudio.WinGui.ControlScreens
                 : link;
 
             var pm = new PathManager();
-            string fallbackFolder = pm.GetWritableFolder("Downloads");
+
+            string afterEffectsPath = @"C:\AfterEffects";
+            string fallbackFolder;
+
+            if (Directory.Exists(afterEffectsPath))
+            {
+                fallbackFolder = afterEffectsPath;
+            }
+            else
+            {
+                fallbackFolder = pm.GetWritableFolder("Downloads");
+            }
+
             if (!Directory.Exists(fallbackFolder))
             {
                 Directory.CreateDirectory(fallbackFolder);
@@ -1884,6 +1982,7 @@ namespace AiNetStudio.WinGui.ControlScreens
             {
                 // Show the real reason (e.g., FFmpeg not found, 403, age-restricted, etc.)
                 MessageBox.Show("Download failed:\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please restart application to clear memory!");
             }
         }
 
