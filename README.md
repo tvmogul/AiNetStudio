@@ -5,14 +5,16 @@ AiNetStudio® is C#/C++ .NET 9 CORE 9 WinForms App with ML.NET that bridges expe
 # AiAntiGravity
 
 My name is [**Bill SerGio**](https://sergioapps.com/articles/articles.html)  
-and I became one of the wealthiest men in America using AI Neural Networks 
+and I made a fortune using AI Neural Networks 
 I wrote to automate the buying of half hour blocks of television time to 
-maximize net profits from my television shows. I thought I would apply AI 
-and Neural networks to achieving balancing rotors in manned drones and 
-devleopment real antigravity emgines.  
+maximize net profits from my television shows. 
+I thought I would apply some of the breakthough technicks I created in training Neural networks 
+to achieving balancing rotors in manned drones and devleopment real antigravity emgines.  
 
-AI is accelerating discovery everywhere—from reading ancient scrolls with imaging + machine learning to optimizing complex physical systems.  
-In every case, **fine-tuning to achieve resonance** is critical—and that’s where AI shines.
+I am the inventor of Z3D™, a new Patent Pending technology that represents a breakthrough class 
+of intelligence that requires no training data, no GPU infrastructure, and no historical examples.
+It is AI with NO data and NO training that is a new breakthough in AI and AiNetStudio® with use it 
+achieve amazing results.
 
 ---
 ## Project Status
